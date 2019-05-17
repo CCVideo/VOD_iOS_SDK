@@ -1,0 +1,1135 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>Home</title><link href='https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; tab-size: 4; background-position: inherit inherit; background-repeat: inherit inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+@media screen and (max-width: 500px) { 
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; }
+button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.701961); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px !important; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right-width: 0px; background-color: inherit; }
+.CodeMirror-linenumber { }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; position: relative !important; background-position: inherit inherit; background-repeat: inherit inherit; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; background-position: 0px 0px; background-repeat: initial initial; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print { 
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid-page; break-before: avoid-page; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid-page; }
+  .typora-export #write::after { height: 0px; }
+  @page { margin: 20mm 0px; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) { 
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background-color: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; background-position: initial initial; background-repeat: initial initial; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; }
+a.md-print-anchor { white-space: pre !important; border: none !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; text-shadow: initial !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom-width: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+
+
+.CodeMirror { height: auto; }
+.CodeMirror.cm-s-inner { background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-scroll { overflow-y: hidden; overflow-x: auto; z-index: 3; }
+.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler { background-color: rgb(255, 255, 255); }
+.CodeMirror-gutters { border-right-width: 1px; border-right-style: solid; border-right-color: rgb(221, 221, 221); background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; white-space: nowrap; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
+.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
+.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
+.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
+.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-variable { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
+.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
+.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
+.cm-s-inner .cm-property { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
+.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
+.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
+.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
+.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
+.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
+.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
+.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
+.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
+.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
+.cm-negative { color: rgb(221, 68, 68); }
+.cm-positive { color: rgb(34, 153, 34); }
+.cm-header, .cm-strong { font-weight: 700; }
+.cm-del { text-decoration: line-through; }
+.cm-em { font-style: italic; }
+.cm-link { text-decoration: underline; }
+.cm-error { color: red; }
+.cm-invalidchar { color: red; }
+.cm-constant { color: rgb(38, 139, 210); }
+.cm-defined { color: rgb(181, 137, 0); }
+div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
+div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
+.cm-s-inner .CodeMirror-activeline-background { background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror { position: relative; overflow: hidden; }
+.CodeMirror-scroll { height: 100%; outline: 0px; position: relative; box-sizing: content-box; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-sizer { position: relative; }
+.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar { position: absolute; z-index: 6; display: none; }
+.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow: hidden; }
+.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow: hidden; }
+.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
+.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
+.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 30px; z-index: 3; }
+.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
+.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; border: none !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
+.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
+.CodeMirror-lines { cursor: text; }
+.CodeMirror pre { border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; border-width: 0px; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; word-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; background-repeat: initial initial; }
+.CodeMirror-wrap pre { word-wrap: break-word; white-space: pre-wrap; word-break: normal; }
+.CodeMirror-code pre { border-right-width: 30px; border-right-style: solid; border-right-color: transparent; width: fit-content; }
+.CodeMirror-wrap .CodeMirror-code pre { border-right-style: none; width: auto; }
+.CodeMirror-linebackground { position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 0; }
+.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
+.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
+.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
+.CodeMirror-measure pre { position: static; }
+.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right-style: none; width: 0px; }
+.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
+.cm-searching { background-color: rgba(255, 255, 0, 0.4); background-position: initial initial; background-repeat: initial initial; }
+@media print { 
+  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+}
+
+
+:root {
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: #777;
+}
+
+@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: "Open Sans","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: rgb(51, 51, 51);
+    line-height: 1.6;
+}
+
+#write {
+    max-width: 860px;
+  	margin: 0 auto;
+  	padding: 30px;
+    padding-bottom: 100px;
+}
+#write > ul:first-child,
+#write > ol:first-child{
+    margin-top: 30px;
+}
+
+a {
+    color: #4183C4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+    cursor: text;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
+}
+h1 {
+    padding-bottom: .3em;
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+h2 {
+   padding-bottom: .3em;
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+h4 {
+    font-size: 1.25em;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+li p.first {
+    display: inline-block;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
+blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+table {
+    padding: 0;
+    word-break: initial;
+}
+table tr {
+    border-top: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n),
+thead {
+    background-color: #f8f8f8;
+}
+table tr th {
+    font-weight: bold;
+    border: 1px solid #dfe2e5;
+    border-bottom: 0;
+    text-align: left;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr td {
+    border: 1px solid #dfe2e5;
+    text-align: left;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr th:first-child,
+table tr td:first-child {
+    margin-top: 0;
+}
+table tr th:last-child,
+table tr td:last-child {
+    margin-bottom: 0;
+}
+
+.CodeMirror-lines {
+    padding-left: 4px;
+}
+
+.code-tooltip {
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+    border-top: 1px solid #eef2f2;
+}
+
+.md-fences,
+code,
+tt {
+    border: 1px solid #e7eaed;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 0;
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
+}
+
+code {
+    background-color: #f3f4f4;
+    padding: 0 2px 0 2px;
+}
+
+.md-fences {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
+
+
+.md-task-list-item > input {
+  margin-left: -1.3em;
+}
+
+@media print {
+    html {
+        font-size: 13px;
+    }
+    table,
+    pre {
+        page-break-inside: avoid;
+    }
+    pre {
+        word-wrap: break-word;
+    }
+}
+
+.md-fences {
+	background-color: #f8f8f8;
+}
+#write pre.md-meta-block {
+	padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
+.md-mathjax-midline {
+    background: #fafafa;
+}
+
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
+}
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    /*border: 1px solid #ddd;*/
+    border-radius: 3px;
+    padding: 2px 0px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+.md-tag {
+    color: #a7a7a7;
+    opacity: 1;
+}
+
+.md-toc { 
+    margin-top:20px;
+    padding-bottom:20px;
+}
+
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+    font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state{
+    visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+    background-color: #fafafa;
+    background-color: var(--side-bar-bg-color);
+}
+
+.md-lang {
+    color: #b4654d;
+}
+
+.html-for-mac .context-menu {
+    --item-hover-bg-color: #E6F0FE;
+}
+
+#md-notification .btn {
+    border: 0;
+}
+
+.dropdown-menu .divider {
+    border-color: #e5e5e5;
+}
+
+ .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
+</style>
+</head>
+<body class='typora-export' >
+<div  id='write'  class = 'is-mac'><p>版本：3.4.4</p><p>日期：2019-05-17</p><h1><a name='header-n3' class='md-header-anchor '></a>1.概述</h1><p>iOS点播SDK是适用于iOS平台的云点播SDK。使用此SDK可以与CC视频云服务进行对接，在iOS端使用CC视频的点播功能。</p><h2><a name='header-n5' class='md-header-anchor '></a>1.1功能特性</h2><figure><table><thead><tr><th style='text-align:left;' >功能</th><th style='text-align:left;' >描述</th></tr></thead><tbody><tr><td style='text-align:left;' >播放</td><td style='text-align:left;' >支持音视频在线和本地播放功能</td></tr><tr><td style='text-align:left;' >移动端广告</td><td style='text-align:left;' >支持添加视频前贴广告和暂停广告</td></tr><tr><td style='text-align:left;' >播放统计</td><td style='text-align:left;' >支持用户实现播放的统计</td></tr><tr><td style='text-align:left;' >视频打点</td><td style='text-align:left;' >支持用户自定义视频打点功能</td></tr><tr><td style='text-align:left;' >视频问答</td><td style='text-align:left;' >支持用户自定义视频问答功能的回调</td></tr><tr><td style='text-align:left;' >视频字幕</td><td style='text-align:left;' >支持从服务器获取字幕资源并显示</td></tr><tr><td style='text-align:left;' >上传</td><td style='text-align:left;' >支持音视频上传、断点上传功能</td></tr><tr><td style='text-align:left;' >下载</td><td style='text-align:left;' >支持音视频下载、断点下载功能</td></tr></tbody></table></figure><h2><a name='header-n35' class='md-header-anchor '></a>1.2阅读对象</h2><p>本文档为技术文档，需要阅读者：</p><ul><li>具备基本的iOS开发能力</li><li>准备接入CC视频的点播SDK</li></ul><h1><a name='header-n42' class='md-header-anchor '></a>2.开发准备</h1><h2><a name='header-n43' class='md-header-anchor '></a>2.1开发环境</h2><ul><li>Xcode：苹果官方IDE</li><li>iOS8+</li></ul><h2><a name='header-n49' class='md-header-anchor '></a>2.2SDK使用说明</h2><p>首先，需要下载最新版本的SDK，下载地址为：<a href='https://github.com/CCVideo/VOD_iOS_DRM_SDK'>VOD_iOS_DRM_SDK</a>,然后导入SDK包到工程,在相应的地方引入头文件<code>#import &quot;DWSDK.h&quot;</code></p><figure><table><thead><tr><th style='text-align:left;' >名称</th><th style='text-align:left;' >描述</th></tr></thead><tbody><tr><td style='text-align:left;' >Demo</td><td style='text-align:left;' >使用SDK对接CC视频云服务的示例源码</td></tr><tr><td style='text-align:left;' >doc</td><td style='text-align:left;' >存放的是iOS点播SDK开发指南及离线API</td></tr><tr><td style='text-align:left;' >include</td><td style='text-align:left;' >SDK开放的头文件及静态库</td></tr></tbody></table></figure><p>SDK实现了移动端在线离线播放、上传、下载的必要接口。使用这些接口时，需提供CC视频分配的userId和API KEY。你可以登陆<a href='http://admin.bokecc.com'>CC视频管理后台</a>获取。CC视频云使用userId和API KEY校验你的合法性，在使用SDK接口过程中，通常用它们作为模块初始化参数，填写错误或为空会造成失败。</p><h1><a name='header-n65' class='md-header-anchor '></a>3.快速集成</h1><p>注：快速集成主要提供的是视频播放、上传、下载功能(核心功能)。</p><h2><a name='header-n67' class='md-header-anchor '></a>3.1播放快速集成</h2><h3><a name='header-n68' class='md-header-anchor '></a>3.1.1在Appdelegate中添加AudioSession设置：</h3><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="" style="page-break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><span><span>​</span>x</span></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{ </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; //设置全局AVAudioSession</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  NSError *categoryError = nil;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  BOOL success = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&amp;categoryError];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  if (!success)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  NSLog(@"Error setting audio session category: %@", categoryError);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  NSError *activeError = nil;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  success = [[AVAudioSession sharedInstance] setActive:YES error:&amp;activeError];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  if (!success)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  NSLog(@"Error setting audio session active: %@", activeError);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 462px;"></div><div class="CodeMirror-gutters" style="display: none; height: 462px;"></div></div></div></pre><h3><a name='header-n70' class='md-header-anchor '></a>3.1.2创建播放器并展示在当前视图上</h3><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="" style="page-break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  DWPlayerView *playerView = [[DWPlayerView alloc]initWithFrame:CGRectMake(0,0,ScreenWidth,ScreenHeight/2-50)];</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  //设置userID key</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  playerView.userId =USERID;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  playerView.key =APIKEY;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  //设置视频ID</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  playerView.videoId =@"xxxxxx";</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  //设置代理 </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  playerView.delegate =self; </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  [self.view addSubview:playerView];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  playerView.getPlayUrlsBlock = ^(NSDictionary *playUrls) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; //处理返回的播放信息字典 </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; NSDictionary *dic =[[playUrls objectForKey:@"qualities"] firstObject];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; NSURL *playURL =[NSURL URLWithString:[dic objectForKey:@"playurl"]];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; //加载音视频资源</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; [playerView setURL:playURL withCustomId:nil];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; //播放</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; [playerView play];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; };</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  //请求播放信息</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  [playerView startRequestPlayInfo]; &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 506px;"></div><div class="CodeMirror-gutters" style="display: none; height: 506px;"></div></div></div></pre><h2><a name='header-n72' class='md-header-anchor '></a>3.2上传快速集成</h2><h3><a name='header-n73' class='md-header-anchor '></a>3.2.1初始化DWUploader</h3><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="" style="page-break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//videoTitle不得为空 videoPath音视频文件路径</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">DWUploader *uploader = [[DWUploader alloc] initWithuserId:USERID</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  andKey:APIKEY</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  uploadVideoTitle:videoTitle</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  videoDescription:videoDescripton</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  videoTag:videoTag</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  videoPath:videoPath</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  notifyURL:nil];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> //进度的回调</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">uploader.progressBlock = ^(float progress, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">};</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//上传成功的回调</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">uploader.finishBlock = ^() {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; };</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//上传失败的回调</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> uploader.failBlock = ^(NSError *error) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">};</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//开始上传</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[uploader start];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 550px;"></div><div class="CodeMirror-gutters" style="display: none; height: 550px;"></div></div></div></pre><h2><a name='header-n75' class='md-header-anchor '></a>3.3下载快速集成</h2><p>注：在项目TARGETS-Build Settings-Other linker Flags添加-ObjC 或者-all_load。-ObjC:链接静态库中所有的Objective-C代码到项目中，-all_load：链接静态库中所有的代码到项目中。</p><h3><a name='header-n77' class='md-header-anchor '></a>3.3.1在Appdelegate中进行后台下载设置</h3><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;  //后台下载设置 </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; [[DWDownloadSessionManager manager] configureBackroundSession];//必须设置</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 154px;"></div><div class="CodeMirror-gutters" style="display: none; height: 154px;"></div></div></div></pre><h3><a name='header-n79' class='md-header-anchor '></a>3.3.2请求下载地址及初始化DWDownloadSessionManager </h3><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="" style="page-break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//hlsSupport必须传 @“0”</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> DWPlayInfo *playinfo = [[DWPlayInfo alloc] initWithUserId:USERID  andVideoId:videoid key:APIKEY hlsSupport:@"0"];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> //1为视频 2为音频 0为视频+音频 若不传该参数默认为视频</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> playinfo.mediatype =@"1";</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> [playinfo start];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//设置下载HTTP通信超时时间,默认超时时间为10秒,下载过程中HTTP通信超时时,会调用errorBlock下载失败的block,告知你请求资源超时。playinfo.timeoutSeconds = 20;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//请求下载资源成功 返回下载信息 调用DWUtils解析数据</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> playinfo.finishBlock = ^(NSDictionary *response){</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  //解析得到下载信息 </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  NSDictionary *playUrls =[DWUtils parsePlayInfoResponse:response];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  NSDictionary *dic =[[playUrls objectForKey:@"definitions"] firstObject];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; //下载地址字符串</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; urlString =[dic objectForKey:@"playurl"];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">DWDownloadSessionManager *manager =[DWDownloadSessionManager manager];</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 374px;"></div><div class="CodeMirror-gutters" style="display: none; height: 374px;"></div></div></div></pre><h3><a name='header-n81' class='md-header-anchor '></a>3.3.3初始化DWDownloadModel </h3><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//urlString：下载地址字符串 filePath:文件下载路径</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> DWDownloadModel *loadModel =[[DWDownloadModel alloc]initWithURLString:urlString filePath:filePath responseToken:nil userId:nil videoId:nil];</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 66px;"></div><div class="CodeMirror-gutters" style="display: none; height: 66px;"></div></div></div></pre><h3><a name='header-n83' class='md-header-anchor '></a>3.3.4开始下载</h3><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="" style="page-break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[manager startWithDownloadModel:loadModel progress:^(DWDownloadProgress *progress,DWDownloadModel *downloadModel) {</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  progress下载的进度 &nbsp; 调用DWDownloadUtility 解析相关进度的信息</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  downloadModel 本次下载的downloadModel &nbsp; </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  } state:^(DWDownloadModel *downloadModel,DWDownloadState state, NSString *filePath, NSError *error) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  state 下载状态 如下几种</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  DWDownloadStateNone, &nbsp; &nbsp; &nbsp;  // 未下载 或 下载删除了</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  DWDownloadStateReadying, &nbsp;  // 等待下载</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  DWDownloadStateRunning, &nbsp; &nbsp; // 正在下载</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  DWDownloadStateSuspended, &nbsp; // 下载暂停</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  DWDownloadStateCompleted, &nbsp; // 下载完成</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  DWDownloadStateFailed &nbsp; &nbsp; &nbsp; // 下载失败</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }];</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 352px;"></div><div class="CodeMirror-gutters" style="display: none; height: 352px;"></div></div></div></pre><h3><a name='header-n85' class='md-header-anchor '></a>3.3.5批量下载</h3><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  //通过传入userId,key,vid数组，来获取所有vid的下载路径</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  DWBatchDownloadUtility * bdUtility = [[DWBatchDownloadUtility alloc]initWithUserId:DWACCOUNT_USERID key:DWACCOUNT_APIKEY AndVideoIds:videoIds];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  bdUtility.finishBlock = ^(NSArray * _Nonnull playInfosArray) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  //返回获取到的vid下载路径 </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  //具体使用方式，请详见demo </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  };</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  bdUtility.errorBlock = ^(NSError * _Nonnull error) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  };</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  [bdUtility start];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 286px;"></div><div class="CodeMirror-gutters" style="display: none; height: 286px;"></div></div></div></pre><h1><a name='header-n87' class='md-header-anchor '></a>4.功能使用</h1><h2><a name='header-n88' class='md-header-anchor '></a>4.1播放功能具体使用</h2><h3><a name='header-n89' class='md-header-anchor '></a>4.1.1初始化playerView</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n90" mdtype="fences" style="page-break-inside: unset;">DWPlayerView *playerView = [[DWPlayerView alloc] initWithframe:CGRectMake(0,0,ScreenWidth,ScreenHeight/2-50)];
+// 设置请求播放信息HTTP通信超时时间
+playerView.timeoutSeconds = 20;
+//1为视频 2为音频 0为视频+音频 若不传该参数默认为视频
+playerView.mediatype =@"0";
+/**
+ 设置填充模式 如果要自定义playerView的高，请先改变填充模式
+ AVPlayerLayer的videoGravity属性设置
+ AVLayerVideoGravityResize,       // 非均匀模式。两个维度完全填充至整个视图区域
+ AVLayerVideoGravityResizeAspect,  // 等比例填充，直到一个维度到达区域边界
+ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个视图区域，其中一个维度的部分区域会被裁剪
+ 填充模式默认为AVLayerVideoGravityResizeAspect
+ 
+ */
+playerView.videoGravity =AVLayerVideoGravityResizeAspect;
+playerView.delegate =self;//设置代理
+[self.view addSubview:playerView];//添加到目标视图
+注：在播放过程中(譬如全屏 非全屏的切换等)不要移除playerView，否则会出现有声音无画面的bug
+</pre><h3><a name='header-n91' class='md-header-anchor '></a>4.1.2getPlayUrlsBlock 获取视频播放信息</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n92" mdtype="fences">   player.getPlayUrlsBlock = ^(NSDictionary *playUrls) {
+     // [必须]判断 status 的状态，不为"0"说明该视频不可播放，可能正处于转码、审核等状态。
+     NSNumber *status = [playUrls objectForKey:@"status"];
+     if (status == nil || [status integerValue] != 0) {
+         NSLog("playUrlsBlock invalid");
+     }
+     // 保存解析playUrls 或 选择某种清晰度进行播放。
+ };
+</pre><p>   当playerView准备好视频播放信息时，会调用该block。你可以在该block中保存播放信息或实现播放逻辑。获取的播放信息NSDictionary *playUrls为UTF-8编码，内容形如：</p><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n94" mdtype="fences" style="page-break-inside: unset;">  注意：若mediatype为@"0"，返回数据为视频+音频；若mediatype为@"1"，则只返回视频数据；若mediatype为@"2"，则只返回音频数据；若不设置mediatype，则只返回视频数据。以下以返回视频+音频为例：
+ {
+    defaultquality = 10;
+    qualities =     (
+                {
+            desp = "\U6e05\U6670";
+            mediatype = 1;
+            playurl = "http://xxx.play.bokecc.com/...";
+            quality = 10;
+            spareurl = "http://xxx.play.bokecc.com/...";
+        },
+                {
+            desp = "m4a\U539f\U58f0";
+            mediatype = 2;
+            playurl = "http://xxx.play.bokecc.com/...";
+            quality = 50;
+            spareurl = "";
+        },
+                {
+            desp = "mp3\U6807\U51c6";
+            mediatype = 2;
+            playurl = "http://xxx.play.bokecc.com/...";
+            quality = 61;
+            spareurl = "";
+        }
+    );
+    qualityDescription =     (
+        "清晰",
+        "m4a原声",
+        "mp3标准"
+    );
+    status = 0;
+    statusinfo = "正常";
+    videomarks =     (
+                {
+            markdesc = "\U8428\U5fb7\U7b2c\U4e09\U65b9";
+            marktime = 3;
+        },
+                {
+            markdesc = "\U6ca1\U6709\U7684\U8c0e\U8a00";
+            marktime = 10;
+        }
+              
+    );
+    
+    questions =     (
+                {
+            answers =             (
+                                {
+                    content = "A\U3001\U963f\U65af\U987f\U53d1\U9001\U5230\U53d1";
+                    id = 1001;
+                    right = 0;
+                },
+                                {
+                    content = "B\U3001\U963f\U65af\U987f\U53d1\U9001\U5230\U53d1\U4e09";
+                    id = 1002;
+                    right = 1;
+                },
+                                {
+                    content = "C\U3001\U53d1\U7684\U53d1\U9001\U5230";
+                    id = 1003;
+                    right = 0;
+                },
+                                {
+                    content = "D\U3001\U9632\U8f90\U5c04";
+                    id = 1004;
+                    right = 0;
+                }
+            );
+            backSecond = "1";
+            content = "\U963f\U5927\U662f\U6253\U53d1\U65af\U8482\U82ac";
+            explainInfo = "\U963f\U65af\U987f\U53d1\U9001\U5230";
+            id = 99;
+            jump = 0;
+            showTime = 2;
+        };
+        subtitleDic =     {
+          bottom = "0.23";
+          code = "utf-8";
+       	  color = 0x0000FF;
+          font = "Times New Roman";
+          size = 42;
+          surroundColor = 0xFF6600;
+          url = "http://1.material.bokecc.com/material/1725A8A9604EAE30/3624.srt";
+          subtitleName = "中文";
+          sort = 1
+    };
+        subtitle2Dic =     {
+          bottom = "0.23";
+          code = "utf-8";
+       	  color = 0x0000FF;
+          font = "Times New Roman";
+          size = 42;
+          surroundColor = 0xFF6600;
+          url = "http://1.material.bokecc.com/material/1725A8A9604EAE30/3624.srt";
+          subtitleName = "英文";
+          sort = 2
+    };
+    defaultSubtitle = 0
+    authvalidate =     {
+        enable = 0;
+        freetime = 15;
+        messaage = "\U8bf7\U8d2d\U4e70\U540e\U91cd\U8bd5!";
+    };
+
+    vrmode = 0;
+}
+</pre><p>对其字段解释如下：</p><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n96" mdtype="fences" style="page-break-inside: unset;"> - status（整数）和 statusinfo（字符串）  status表示这个视频在CC视频云上的当前的状态值，statusinfo 是     状态值的文字描述，如正处于转码、正在审核等。只有当 status 为0时，该视频才可以播放。你在实现App播放逻辑时需特别注意。
+- defaultquality（整数） 默认清晰度值
+- qualityDescription（字符串数组） 清晰度及格式文字描述
+- qualities（字典的列表） 不同清晰度播放url列表
+- quality（整数）和 desp（字符串）清晰度数值和清晰度文字描述。
+- playurl（字符串）音视频播放url
+- spareurl (字符串)音视频播放url
+- vrmode （整数）1表示当前视频是VR视频 0表示当前视频是普通视频
+- videomarks （打点数组） marktime为打点时间 markdesc打点描述
+- questions(问答数组)showTime显示时间 jump能否跳过 content问题及选项(其中{图片URL}) backSecond回退时间  explainInfo解释 right是否正确
+- subtitleDic(字幕字典信息) bottom离底部的距离比例 code编码格式 color颜色 font字体(如果没有改字体 则用默认字体) size字体大小  surroundColor背景色 url获取字幕的地址 subtitleName字幕名称 sort双语中字幕对应的位置1:上, 2:下 只有一个字幕时sort=0
+- subtitle2Dic 同subtitleDic
+- defaultSubtitle字幕默认显示哪条，取值含义 0: subtitleDic, 1: subtitle2Dic, 2 双语 没有字幕信息该值为-1
+- authvalidate(授权验证字典信息)无此功能的客户返回信息里没有该字段，只有开通了此项功能的客户的返回信息里才有该字段。enable:0代表授权验证不通过，1代表通过 freetime：试看时间 messaage：提示信息
+
+注：视频数据里playurl与spareurl是两个不同的线路 可切换 
+注：CC视频的播放url具有时效性，你需要在每次播放时请求视频播放信息，以取得最新的视频播放url。
+</pre><h3><a name='header-n97' class='md-header-anchor '></a>4.1.3设置播放源</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n98" mdtype="fences">    /* setURL方法 添加播放资源   如果有正在播放的资源，会释放掉当前播放的资源
+    *  customId 用户自定义参数  有自定义统计参数需求／流量统计的客户必须传值
+    *  没有此需求的客户请传nil
+    *  在不需要统计的地方均传nil 譬如广告视频／本地播放
+    */
+ [playerView setURL:url withCustomId:nil/用户自定义参数];
+</pre><h3><a name='header-n99' class='md-header-anchor '></a>4.1.4播放</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n100" mdtype="fences">  [playerView play];
+</pre><h3><a name='header-n101' class='md-header-anchor '></a>4.1.5暂停</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n102" mdtype="fences">  [playerView pause];
+</pre><h3><a name='header-n103' class='md-header-anchor '></a>4.1.6滑到XX秒播放视频</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n104" mdtype="fences">  [playerView scrub:time];
+</pre><h3><a name='header-n105' class='md-header-anchor '></a>4.1.7切换清晰度</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n106" mdtype="fences">  [playerView switchQuality:url];
+</pre><h3><a name='header-n107' class='md-header-anchor '></a>4.1.8停止视频播放统计</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n108" mdtype="fences" style="page-break-inside: unset;">  /**
+ 停止视频播放统计 播放页面关闭时务必调用removeTimer方法
+ 注意：播放页面关闭时 如需释放资源 调用方式如下{
+                                          [playerView removeTimer];
+                                          [playerView resetPlayer];
+ 
+                                        }
+ 
+ 
+ 如无需释放播放资源 调用方式如下{
+                              [playerView removeTimer];
+                              [playerView pause];
+ 
+ 		          }
+ */
+ [playerView removeTimer]; 
+</pre><h3><a name='header-n109' class='md-header-anchor '></a>4.1.9停止播放 释放播放资源</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n110" mdtype="fences">  [playerView resetPlayer];
+</pre><h3><a name='header-n111' class='md-header-anchor '></a>4.1.10设置超时时间</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n112" mdtype="fences"> //默认30s 譬如设置加载超时时间为20s 20s后视频没加载出来则会回调超时的代理方法 在此方法中可以切换线路等操作
+ playerView.timeOutLoad =20;
+ playerView.timeOutBuffer=20;
+</pre><h3><a name='header-n113' class='md-header-anchor '></a>4.1.11授权验证</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n114" mdtype="fences"> //设置了授权验证的客户传值 无此功能的客户无需设置 开通此项功能的客户返回的playurls里含有authvalidate(授权验证字典信息) enable:0代表授权验证不通过 1代表通过 freetime：试看时间 messaage：提示信息
+ playerView.verificationCode =@"xxxxx";
+</pre><h3><a name='header-n115' class='md-header-anchor '></a>4.1.12DWPlayerView的代理方法</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n116" mdtype="fences" style="page-break-inside: unset;">  /*
+ *
+ *AVPlayerItem的三种状态
+ *AVPlayerItemStatusUnknown,
+ *AVPlayerItemStatusReadyToPlay,
+ *AVPlayerItemStatusFailed
+ */
+
+注：以下代理方法均已切换到主线程 可直接更新UI
+// 可播放／播放中
+- (void)videoPlayerIsReadyToPlayVideo:(DWPlayerView *)playerView;
+
+//播放完毕
+- (void)videoPlayerDidReachEnd:(DWPlayerView *)playerView;
+//当前播放时间 
+- (void)videoPlayer:(DWPlayerView *)playerView timeDidChange:(float)time;
+
+//duration 当前缓冲的长度
+- (void)videoPlayer:(DWPlayerView *)playerView loadedTimeRangeDidChange:(float)duration;
+
+//没数据 即播放卡顿
+- (void)videoPlayerPlaybackBufferEmpty:(DWPlayerView *)playerView;
+
+//有数据 能够继续播放
+- (void)videoPlayerPlaybackLikelyToKeepUp:(DWPlayerView *)playerView;
+
+//加载超时/scrub超时 此方法中可切换线路等操作
+- (void)videoPlayer:(DWPlayerView *)playerView receivedTimeOut:(DWPlayerViewTimeOut )timeOut;
+
+//加载失败 此方法中可切换线路
+- (void)videoPlayer:(DWPlayerView *)playerView didFailWithError:(NSError *)error;
+注：如遇到频繁切换视频请求失败的情况 可在加载失败的代理方法中切换线路 详情参见Demo
+</pre><h3><a name='header-n117' class='md-header-anchor '></a>4.1.13字幕显示</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n118" mdtype="fences">  //获取字幕信息
+   subtitleDic =     {
+          bottom = "0.23";
+          code = "utf-8";
+       	  color = 0x0000FF;
+          font = "Times New Roman";
+          size = 42;
+          surroundColor = 0xFF6600;
+          url = "http://1.material.bokecc.com/material/1725A8A9604EAE30/3624.srt";
+    };
+
+</pre><h3><a name='header-n119' class='md-header-anchor '></a>4.1.14视频广告</h3><p>  用户可以获取广告信息，实现片头广告、暂停广告的播放。</p><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n121" mdtype="fences" style="page-break-inside: unset;">  //type:@"1"片头广告 @"2"暂停广告
+  DWAdInfo *adInfo = [[DWAdInfo alloc]initWithUserId:USERID andVideoId:videoId type:type];
+  [adInfo start];
+  //广告接口返回结果response包括如下参数
+  1.返回结果response包括如下参数：
+参数名称          说明
+result        1代表成功，0代表失败。int类型
+adid          广告id。int类型
+time          播放时间。int类型。
+canclick      是否能够点击广告跳转。1代表可以，0代表不可以。int类型
+canskip       是否可以跳过。1代表可以，0代表不可以。int类型
+skiptime      跳过时间，单位秒，经过若干秒后显示跳过按钮，0代表立即显示跳过按钮。int类型（新增）
+ad            广告信息
+
+ad包括如下参数：
+参数名称  说明
+materialid  素材id。int类型。
+material    视频或图片链接。string类型
+clickurl    跳转连接，返回结果为""代表没有跳转链接。string类型
+
+2.json示例
+成功
+{
+  "response": {
+    "result": 1,
+    "adid":10
+    "time": 15,
+    "hasmaterials":1
+    "canclick":1,
+    "canskip":1,
+    "skiptime":5,
+    "ad": [
+      {
+        "materialid"：100
+        "material": "http://1.material.bokecc.com/material/1936D297411C3A27/8769.flv",
+        "clickurl": "www.bokecc.com"
+      },
+      {
+        "materialid"：101
+        "material": "http://1.material.bokecc.com/material/1936D297411C3A27/8771.flv",
+        "clickurl": "www.bokecc.com"
+      }
+    ]
+  }
+}
+
+失败
+{
+  "response": {
+    "result": 0,
+    "error": -1,
+  }
+}
+
+3.错误码
+-1：参数错误，-2：该用户未投放广告，-3：该用户无type对应类型的广告位，-4：该用户type类型下无广告,-5:数据查询异常
+
+</pre><h3><a name='header-n122' class='md-header-anchor '></a>4.1.15播放VR视频</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n123" mdtype="fences" style="page-break-inside: unset;">   //播放普通视频流程一致 区别是普通视频是放在playerView上，而播放VR视频是可以放在自定义的view上
+   DWVRConfiguration* config = [DWVRLibrary createConfig];
+   [config asVideo:playerView.player.currentItem];//DWVideoPlayer的属性AVPlayer的currentItem
+   [config setContainer:self view:vrView]; //vrView自定义的视图
+   // optional
+   [config projectionMode:DWModeProjectionStereoSphere];//效果
+   [config displayMode:DWModeDisplayNormal];//是否分配
+   [config interactiveMode:DWModeInteractiveTouch];//交互模式
+   [config pinchEnabled:true];
+   [config setDirectorFactory:[[CustomDirectorFactory alloc]init]];
+   self.vrLibrary = [config build];
+   注意事项：1.如果playerView存在，则播放VR视频时必须隐藏，playerView.hidden =YES;
+           2.如果vrView存在，则播放普通视频时必须隐藏，vrView.hidden =YES;
+           3.播放VR视频时 切换资源时 先vrView =nil 再重新创建一次，然后调用切换资源的方法。
+           4.播放VR视频时，如果发现感应模式下的方向不正确，可调用{ 
+            [self.vrLibrary  switchInteractiveMode:DWModeInteractiveTouch];
+            [self.vrLibrary switchInteractiveMode:DWModeInteractiveMotion];
+            }的组合方法来解决这个问题
+           5. DWModeInteractiveTouch,//触摸
+              DWModeInteractiveMotion,//重力感应
+              DWModeInteractiveMotionWithTouch,//触摸及重力感应
+              MotionWithTouch模式下时 触摸控制左右，重力感应控制上下  
+   具体详情参见Demo。        
+</pre><h3><a name='header-n124' class='md-header-anchor '></a>4.1.16GIF功能</h3><p>   DWGIFManger可以将正在播放的视频做成GIF图，流程为：需要先截取视频 ，再将截取的视频转成GIF图。DWGIFManger开放的API如下：</p><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n126" mdtype="fences" style="page-break-inside: unset;">   /**
+ 截取视频
+ @param videoUrl 视频的URL
+ @param outPath 输出路径
+ @param outputFileType 输出视频格式
+ @param videoRange 截取视频的范围
+ @param completeBlock 视频截取的回调
+ */
+- (void)interceptVideoAndVideoUrl:(NSURL *)videoUrl withOutPath:(NSString *)outPath outputFileType:(NSString *)outputFileType range:(NSRange)videoRange intercept:(InterceptBlock)interceptBlock;
+
+
+/**
+ @param mediaUrlStr URL字符串
+ @return 返回视频时长
+ */
+- (CGFloat)getMediaDurationWithMediaUrl:(NSString *)mediaUrlStr;
+
+
+/**
+ 生成GIF图片
+ @param videoURL 视频的路径URL
+ @param loopCount 播放次数
+ @param time 每帧的时间间隔 默认0.25s
+ @param imagePath 存放GIF图片的文件路径
+ @param completeBlock 完成的回调
+
+ */
+- (void)createGIFfromURL:(NSURL*)videoURL loopCount:(int)loopCount delayTime:(CGFloat )time gifImagePath:(NSString *)imagePath complete:(CompleteBlock)completeBlock;
+
+/**
+ 生成GIF图片
+ @param videoURL 视频的路径URL
+ @param frameCount 视频的总时长乘以固定数值 如：视频总时长*4
+ @param time 每帧的时间间隔
+ @param loopCount 播放次数
+ @param imagePath 存放GIF图片的文件路径
+ @param completeBlock 完成的回调
+ */
+- (void)createGIFfromURL:(NSURL*)videoURL withFrameCount:(int)frameCount delayTime:(CGFloat )time loopCount:(int)loopCount gifImagePath:(NSString *)imagePath complete:(CompleteBlock)completeBlock;
+
+注意：1.截取视频前需要用获取截取视频的URL，加密SDK调用drmGIFURL方法，非加密SDK调用unDrmGIFURL方法
+     2.在视频将要结束播放的时候做GIF功能时，要计算截取视频的实际时长以及在播放完成的代理方法中暂停该视频，否则可能出现bug
+以上API使用详情参见demo。
+</pre><h3><a name='header-n127' class='md-header-anchor '></a>4.1.17音频播放功能</h3><p>   DWAudioPlayer可播放音频</p><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n129" mdtype="fences">  //初始化音频播放器
+ DWAudioPlayer *audioPlayer =[[DWAudioPlayer alloc]init];
+ //设置代理
+ audioPlayer.delegate =self;
+ 
+ //如需播放加密音频，请设置drmServerPort
+ audioPlayer.drmServerPort = DWAPPDELEGATE.drmServer.listenPort;
+ [audioPlayer setPlayInBackground:YES];
+ //设置播放音频URL
+ [audioPlayer setAudioURL:音频URL];
+ //播放
+ [audioPlayer audioPlay];
+
+</pre><p>  DWAudioPlayer开放的API如下：</p><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n131" mdtype="fences" style="page-break-inside: unset;">  //跳到xx秒播放音频
+- (void)audioScrub:(CGFloat )time;
+
+//播放
+- (void)audioPlay;
+
+//暂停
+- (void)audioPause;
+//重播
+- (void)audioRepeatPlay;
+
+//停止播放
+- (void)audioResetPlayer;
+
+//设置播放倍速 0.5-2.0
+- (void)setAudioPlayerRate:(CGFloat )rate;
+
+//获取当前播放的时间
+- (CGFloat )getCurrentPlayTime;
+
+//获取总时间长
+- (CGFloat)getTotalPlayTime;
+</pre><p>  DWAudioPlayer的代理方法如下：</p><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n133" mdtype="fences" style="page-break-inside: unset;"> /*
+ *
+ *AVPlayerItem的三种状态
+ *AVPlayerItemStatusUnknown,
+ *AVPlayerItemStatusReadyToPlay,
+ *AVPlayerItemStatusFailed
+ */
+
+//所有的代理方法均已回到主线程
+// 可播放／播放中
+- (void)audioPlayerIsReadyToPlayVideo:(DWAudioPlayer *)audioPlayer;
+//播放完毕
+- (void)audioPlayerDidReachEnd:(DWAudioPlayer *)audioPlayer;
+//当前播放时间
+- (void)audioPlayer:(DWAudioPlayer *)audioPlayer timeDidChange:(CGFloat )time;
+//duration 当前缓冲的长度
+- (void)audioPlayer:(DWAudioPlayer *)audioPlayer loadedTimeRangeDidChange:(CGFloat )duration;
+//进行跳转后没数据 即播放卡顿
+- (void)audioPlayerPlaybackBufferEmpty:(DWAudioPlayer *)audioPlayer;
+// 进行跳转后有数据 能够继续播放
+- (void)audioPlayerPlaybackLikelyToKeepUp:(DWAudioPlayer *)audioPlayer;
+//加载失败
+- (void)audioPlayer:(DWAudioPlayer *)audioPlayer didFailWithError:(NSError *)error;
+</pre><h3><a name='header-n134' class='md-header-anchor '></a>4.1.18视频打点</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n135" mdtype="fences"> videomarks =     (
+                {
+            markdesc = "\U8428\U5fb7\U7b2c\U4e09\U65b9";
+            marktime = 3;
+        },
+                {
+            markdesc = "\U6ca1\U6709\U7684\U8c0e\U8a00";
+            marktime = 10;
+        }
+              
+    );
+videomarks （打点数组） marktime为打点时间 markdesc打点描述
+</pre><h3><a name='header-n136' class='md-header-anchor '></a>4.1.19视频问答</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n137" mdtype="fences" style="page-break-inside: unset;">  questions =     (
+                {
+            answers =             (
+                                {
+                    content = "A\U3001\U963f\U65af\U987f\U53d1\U9001\U5230\U53d1";
+                    id = 1001;
+                    right = 0;
+                },
+                                {
+                    content = "B\U3001\U963f\U65af\U987f\U53d1\U9001\U5230\U53d1\U4e09";
+                    id = 1002;
+                    right = 1;
+                },
+                                {
+                    content = "C\U3001\U53d1\U7684\U53d1\U9001\U5230";
+                    id = 1003;
+                    right = 0;
+                },
+                                {
+                    content = "D\U3001\U9632\U8f90\U5c04";
+                    id = 1004;
+                    right = 0;
+                }
+            );
+questions(问答数组)showTime显示时间 jump能否跳过 content问题及选项 backSecond回退时间 explainInfo解释 right是否正确
+</pre><h3><a name='header-n138' class='md-header-anchor '></a>4.1.20播放本地音视频文件</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n139" mdtype="fences">  //path本地音视频文件路径
+  NSURL *fileURL =[NSURL fileURLWithPath:path];
+  //音频调用如下:
+   [audioPlayer setAudioURL:fileURL];
+   [audioPlayer audioPlay];
+  //视频调用如下:
+  [playerView setURL:fileURL withCustomId:nil];
+  [playerView play];
+  
+</pre><h3><a name='header-n140' class='md-header-anchor '></a>4.1.21视频问答统计</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n141" mdtype="fences">/**
+ 问答统计 有此需求的客户调用 一个问题只发送一次
+
+ @param videoId 视频ID
+ @param questionId 问题ID
+ @param answerId 用户选择的选项ID，以逗号分隔多个选项ID。
+ 如1345是单选 2067,3092,4789是多选
+ @param status YES正确 NO错误
+ */
+ [playerView reportQuestionWithVideoId:videoId questionId:questionId answerId:answerId status:YES/NO];
+
+</pre><h3><a name='header-n142' class='md-header-anchor '></a>4.1.22 访客信息收集器</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n143" mdtype="fences" style="page-break-inside: unset;">//数据格式展示如下
+...
+"visitor": {
+"visitorId": "123",//收集器ID
+"title": "访客信息收集样例",//收集器标题
+"appearTime": 85,//出现的时间(s)
+"imageURL": "http://1-material.bokecc.com/material/1725A8A9604EAE30/5089.png",//展现的图片地址
+"jumpURL": "www.baidu.com",//图片的跳转地址
+"visitorMessage": [.      //要收集的信息
+{
+"visitorMes": "姓名",
+"visitorTip": "请输入访客姓名"
+},
+{
+"visitorMes": "电话",
+"visitorTip": "请输入访客电话"
+},
+{
+"visitorMes": "邮箱",
+"visitorTip": "请输入访客的邮箱"
+}
+],
+"isJump": 0 //是否跳过 0不跳过,1跳过
+}
+...
+</pre><h3><a name='header-n144' class='md-header-anchor '></a>4.1.23 访客信息统计上报</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n145" mdtype="fences">/**
+访客信息统计上报 有此需求的客户调用
+
+@param visitorId 访客信息收集器ID  必填
+@param videoId 视频ID 必填
+@param userId CC账号ID  必填
+@param message 上报信息 必填 具体格式详见demo
+*/
+-(void)reportVisitorCollectWithVisitorId:(NSString *)visitorId VideoId:(NSString *)videoId UserId:(NSString *)userId AndMessage:(NSString *)message;
+</pre><h2><a name='header-n146' class='md-header-anchor '></a>4.2上传功能具体使用</h2><h3><a name='header-n147' class='md-header-anchor '></a>4.2.1初始化DWUploader</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n148" mdtype="fences" style="page-break-inside: unset;"> //首次上传视频 videoTitle不得为空
+  DWUploader *uploader = [[DWUploader alloc] initWithuserId:userId
+        andKey:apiKey
+        uploadVideoTitle:videoTitle
+        videoDescription:videoDescripton
+        videoTag:videoTag
+        videoPath:videoPath
+        notifyURL:nil];
+ //断点续传
+  DWUploader *uploader = [[DWUploader alloc] initWithVideoContext:dictionary];
+  // 默认超时时间为10秒,若上传过程中产生HTTP通信超时,则会调用DWErrorBlock,可以在该block设置错误处理逻辑。
+   uploader.timeoutSeconds = 20;
+  //设置代理
+  uploader.delegate =self;
+</pre><h3><a name='header-n149' class='md-header-anchor '></a>4.2.2回调的block及代理方法</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n150" mdtype="fences" style="page-break-inside: unset;">typedef void (^DWUploaderFinishBlock)();
+typedef void (^DWErrorBlock)(NSError *error);
+typedef void (^DWUploaderVideoContextForRetryBlock)(NSDictionary *videoContext);
+typedef void (^DWUploaderProgressBlock)(float progress, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite);
+
+/**
+ *  在该block获取上传进度，可以在block内更新UI，如更新上传进度条。
+ */
+@property (copy, nonatomic)DWUploaderProgressBlock progressBlock;
+
+/**
+ *  上传完成时回调该block，可以在block内更新UI，如将视频标记为上传完成。
+ */
+@property (copy, nonatomic)DWUploaderFinishBlock finishBlock;
+
+/**
+ *  上传失败时回调该block，可以在该block内更新UI，如将视频标记为上传失败。
+ */
+@property (copy, nonatomic)DWErrorBlock failBlock;
+
+/**
+ *  在该block内获取上传上下文，并保存上传上下文，用来实现断线续传。
+ */
+@property (copy, nonatomic)DWUploaderVideoContextForRetryBlock videoContextForRetryBlock;
+
+/**
+ *  当遇到网络问题或服务器原因时上传暂停，回调该block。
+ */
+@property (copy, nonatomic)DWErrorBlock pausedBlock;
+
+/*
+ *第一次请求成功后保存信息 发生异常后如果能获取到此信息 则调用initWithVideoContext:方法做断点续传  
+ */
+@protocol DWUploaderDelegate &lt;NSObject&gt;
+@optional
+//第一次请求成功的回调
+- (void)checkUploadWithFilePath:(NSString  *)filePath;
+
+@end
+
+注：通常情况下，不可对同一视频多次使用第一种初始化方式初始化上传，这样会造成大量重复视频，增加你后期管理视频的同事的工作量，且CC视频会根据你的付费套餐对每天的上传次数有不同的限制，超过最大上传次数，当天便无法上传视频。
+</pre><h3><a name='header-n151' class='md-header-anchor '></a>4.2.3暂停</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n152" mdtype="fences">  [uploader pause];
+</pre><h3><a name='header-n153' class='md-header-anchor '></a>4.2.4恢复上传</h3><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n154" mdtype="fences">  [uploader resume];
+</pre><h3><a name='header-n155' class='md-header-anchor '></a>4.2.5视频压缩</h3><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="" style="page-break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> //初始化 DWVideoCompressController</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> DWVideoCompressController *imagePicker = [[DWVideoCompressController alloc] initWithQuality:DWUIImagePickerControllerQualityTypeMediumandSourceType:DWUIImagePickerControllerSourceTypePhotoLibraryandMediaType:DWUIImagePickerControllerMediaTypeMovie];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//设置delegate</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">imagePicker.delegate = self;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">注：CC视频的压缩是继承UIImagePickerController，你需要实现UIImagePickerControllerDelegate的回调来处理媒体压缩的后续功能。如果设置相关属性时可以直接用DWVideoCompressController对象修改。</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//设置媒体压缩质量</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">  typedef NS_ENUM(NSInteger, <span class="cm-tab" role="presentation" cm-text="	"> </span>DWUIImagePickerControllerQualityType) &nbsp; &nbsp; {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">DWUIImagePickerControllerQualityTypeHigh &nbsp; = 0, &nbsp; &nbsp; </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">DWUIImagePickerControllerQualityTypeMedium = 1, &nbsp; &nbsp; </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">DWUIImagePickerControllerQualityTypeLow &nbsp;  = 2, &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">};</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//设置媒体来源</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> typedef NS_ENUM(NSInteger, DWUIImagePickerControllerSourceType) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">DWUIImagePickerControllerSourceTypePhotoLibrary, &nbsp;  <span class="cm-tab" role="presentation" cm-text="	">  </span>DWUIImagePickerControllerSourceTypeCamera, &nbsp; &nbsp; &nbsp; &nbsp;  <span class="cm-tab" role="presentation" cm-text="	">  </span>DWUIImagePickerControllerSourceTypeSavedPhotosAlbum </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">};</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//设置媒体类型</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">typedef NS_ENUM(NSInteger, DWUIImagePickerControllerMediaType) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">DWUIImagePickerControllerMediaTypeMovieAndImage, </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">DWUIImagePickerControllerMediaTypeMovie, &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">DWUIImagePickerControllerMediaTypeImage &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">};</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 682px;"></div><div class="CodeMirror-gutters" style="display: none; height: 682px;"></div></div></div></pre><h2><a name='header-n157' class='md-header-anchor '></a>4.3下载功能具体使用</h2><p>注：在项目TARGETS-Build Settings-Other linker Flags添加-ObjC 或者-all_load。-ObjC:链接静态库中所有的Objective-C代码到项目中，-all_load：链接静态库中所有的代码到项目中。</p><h3><a name='header-n159' class='md-header-anchor '></a>4.3.1获取下载地址</h3><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="" style="page-break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//hlsSupport必须传 @“0”</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> DWPlayInfo *playinfo = [[DWPlayInfo alloc] initWithUserId:DWACCOUNT_USERID  andVideoId:videoid key:DWACCOUNT_APIKEY hlsSupport:@"0"];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> //1为视频 2为音频 0为视频+音频 若不传该参数默认为视频</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> playinfo.mediatype =@"1";</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> [playinfo start];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//设置下载HTTP通信超时时间,默认超时时间为10秒,下载过程中HTTP通信超时时,会调用errorBlock下载失败的block,告知你请求资源超时。playinfo.timeoutSeconds = 20;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//回调的block</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@property (copy, nonatomic)DWErrorBlock errorBlock;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@property (copy, nonatomic)DWPlayInfoFinishBlock finishBlock;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">请求下载资源成功 返回下载信息 调用DWUtils解析数据</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> playinfo.finishBlock = ^(NSDictionary *response){</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  NSDictionary *playUrls =[DWUtils parsePlayInfoResponse:response];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">得到的playurls如下</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  defaultdefinition = 10;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  definitionDescription = &nbsp; &nbsp; (</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  "\U6e05\U6670",</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  "\U9ad8\U6e05"</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  );</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  definitions = &nbsp; &nbsp; (</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  definition = 10;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  desp = "\U6e05\U6670";</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  playurl = "http://d1-33.play.bokecc.com/flvs/cb/QxhEr/hKboX7hTIY-10.pcm?t=1493352053&amp;key=11BFE2077FC9D38787957E49128E4E1C&amp;upid=8342481493344853732";</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  },</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  definition = 20;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  desp = "\U9ad8\U6e05";</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  playurl = "http://d1-33.play.bokecc.com/flvs/cb/QxhEr/hKboX7hTIY-20.pcm?t=1493352053&amp;key=AB2A50D26D0ADDBF01FB5DD0AE8611BF&amp;upid=8342481493344853732";</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp;  }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  );</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  status = 0;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  statusinfo = "\U6b63\U5e38";</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  token = "122,125,10,120,127,14,10,8,1,120,123,124,123,10,122,14,125,120,11,123,1,11,11,120,127,0,14,0,14,0,8,15";</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 1034px;"></div><div class="CodeMirror-gutters" style="display: none; height: 1034px;"></div></div></div></pre><h3><a name='header-n161' class='md-header-anchor '></a>4.3.2开始下载</h3><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="" style="page-break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//在Appdelegate中进行后台下载设置</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; //是否允许移动流量下载</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  [DWDownloadSessionManager manager].allowsCellular =YES;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  //后台下载设置 </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; [[DWDownloadSessionManager manager] configureBackroundSession];//必须设置</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> }</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//初始化DWDownloadSessionManager  manager是个单例</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">DWDownloadSessionManager *manager =[DWDownloadSessionManager manager];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//设置 DWDownloadModel 注:若你所下载的 videoId 未启用视频加密功能，则保存的文件扩展名[必须]是 mp4，responseToken  userId  videoId均为nil 否则无法播放。 若你所下载的 videoId 启用了视频加密功能，则保存的文件扩展名[必须]是 pcm，responseToken  userId  videoId必须有值  否则无法播放。详情参见Demo。</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">DWDownloadModel *loadModel =[[DWDownloadModel alloc]initWithURLString:urlString filePath:videoPath responseToken:nil userId:nil videoId:nil];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//开始下载</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">[manager startWithDownloadModel:loadModel progress:^(DWDownloadProgress *progress,DWDownloadModel *downloadModel) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  progress下载的进度 &nbsp; 调用DWDownloadUtility 解析相关进度的信息</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  downloadModel 本次下载的downloadModel &nbsp; </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  } state:^(DWDownloadModel *downloadModel,DWDownloadState state, NSString *filePath, NSError *error) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  state 下载状态 如下几种</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  DWDownloadStateNone, &nbsp; &nbsp; &nbsp;  // 未下载 或 下载删除了</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  DWDownloadStateReadying, &nbsp;  // 等待下载</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  DWDownloadStateRunning, &nbsp; &nbsp; // 正在下载</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  DWDownloadStateSuspended, &nbsp; // 下载暂停</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  DWDownloadStateCompleted, &nbsp; // 下载完成</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  DWDownloadStateFailed &nbsp; &nbsp; &nbsp; // 下载失败</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  }];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 770px;"></div><div class="CodeMirror-gutters" style="display: none; height: 770px;"></div></div></div></pre><h3><a name='header-n163' class='md-header-anchor '></a>4.3.3DWDownloadSessionManager中开放的API 具体详情参见demo。也可使用代理方法更新下载的进度和状态。注：如无特殊需要 maxDownloadCount resumeDownloadFIFO isBatchDownload 均不需要设置。</h3><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="" style="page-break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 下载代理</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@protocol DWDownloadDelegate &lt;NSObject&gt;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 更新下载进度</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (void)downloadModel:(DWDownloadModel *)downloadModel didUpdateProgress:(DWDownloadProgress *)progress;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 更新下载状态</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (void)downloadModel:(DWDownloadModel *)downloadModel didChangeState:(DWDownloadState)state filePath:(NSString *)filePath error:(NSError *)error;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@end</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">/**</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> *  下载管理类 封装NSURLSessionDownloadTask</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> */</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@interface DWDownloadSessionManager : NSObject&lt;NSURLSessionDownloadDelegate&gt;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 下载代理</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@property (nonatomic,weak) id&lt;DWDownloadDelegate&gt; delegate;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 等待中的模型 只读</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@property (nonatomic, strong,readonly) NSMutableArray *waitingDownloadModels;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 下载中的模型 只读</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@property (nonatomic, strong,readonly) NSMutableArray *downloadingModels;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">/*</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> * maxDownloadCount resumeDownloadFIFO起作用的前提是设置 isBatchDownload =NO</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> * 设置maxDownloadCount 是为了处理 譬如网络不好的时候 设置一次只下载一个视频 而不是必须要求有多个视频并发下载</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> * 注意 最大下载数的概念 是少于或等于</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> */</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 最大下载数</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@property (nonatomic, assign) NSInteger maxDownloadCount;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 等待下载队列 先进先出 默认YES， 当NO时，先进后出</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@property (nonatomic, assign) BOOL resumeDownloadFIFO;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 全部并发 默认YES, 当YES时，忽略maxDownloadCount </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@property (nonatomic, assign) BOOL isBatchDownload;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 后台session configure</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@property (nonatomic, strong) NSString *backgroundConfigure;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@property (nonatomic, copy) void (^backgroundSessionCompletionHandler)();</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 后台下载完成后调用 返回文件保存路径filePath</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@property (nonatomic, copy) NSString *(^backgroundSessionDownloadCompleteBlock)(NSString *downloadURL);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 单例</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">+ (DWDownloadSessionManager *)manager;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 配置后台session</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (void)configureBackroundSession;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 获取正在下载模型</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (DWDownloadModel *)downLoadingModelForURLString:(NSString *)URLString;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 获取后台运行task</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (NSURLSessionDownloadTask *)backgroundSessionTasksWithDownloadModel:(DWDownloadModel *)downloadModel;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 是否已经下载</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (BOOL)isDownloadCompletedWithDownloadModel:(DWDownloadModel *)downloadModel;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 取消所有完成或失败后台task</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (void)cancleAllBackgroundSessionTasks;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 开始下载</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (DWDownloadModel *)startDownloadURLString:(NSString *)URLString toDestinationPath:(NSString *)destinationPath progress:(DWDownloadProgressBlock)progress state:(DWDownloadStateBlock)state;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 开始下载 </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (void)startWithDownloadModel:(DWDownloadModel *)downloadModel;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 开始下载</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (void)startWithDownloadModel:(DWDownloadModel *)downloadModel progress:(DWDownloadProgressBlock)progress state:(DWDownloadStateBlock)state;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 恢复下载（除非确定对这个model进行了suspend，否则使用start）</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (void)resumeWithDownloadModel:(DWDownloadModel *)downloadModel;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 暂停下载</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (void)suspendWithDownloadModel:(DWDownloadModel *)downloadModel;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 取消下载 YES清除已下载的数据 NO不清除</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (void)cancleWithDownloadModel:(DWDownloadModel *)downloadModel isClear:(BOOL )isClear;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 删除下载文件 </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (void)deleteFileWithDownloadModel:(DWDownloadModel *)downloadModel;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">// 删除所有的下载文件 downloadDirectory:对应的文件路径videoPath</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (void)deleteAllFileWithDownloadDirectory:(NSString *)downloadDirectory;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//根据路径获取resumeData path:传原先的下载URL字符串</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (NSData *)resumeDataFromFileWithFilePath:(NSString *)path;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">//根据新的URL生成新的resumeData resumeData:原先下载的data urlString:新的下载URL字符串</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (NSData *)newResumeDataFromOldResumeData:(NSData *)resumeData withURLString:(NSString *)urlString;</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">@end</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">注：下载的URL的时效是两小时。两小时后URL失效，可根据开放的API做断点续传。因为iOS11.3后的系统bug，目前在11.3后的系统中无法做URL失效后的断点续传功能，代码中也要相应增加系统版本判断，详情参见demo。</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 2376px;"></div><div class="CodeMirror-gutters" style="display: none; height: 2376px;"></div></div></div></pre><h2><a name='header-n165' class='md-header-anchor '></a>4.4Demo具体使用</h2><p>Demo是使用SDK对接CC视频云的示例源码，Demo的设计旨在展示SDK各项功能的使用方法，如果希望应用获得更好的使用体验，要根据需求自行更改。Demo使用流程如下： </p><h2><a name='header-n167' class='md-header-anchor '></a>4.4.1设置账户信息</h2><p>首先将你userId和API KEY填写在Demo工程下的Demo-Prefix.pch 中:</p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">#define USERID @"****************"</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">#define APIKEY @"********************************"</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 44px;"></div><div class="CodeMirror-gutters" style="display: none; height: 44px;"></div></div></div></pre><h2><a name='header-n170' class='md-header-anchor '></a>4.4.2设置播放使用的videoId</h2><p>在DWPlayerViewController.m中修改generateTestData函数：</p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">- (void)generateTestData</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  // 将@"..."替换成你要播放的videoId，可以添加多个。 </span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;  self.videoIds = @[];</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 132px;"></div><div class="CodeMirror-gutters" style="display: none; height: 132px;"></div></div></div></pre><h2><a name='header-n173' class='md-header-anchor '></a>4.4.3设置下载使用的videoId</h2><p>需要在DWDownloadViewController.m中修改generateTestData函数：</p><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n175" mdtype="fences">- (void)generateTestData
+{
+    // 将@"..."替换成你要下载的videoId，可以添加多个。 
+    self.videoIds = @[];
+}
+
+</pre><p>Demo配置完毕,可以使用Demo测试你的账号。</p><h2><a name='header-n177' class='md-header-anchor '></a>4.4.4如何调试和反馈问题</h2><p>SDK提供了DWLog模块用来打印HTTP通信日志，可以在App的任意位置开启或关闭 打印HTTP通信日志等功能。下面是DWLog的使用方法：</p><pre spellcheck="false" class="md-fences mock-cm md-end-block" lang="" contenteditable="false" cid="n179" mdtype="fences">// 开启 打印HTTP通信日志 功能
+[DWLog setIsDebugHttpLog:YES];
+// 关闭 打印HTTP通信日志 功能
+[DWLog setIsDebugHttpLog:NO];
+</pre><p>当遇到无法播放、上传或下载时，首先要排除userId和API KEY是否有效，其次判断网络是否正常、是否已经连接、 videoId是否是userId和API KEY名下的视频。除此之外还可以通过 HTTP通信日志排查问题。</p><h2><a name='header-n181' class='md-header-anchor '></a>4.4.5关于错误码</h2><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="" style="page-break-inside: unset;"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">/*</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> error code</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> 播放相关的 100 +</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> 下载相关的 200 +</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> 上传相关的 300 +</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> 网络相关的 400 +</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> */</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">代码<span class="cm-tab" role="presentation" cm-text="	">  </span>说明</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">100<span class="cm-tab" role="presentation" cm-text="	"> </span>playinfo接口返回请求失败</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">101<span class="cm-tab" role="presentation" cm-text="	"> </span>视频不可用</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">102<span class="cm-tab" role="presentation" cm-text="	"> </span>视频处理中</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">103<span class="cm-tab" role="presentation" cm-text="	"> </span>视频已删除</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">104<span class="cm-tab" role="presentation" cm-text="	"> </span>视频转码失败</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">105<span class="cm-tab" role="presentation" cm-text="	"> </span>视频状态未知错误</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">130<span class="cm-tab" role="presentation" cm-text="	"> </span>创建AVPlayer 失败</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">131<span class="cm-tab" role="presentation" cm-text="	"> </span>未知播放错误</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">300<span class="cm-tab" role="presentation" cm-text="	"> </span>xml解析失败</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">301<span class="cm-tab" role="presentation" cm-text="	"> </span>断电续传参数错误</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">302<span class="cm-tab" role="presentation" cm-text="	"> </span>用户剩余空间不足</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">303<span class="cm-tab" role="presentation" cm-text="	"> </span>用户服务终止</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">304<span class="cm-tab" role="presentation" cm-text="	"> </span>服务器处理错误</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">305<span class="cm-tab" role="presentation" cm-text="	"> </span>访问过于频繁</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">306<span class="cm-tab" role="presentation" cm-text="	"> </span>用户服务无权限</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">399 上传失败</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">400 网络资源暂时不可用</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 616px;"></div><div class="CodeMirror-gutters" style="display: none; height: 616px;"></div></div></div></pre><p>更多信息请参考<a href='http://doc.bokecc.com/'>CC视频开发者支持网站</a>，如果在使用SDK过程中遇到其他问题请联系CC客服进行反馈。</p><h1><a name='header-n184' class='md-header-anchor '></a>5.API查询</h1><p><a href='https://github.com/CCVideo/VOD_iOS_DRM_SDK/tree/master/doc/api'>https://github.com/CCVideo/VOD_iOS_DRM_SDK/tree/master/doc/api</a></p><h1><a name='header-n187' class='md-header-anchor '></a>6.Q&amp;A</h1></div>
+</body>
+</html>
