@@ -1,0 +1,53 @@
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+
+
+#if DEBUG
+
+#define NSLog(format, ...) NSLog(@"%s():%d "format, __func__, __LINE__, ##__VA_ARGS__)
+
+#else
+
+#define NSLog(format, ...)
+
+#endif
+
+
+#define IsIOS7 ([[[[UIDevice currentDevice] systemVersion] substringToIndex:1] intValue]>=7)
+
+#define ScreenWidth  [UIScreen mainScreen].bounds.size.width
+#define ScreenHeight  [UIScreen mainScreen].bounds.size.height
+
+#define ScaleHeight(s,scale)   ((CGFloat)((s) / (scale)))
+
+#define TitleColor_51        ([UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0])
+#define TitleColor_102        ([UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1.0])
+
+#define TitleFont(fontSize)   ([UIFont fontWithName:@"PingFangSC-Regular" size:(fontSize)])
+
+//弱引用
+#define WeakSelf(type)  __weak typeof(type) weak##type = type
+
+//强引用
+#define StrongSelf(type)  __strong typeof(type) type = weak##type
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif
+
+#import "DWAppDelegate.h"
+#define DWAPPDELEGATE ((DWAppDelegate*)([[UIApplication sharedApplication] delegate]))
+
+#import "Masonry.h"
+#import "DWTools.h"
+#import "DWSDK.h"
+#import "SDInternalMacros.h"
+#import "MBProgressHUD.h"
+#import "ObjectExtension.h"
+#import "DWVodModel.h"
+#import "DWConfigurationManager.h"
+#import "UIImageView+WebCache.h"
