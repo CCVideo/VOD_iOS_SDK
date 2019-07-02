@@ -15,6 +15,9 @@
 @class DWVideoAuthorizeModel;
 @class DWVideoVisitorModel;
 @class DWVideoVisitorMessageModel;
+@class DWVideoExercisesModel;
+@class DWVideoExercisesQuestionModel;
+@class DWVideoExercisesQuestionAnswerModel;
 
 ///视频数据模型
 @interface DWVodVideoModel : NSObject
@@ -66,8 +69,11 @@
 ///字幕2
 @property (nonatomic, strong, readonly) DWVideoSubtitleModel * subtitle2;
 
-//访客信息收集
+///访客信息收集
 @property (nonatomic, strong, readonly) DWVideoVisitorModel * visitor;
+
+///课堂练习
+@property (nonatomic, strong, readonly) NSArray <DWVideoExercisesModel *> * exercises;
 
 @property (nonatomic, assign, readonly) int reason;
 
@@ -257,3 +263,74 @@
 
 @end
 
+//课堂练习
+@interface DWVideoExercisesModel : NSObject
+
+///课堂练习id
+@property (nonatomic, strong, readonly)NSString * exercisesId;
+
+///标题
+@property (nonatomic, strong, readonly)NSString * title;
+
+///展现的时间,单位:秒
+@property (nonatomic, assign, readonly)NSInteger showTime;
+
+///课堂练习包含的问题列表
+@property (nonatomic, strong, readonly)NSArray <DWVideoExercisesQuestionModel *> * questions;
+
+///是否显示课堂练习
+@property (nonatomic, assign) BOOL isShow;
+
+@end
+
+//课堂练习问题
+@interface DWVideoExercisesQuestionModel : NSObject
+
+///问题id
+@property (nonatomic, strong, readonly)NSString * questionId;
+
+///问题解释内容
+@property (nonatomic, strong, readonly)NSString * explainInfo;
+
+///问题类型 0:单选 1:多选 2:填空
+@property (nonatomic, assign, readonly)NSInteger type;
+
+///问题的标题 (填空题的前半段)
+@property (nonatomic, strong, readonly)NSString * content;
+
+///问题的标题 (填空题后半段，选择题是为nil)
+@property (nonatomic, strong, readonly)NSString * content2;
+
+///问题的答案
+@property (nonatomic, strong, readonly)NSArray <DWVideoExercisesQuestionAnswerModel *> * answers;
+
+///此问题是否已经作答 YES:已答 NO:未答  注意：选择题，选项选中即为已答。填空题，内容填写即为已答。
+@property (nonatomic, assign, readonly)BOOL isReply;
+
+///是否答对
+@property (nonatomic, assign, readonly)BOOL isCorrect;
+
+///问题正确率
+@property (nonatomic, assign) NSInteger accuracy;
+
+@end
+
+//课堂练习问题答案
+@interface DWVideoExercisesQuestionAnswerModel : NSObject
+
+///课堂练习问题答案id
+@property (nonatomic, strong, readonly)NSString * answerId;
+
+///是否是正确选项
+@property (nonatomic, assign, readonly)BOOL isRight;
+
+///选择题：选项的内容  填空题：正确答案
+@property (nonatomic, strong, readonly)NSString * content;
+
+///选择题是否选中
+@property (nonatomic, assign) BOOL isSelect;
+
+///填空题填写内容
+@property (nonatomic, strong) NSString * answerContent;
+
+@end

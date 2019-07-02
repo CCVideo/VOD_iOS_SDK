@@ -69,7 +69,7 @@
         NSString * jsonString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
         NSArray * vodList = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
 
-        NSLog(@"%@",vodList);
+//        NSLog(@"%@",vodList);
         for (NSDictionary * vodDict in vodList) {
             DWVodModel * vodModel = [[DWVodModel alloc]init];
             vodModel.videoId = [vodDict objectForKey:@"videoId"];
@@ -97,8 +97,7 @@
     for (int i = 0; i < videos.count; i++) {
         DWVodModel * vodModel = [[DWVodModel alloc]init];
         vodModel.videoId = [videos objectAtIndex:i];
-//        vodModel.title = [videos objectAtIndex:i];
-        vodModel.title = @"展示title";
+        vodModel.title = [videos objectAtIndex:i];
         vodModel.time = @"展示time";
         vodModel.imageUrl = @"icon_placeholder.png";
         [self.videoList addObject:vodModel];

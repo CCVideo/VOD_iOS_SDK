@@ -48,6 +48,8 @@
     //根据自己项目原业务逻辑，自行斟酌调用即可。
     [self migrateOldDownloadTaskToNewVersion];
     
+    [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:@"showGuideView"];
+    
     [self.window makeKeyAndVisible];
     
     return YES;

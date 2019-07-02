@@ -30,3 +30,9 @@
 -(BOOL)isEqualColor:(UIColor *)otherColor;
 
 @end
+
+@interface UILabel (ObjectExtension)
+
+-(CGRect)boundingRectForStringRange:(NSRange)range;
+
+@end

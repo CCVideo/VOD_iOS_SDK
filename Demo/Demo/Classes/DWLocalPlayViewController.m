@@ -30,7 +30,6 @@
     [_playerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
-    
     [self.playerView playLocalVideo:self.downloadModel];
     [self.playerView reLayoutWithScreenState:YES];
     
@@ -45,7 +44,7 @@
         make.edges.equalTo(self.view);
     }];
     [self.playerSkinView playLocalVideo:self.downloadModel];
-    */
+     */
     
 }
 
@@ -82,6 +81,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+/*
 -(void)videoPlayerSkin:(DWPlayerSkinView *)playerSkinView ReturnBackAction:(BOOL)backPortrait
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -91,6 +91,7 @@
 {
     [@"播放完成" showAlert];
 }
+ */
 
 /*
 #pragma mark - Navigation

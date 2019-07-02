@@ -110,6 +110,12 @@ typedef NS_ENUM(NSUInteger, DWPlayerViewLoadStyle) {
  */
 @property(nonatomic,assign)DWPlayerViewLoadStyle loadStyle;
 
+/**
+ 期待缓冲时长 默认 0，建议取值1 ~ 50 。
+ 注意：此属性仅针对iOS10以上系统， m3u8格式视频有效。
+ */
+
+@property(nonatomic,assign)NSTimeInterval forwardBufferDuration;
 
 /**
  是否是备用线路
@@ -338,5 +344,16 @@ typedef NS_ENUM(NSUInteger, DWPlayerViewLoadStyle) {
  @param message 上报信息 必填 具体格式详见demo
  */
 -(void)reportVisitorCollectWithVisitorId:(NSString *)visitorId VideoId:(NSString *)videoId UserId:(NSString *)userId AndMessage:(NSString *)message;
+
+/**
+ 课堂练习统计上报 有此需求的客户调用
+ 
+ @param exercisesId 课堂练习ID 必填
+ @param videoId 视频ID 必填
+ @param userId CC账号ID  必填
+ @param questionMes 上报信息 必填 具体格式详见demo
+ @param completion  完成回调，返回课堂练习结果
+ */
+-(void)reportExercisesWithExercisesId:(NSString *)exercisesId videoId:(NSString *)videoId UserId:(NSString *)userId QuestionMes:(NSString *)questionMes AndCompletion:(void (^)(NSArray * resultArray,NSError * error))completion;
 
 @end

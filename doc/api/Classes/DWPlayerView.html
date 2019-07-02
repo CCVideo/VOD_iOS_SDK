@@ -56,6 +56,8 @@
 		
 		<option value="//api/name/delegate">delegate</option>
 		
+		<option value="//api/name/forwardBufferDuration">forwardBufferDuration</option>
+		
 		<option value="//api/name/isSpar">isSpar</option>
 		
 		<option value="//api/name/loadStyle">loadStyle</option>
@@ -125,6 +127,8 @@
 		<option value="//api/name/removeTimer">- removeTimer</option>
 		
 		<option value="//api/name/repeatPlay">- repeatPlay</option>
+		
+		<option value="//api/name/reportExercisesWithExercisesId:videoId:UserId:QuestionMes:AndCompletion:">- reportExercisesWithExercisesId:videoId:UserId:QuestionMes:AndCompletion:</option>
 		
 		<option value="//api/name/reportQuestionWithVideoId:questionId:answerId:status:">- reportQuestionWithVideoId:questionId:answerId:status:</option>
 		
@@ -1639,6 +1643,84 @@
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/reportExercisesWithExercisesId:videoId:UserId:QuestionMes:AndCompletion:" title="reportExercisesWithExercisesId:videoId:UserId:QuestionMes:AndCompletion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/reportExercisesWithExercisesId:videoId:UserId:QuestionMes:AndCompletion:">&ndash;&nbsp;reportExercisesWithExercisesId:videoId:UserId:QuestionMes:AndCompletion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>课堂练习统计上报 有此需求的客户调用</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)reportExercisesWithExercisesId:(NSString *)<em>exercisesId</em> videoId:(NSString *)<em>videoId</em> UserId:(NSString *)<em>userId</em> QuestionMes:(NSString *)<em>questionMes</em> AndCompletion:(void ( ^ ) ( NSArray *resultArray , NSError *error ))<em>completion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>exercisesId</code></th>
+						<td><p>课堂练习ID 必填</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>videoId</code></th>
+						<td><p>视频ID 必填</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>userId</code></th>
+						<td><p>CC账号ID  必填</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>questionMes</code></th>
+						<td><p>上报信息 必填 具体格式详见demo</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completion</code></th>
+						<td><p>完成回调，返回课堂练习结果</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>课堂练习统计上报 有此需求的客户调用</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayerView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/playableDuration" title="playableDuration"></a>
 	<h3 class="method-title"><code><a href="#//api/name/playableDuration">&ndash;&nbsp;playableDuration</a></code>
 </h3>
@@ -2271,6 +2353,54 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/forwardBufferDuration" title="forwardBufferDuration"></a>
+	<h3 class="method-title"><code><a href="#//api/name/forwardBufferDuration">&nbsp;&nbsp;forwardBufferDuration</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>期待缓冲时长 默认 0，建议取值1 ~ 50 。
+注意：此属性仅针对iOS10以上系统， m3u8格式视频有效。</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSTimeInterval forwardBufferDuration</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>期待缓冲时长 默认 0，建议取值1 ~ 50 。
+注意：此属性仅针对iOS10以上系统， m3u8格式视频有效。</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayerView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/isSpar" title="isSpar"></a>
 	<h3 class="method-title"><code><a href="#//api/name/isSpar">&nbsp;&nbsp;isSpar</a></code>
 </h3>
@@ -2428,7 +2558,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2019 com.bokecc. All rights reserved. Updated: 2019-06-18</p>
+						<p class="copyright">Copyright &copy; 2019 com.bokecc. All rights reserved. Updated: 2019-07-02</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

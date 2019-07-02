@@ -24,8 +24,10 @@
 #import "CustomDirectorFactory.h"
 #import "DWGifRecordFinishView.h"
 #import "DWVisitorCollectView.h"
+#import "DWExercisesAlertView.h"
+#import "DWExercisesView.h"
 
-@interface DWVodPlayerView ()<DWVideoPlayerDelegate,DWPlayerSettingViewDelegate,DWGifRecordFinishViewDelegate,DWVisitorCollectViewDelegate>
+@interface DWVodPlayerView ()<DWVideoPlayerDelegate,DWPlayerSettingViewDelegate,DWGifRecordFinishViewDelegate,DWVisitorCollectViewDelegate,DWExercisesAlertViewDelegate,DWExercisesViewDelegate>
 
 @property(nonatomic,strong)UIView * maskView;//遮罩层
 
@@ -138,6 +140,13 @@
 
 //**************************** 访客信息收集器 ****************************
 @property (nonatomic,strong)DWVisitorCollectView * visitorCollectView;
+
+//**************************** 课堂练习 ****************************
+//@property (nonatomic,assign)CGFloat exercisesLastTime;
+@property (nonatomic,assign)CGFloat exercisesFrontScrubTime;
+@property (nonatomic,assign)CGFloat exercisesLastScrubTime;
+@property (nonatomic,strong)DWExercisesAlertView * exercisesAlertView;
+@property (nonatomic,strong)DWExercisesView * exercisesView;
 
 @end
 
@@ -1185,11 +1194,22 @@ static const CGFloat gifSeconds = 0.25;
 //进度条拖拽相关
 -(void)sliderMovingAction
 {
+    if (!self.readyToPlay) {
+        return;
+    }
+    
     self.isSlidering = YES;
 }
 
 -(void)sliderBeganAction
 {
+    if (!self.readyToPlay) {
+        return;
+    }
+    
+    CGFloat durationInSeconds = CMTimeGetSeconds(self.playerView.player.currentItem.duration);
+    self.exercisesFrontScrubTime = durationInSeconds * self.slider.value;
+    
     self.isSlidering = YES;
 }
 
@@ -1212,6 +1232,8 @@ static const CGFloat gifSeconds = 0.25;
         }
     }
     
+    self.exercisesLastScrubTime = time;
+    
     //拖拽时，视频问答逻辑
     for (DWVideoQuestionModel *questionModel in self.questionArray) {
         if (questionModel.isShow && !questionModel.jump && time > questionModel.showTime) {
@@ -1227,6 +1249,8 @@ static const CGFloat gifSeconds = 0.25;
     }];
     
     [self play];
+    
+    [self showExercisesAlertView:time AndScrub:YES];
 }
 
 //速率选择
@@ -1329,7 +1353,7 @@ static const CGFloat gifSeconds = 0.25;
 #pragma mark - 前后台切换
 -(void)enterForegroundNotification
 {
-    if (_questionView || self.visitorCollectView) {
+    if (_questionView || self.visitorCollectView || self.exercisesAlertView || self.exercisesView) {
         return;
     }
     
@@ -1925,8 +1949,6 @@ static const CGFloat gifSeconds = 0.25;
 
 -(void)visitorCollectDidCommit:(NSString *)message
 {
-//    NSLog(@"提交 访客信息 %@",message);
-    
     //访客信息统计上报
     [self.playerView reportVisitorCollectWithVisitorId:self.videoModel.visitor.visitorId VideoId:self.videoModel.videoId UserId:self.videoModel.CCUserId AndMessage:message];
     
@@ -1934,6 +1956,129 @@ static const CGFloat gifSeconds = 0.25;
     
     [self.visitorCollectView removeFromSuperview];
     self.visitorCollectView = nil;
+}
+
+#pragma mark--课堂练习------
+
+-(void)showExercisesAlertView:(CGFloat)time AndScrub:(BOOL)isScrub
+{
+    if (!self.videoModel.exercises || self.videoModel.exercises.count == 0) {
+        return;
+    }
+    
+    if (self.exercisesAlertView || self.exercisesView) {
+        //当前正在展示课堂练习
+        return;
+    }
+    
+    __weak typeof(self) weakSelf = self;
+    for (DWVideoExercisesModel * exercises in self.videoModel.exercises) {
+        if ((NSInteger)time >= exercises.showTime && exercises.isShow) {
+            [self pause];
+            
+            if (isScrub) {
+                self.exercisesAlertView = [[DWExercisesAlertView alloc]init];
+                self.exercisesAlertView = [[DWExercisesAlertView alloc]init];
+                self.exercisesAlertView.delegate = self;
+                [self.exercisesAlertView show];
+            }else{
+                UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+                UIInterfaceOrientation interfaceOrientation = (UIInterfaceOrientation)orientation;
+                if (UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+                    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationLandscapeLeft] forKey:@"orientation"];
+                }
+                
+                DWExercisesView * exercisesView = [[DWExercisesView alloc]initWithExercisesModel:exercises];
+                exercisesView.delegate = self;
+                [exercisesView show];
+                weakSelf.exercisesView = exercisesView;
+            }
+            break;
+        }
+    }
+}
+
+//DWExercisesAlertViewDelegate
+-(void)exercisesAlertViewReturn
+{
+    [self.playerView scrub:self.exercisesFrontScrubTime];
+    [self play];
+    
+    [self.exercisesAlertView dismiss];
+    self.exercisesAlertView = nil;
+}
+
+-(void)exercisesAlertViewAnswer
+{
+    //UIInterfaceOrientationMaskLandscapeRight
+    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+    UIInterfaceOrientation interfaceOrientation = (UIInterfaceOrientation)orientation;
+    if (UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationLandscapeLeft] forKey:@"orientation"];
+    }
+    
+    DWVideoExercisesModel * exercisesModel = nil;
+    for (DWVideoExercisesModel * exercises in self.videoModel.exercises) {
+        if (exercises.isShow) {
+            exercisesModel = exercises;
+            break;
+        }
+    }
+    
+    DWExercisesView * exercisesView = [[DWExercisesView alloc]initWithExercisesModel:exercisesModel];
+    exercisesView.delegate = self;
+    [exercisesView show];
+    self.exercisesView = exercisesView;
+        
+    [self.exercisesAlertView dismiss];
+    self.exercisesAlertView = nil;
+}
+
+//DWExercisesViewDelegate
+-(void)exercisesViewFinish:(DWVideoExercisesModel *)exercisesModel
+{
+    //课堂练习完成，提交
+    NSMutableArray * jsonArray = [NSMutableArray array];
+    [exercisesModel.questions enumerateObjectsUsingBlock:^(DWVideoExercisesQuestionModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [jsonArray addObject:@{@"questionId":[NSNumber numberWithInteger:[obj.questionId integerValue]],
+                               @"isRight":[NSNumber numberWithInt:obj.isCorrect]}];
+    }];
+    
+    NSData * questionMesData = [NSJSONSerialization dataWithJSONObject:jsonArray options:NSJSONWritingPrettyPrinted error:nil];
+    NSString * jsonStr = [[NSString alloc]initWithData:questionMesData encoding:NSUTF8StringEncoding];
+    __weak typeof(self) weakSelf = self;
+    [self.playerView reportExercisesWithExercisesId:exercisesModel.exercisesId videoId:self.videoModel.videoId UserId:self.videoModel.CCUserId QuestionMes:jsonStr AndCompletion:^(NSArray *resultArray, NSError *error) {
+        
+        if (error) {
+            [error.localizedDescription showAlert];
+            [weakSelf exercisesViewFinishResumePlay:exercisesModel];
+            return;
+        }
+        
+        //处理答题正确率
+        [exercisesModel.questions enumerateObjectsUsingBlock:^(DWVideoExercisesQuestionModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSDictionary * accuracyDict = [resultArray objectAtIndex:idx];
+            obj.accuracy = [[accuracyDict objectForKey:@"accuracy"] integerValue];
+        }];
+        
+        [weakSelf.exercisesView exerciseSsumbitSuccess];
+    }];
+}
+
+-(void)exercisesViewFinishResumePlay:(DWVideoExercisesModel *)exercisesModel
+{
+    exercisesModel.isShow = NO;
+    
+    [self.exercisesView dismiss];
+    self.exercisesView = nil;
+    
+    if (self.exercisesAlertView) {
+        [self.exercisesAlertView removeFromSuperview];
+        self.exercisesAlertView = nil;
+    }
+    
+    [self.playerView scrub:self.exercisesLastScrubTime];
+    [self play];
 }
 
 #pragma mark - DWPlayerSettingViewDelegate
@@ -2157,9 +2302,19 @@ static const CGFloat gifSeconds = 0.25;
     if (!_isSwitchquality) {
         [self readNSUserDefaults];
     }
+    
+    if (_isSwitchquality) {
+        self.exercisesFrontScrubTime = -1;
+        self.exercisesLastScrubTime = -1;
+    }else{
+        self.exercisesFrontScrubTime = 0;
+        self.exercisesLastScrubTime = self.switchTime;
+    }
 
     //读取原先的播放时间 用oldTimeScrub方法
     [self.playerView oldTimeScrub:self.switchTime];
+    
+    [self showExercisesAlertView:self.switchTime AndScrub:YES];
 }
 
 //播放完毕
@@ -2198,6 +2353,9 @@ static const CGFloat gifSeconds = 0.25;
     
     //访客信息收集器
     [self showVisitorView:time];
+    
+    //课堂练习
+    [self showExercisesAlertView:time AndScrub:NO];
   
     //拖拽时，禁止刷新进度信息
     if (self.isSlidering) {
@@ -2437,6 +2595,7 @@ static const CGFloat gifSeconds = 0.25;
     self.playerView.timeOutLoad = 30;
     self.playerView.timeOutBuffer = 30;
     self.playerView.loadStyle = DWPlayerViewLoadStyleImmediately;
+    self.playerView.forwardBufferDuration = 30;
     self.playerView.delegate = self;
     [self insertSubview:self.playerView atIndex:0];
     [_playerView mas_makeConstraints:^(MASConstraintMaker *make) {
