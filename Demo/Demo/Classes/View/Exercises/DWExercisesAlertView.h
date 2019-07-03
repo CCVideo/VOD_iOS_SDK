@@ -19,7 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DWExercisesAlertView : UIView
 
-//@property(nonatomic,assign)CGFloat lastTime;
+//返回听课时记录的d时间点
+@property(nonatomic,assign)CGFloat frontScrubTime;
 
 @property(nonatomic,assign)id <DWExercisesAlertViewDelegate> delegate;
 

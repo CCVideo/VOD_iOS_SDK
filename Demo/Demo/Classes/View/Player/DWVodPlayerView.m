@@ -142,11 +142,10 @@
 @property (nonatomic,strong)DWVisitorCollectView * visitorCollectView;
 
 //**************************** 课堂练习 ****************************
-//@property (nonatomic,assign)CGFloat exercisesLastTime;
-@property (nonatomic,assign)CGFloat exercisesFrontScrubTime;
-@property (nonatomic,assign)CGFloat exercisesLastScrubTime;
-@property (nonatomic,strong)DWExercisesAlertView * exercisesAlertView;
-@property (nonatomic,strong)DWExercisesView * exercisesView;
+@property (nonatomic,assign)CGFloat exercisesFrontScrubTime;//记录回退时间
+@property (nonatomic,assign)CGFloat exercisesLastScrubTime;//记录当前时间
+@property (nonatomic,strong)DWExercisesAlertView * exercisesAlertView;//课堂练习提示View
+@property (nonatomic,strong)DWExercisesView * exercisesView;//课堂练习view
 
 @end
 
@@ -1246,11 +1245,16 @@ static const CGFloat gifSeconds = 0.25;
     __weak typeof(self) weakSelf = self;
     [self.playerView scrubPrecise:time CompletionHandler:^(BOOL finished) {
         weakSelf.isSlidering = NO;
+        
+        if (![weakSelf haveUnansweredExercises:weakSelf.exercisesFrontScrubTime AndLastTime:weakSelf.exercisesLastScrubTime]) {
+            weakSelf.exercisesFrontScrubTime = -1;
+            weakSelf.exercisesLastScrubTime = -1;
+        }
+        
     }];
     
     [self play];
     
-    [self showExercisesAlertView:time AndScrub:YES];
 }
 
 //速率选择
@@ -1959,8 +1963,7 @@ static const CGFloat gifSeconds = 0.25;
 }
 
 #pragma mark--课堂练习------
-
--(void)showExercisesAlertView:(CGFloat)time AndScrub:(BOOL)isScrub
+-(void)showExercisesAlertView:(CGFloat)time
 {
     if (!self.videoModel.exercises || self.videoModel.exercises.count == 0) {
         return;
@@ -1976,9 +1979,9 @@ static const CGFloat gifSeconds = 0.25;
         if ((NSInteger)time >= exercises.showTime && exercises.isShow) {
             [self pause];
             
-            if (isScrub) {
+            if (self.exercisesFrontScrubTime != -1) {
                 self.exercisesAlertView = [[DWExercisesAlertView alloc]init];
-                self.exercisesAlertView = [[DWExercisesAlertView alloc]init];
+                self.exercisesAlertView.frontScrubTime = self.exercisesFrontScrubTime;
                 self.exercisesAlertView.delegate = self;
                 [self.exercisesAlertView show];
             }else{
@@ -1989,6 +1992,7 @@ static const CGFloat gifSeconds = 0.25;
                 }
                 
                 DWExercisesView * exercisesView = [[DWExercisesView alloc]initWithExercisesModel:exercises];
+                exercisesView.lastScrubTime = weakSelf.exercisesLastScrubTime;
                 exercisesView.delegate = self;
                 [exercisesView show];
                 weakSelf.exercisesView = exercisesView;
@@ -2001,7 +2005,9 @@ static const CGFloat gifSeconds = 0.25;
 //DWExercisesAlertViewDelegate
 -(void)exercisesAlertViewReturn
 {
-    [self.playerView scrub:self.exercisesFrontScrubTime];
+    self.exercisesFrontScrubTime = -1;
+    
+    [self.playerView scrub:self.exercisesAlertView.frontScrubTime];
     [self play];
     
     [self.exercisesAlertView dismiss];
@@ -2026,6 +2032,7 @@ static const CGFloat gifSeconds = 0.25;
     }
     
     DWExercisesView * exercisesView = [[DWExercisesView alloc]initWithExercisesModel:exercisesModel];
+    exercisesView.lastScrubTime = self.exercisesLastScrubTime;
     exercisesView.delegate = self;
     [exercisesView show];
     self.exercisesView = exercisesView;
@@ -2068,6 +2075,12 @@ static const CGFloat gifSeconds = 0.25;
 -(void)exercisesViewFinishResumePlay:(DWVideoExercisesModel *)exercisesModel
 {
     exercisesModel.isShow = NO;
+
+    if (![self haveUnansweredExercises:self.exercisesFrontScrubTime AndLastTime:self.exercisesView.lastScrubTime]) {
+        self.exercisesFrontScrubTime = -1;
+    }
+
+    [self.playerView scrub:self.exercisesView.lastScrubTime];
     
     [self.exercisesView dismiss];
     self.exercisesView = nil;
@@ -2077,8 +2090,25 @@ static const CGFloat gifSeconds = 0.25;
         self.exercisesAlertView = nil;
     }
     
-    [self.playerView scrub:self.exercisesLastScrubTime];
     [self play];
+}
+
+-(BOOL)haveUnansweredExercises:(CGFloat)frontTime AndLastTime:(CGFloat)lastTime
+{
+    BOOL ret = NO;
+    for (DWVideoExercisesModel * exercises in self.videoModel.exercises) {
+        if (exercises.showTime > lastTime) {
+            continue;
+        }
+        if (exercises.showTime < frontTime) {
+            continue;
+        }
+        if (exercises.isShow) {
+            ret = YES;
+            break;
+        }
+    }
+    return ret;
 }
 
 #pragma mark - DWPlayerSettingViewDelegate
@@ -2303,18 +2333,26 @@ static const CGFloat gifSeconds = 0.25;
         [self readNSUserDefaults];
     }
     
+    //处理记忆播放时，课堂练习拖拽的位置。
     if (_isSwitchquality) {
         self.exercisesFrontScrubTime = -1;
         self.exercisesLastScrubTime = -1;
     }else{
-        self.exercisesFrontScrubTime = 0;
-        self.exercisesLastScrubTime = self.switchTime;
+        if (self.switchTime == 0) {
+            self.exercisesFrontScrubTime = -1;
+            self.exercisesLastScrubTime = -1;
+        }else{
+            self.exercisesFrontScrubTime = 0;
+            self.exercisesLastScrubTime = self.switchTime;
+            if (![self haveUnansweredExercises:self.exercisesFrontScrubTime AndLastTime:self.exercisesLastScrubTime]) {
+                self.exercisesFrontScrubTime = -1;
+                self.exercisesLastScrubTime = -1;
+            }
+        }
     }
 
     //读取原先的播放时间 用oldTimeScrub方法
     [self.playerView oldTimeScrub:self.switchTime];
-    
-    [self showExercisesAlertView:self.switchTime AndScrub:YES];
 }
 
 //播放完毕
@@ -2355,7 +2393,9 @@ static const CGFloat gifSeconds = 0.25;
     [self showVisitorView:time];
     
     //课堂练习
-    [self showExercisesAlertView:time AndScrub:NO];
+    [self showExercisesAlertView:time];
+    
+    self.exercisesLastScrubTime = time;
   
     //拖拽时，禁止刷新进度信息
     if (self.isSlidering) {
@@ -2594,7 +2634,7 @@ static const CGFloat gifSeconds = 0.25;
     self.playerView = [[DWPlayerView alloc]init];
     self.playerView.timeOutLoad = 30;
     self.playerView.timeOutBuffer = 30;
-    self.playerView.loadStyle = DWPlayerViewLoadStyleImmediately;
+//    self.playerView.loadStyle = DWPlayerViewLoadStyleImmediately;
     self.playerView.forwardBufferDuration = 30;
     self.playerView.delegate = self;
     [self insertSubview:self.playerView atIndex:0];

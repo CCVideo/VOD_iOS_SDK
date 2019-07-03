@@ -26,6 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,weak) id <DWExercisesViewDelegate> delegate;
 
+//继续播放记录的时间位置
+@property(nonatomic,assign)CGFloat lastScrubTime;
+
 -(instancetype)initWithExercisesModel:(DWVideoExercisesModel *)exercisesModel;
 
 //课堂练习，提交成功调用

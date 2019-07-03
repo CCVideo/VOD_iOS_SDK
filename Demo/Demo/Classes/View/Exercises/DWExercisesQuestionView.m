@@ -120,7 +120,6 @@ typedef NS_ENUM(NSUInteger, DWExercisesQuestionType) {
     CGFloat height = 0;
     UIFont * font = TitleFont(14);
     CGSize size = [DWTools widthWithHeight:EXERCISESQUESTIONVIEWWIDTH - 105 - 60 andFont:font andLabelText:[answerModel.content substringWithRange:NSMakeRange(2, answerModel.content.length - 2)]];
-
     if (ceil(size.height) < (font.lineHeight * 2)) {
         height = 40 + 15;
     }else{

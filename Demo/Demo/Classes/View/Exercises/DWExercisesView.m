@@ -84,7 +84,7 @@
         }
         
         //引导页面
-        if (![[[NSUserDefaults standardUserDefaults] objectForKey:@"showGuideView"] boolValue]) {
+        if (![[NSUserDefaults standardUserDefaults] objectForKey:@"showGuideView"]) {
             [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"showGuideView"];
             [self addSubview:self.guideView];
             [_guideView mas_makeConstraints:^(MASConstraintMaker *make) {
