@@ -92,8 +92,10 @@
 -(void)reloadLoaclData
 {
     //请自行替换数据
-    NSArray * videos =  @[];
+    
+   NSArray * videos =  @[];
 
+    
     for (int i = 0; i < videos.count; i++) {
         DWVodModel * vodModel = [[DWVodModel alloc]init];
         vodModel.videoId = [videos objectAtIndex:i];

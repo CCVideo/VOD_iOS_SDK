@@ -23,5 +23,5 @@
 #import "DWVodAdInfoModel.h"
 
 //版本号
-#define SDK_VERSION @"4.0.2"
+#define SDK_VERSION @"4.0.3"
 
