@@ -44,6 +44,9 @@ typedef NS_ENUM(NSUInteger, DWSDK_SERVICE_ERROR) {
     
     ERROR_EXRCISES_REQUEST       = 2302 , //课堂练习上报失败
     
+    ERROR_UPNP_SEARCH            = 2500 , //投屏数据获取失败
+    ERROR_UPNP_SUBSCRIPTION      = 2501 , //投屏订阅失败
+    
     ERROR_DOWNLOAD_UNAVAILABLE   = 3000 , //网络资源不存在
     ERROR_DOWNLOAD_UNAUTHORIZED  = 3001 , //未获得下载授权
     ERROR_DOWNLOAD_UNSUPPORTM3U8 = 3002 , //暂不支持m3u8视频格式下载

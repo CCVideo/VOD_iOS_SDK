@@ -7,6 +7,9 @@
 #import <CommonCrypto/CommonDigest.h>
 #import <UIKit/UIKit.h>
 
+@class DWVodVideoModel;
+@class DWDownloadModel;
+
 typedef NS_ENUM(NSUInteger, DWPlayerViewTimeOut) {
     DWPlayerViewStatusTimeOutLoad,//加载超时
     DWPlayerViewStatusTimeOutBuffer //缓存超时

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DWDownloadModel.h"
+@class DWVodVideoModel;
 
 // 下载代理
 @protocol DWDownloadSessionDelegate <NSObject>

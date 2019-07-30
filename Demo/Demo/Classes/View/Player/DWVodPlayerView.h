@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)vodPlayerView:(DWVodPlayerView *)playerView ChooseSelection:(NSInteger)selectionIndex;
 //播放下一集事件
 -(void)vodPlayerView:(DWVodPlayerView *)playerView NextSelection:(NSInteger)nextIndex;
+//投屏跳转事件
+-(void)vodPlayerView:(DWVodPlayerView *)playerView ScreeningJumpAction:(NSString *)playUrl;
 //网络检测事件
 -(void)vodPlayerView:(DWVodPlayerView *)playerView DidNetworkMonitor:(NSString *)vid AndPlayUrl:(NSString *)playUrl;
 //访客信息收集器，退出填写
@@ -42,6 +44,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 //视频数据，下载时，保存视频URL时使用。
 @property(nonatomic,strong)DWVodModel * vodModel;
+
+//是否在投屏
+@property(nonatomic,assign)BOOL isScreening;
+
+//当前视频标题
+@property(nonatomic,strong,readonly)NSString * videoTitle;
+
+//当前播放时间
+@property(nonatomic,assign)CGFloat currentPlayDuration;
 
 -(void)reLayoutWithScreenState:(BOOL)isFull;
 

@@ -12,13 +12,15 @@
 #import "DWVodPlayerView.h"
 #import "DWAdShouView.h"
 #import "DWNetworkMonitorViewController.h"
+#import "DWScreeningListViewController.h"
+#import "DWScreeningBgView.h"
 
 typedef enum : NSUInteger {
     DWVodPlayTableViewCellStyleDefault,
     DWVodPlayTableViewCellStyleChoose,
 } DWVodPlayTableViewCellStyle;
 
-@interface DWVodPlayViewController ()<UITableViewDelegate,UITableViewDataSource,DWVodPlayBottomViewDelegate,DWVodPlayerViewDelegate,DWAdShouViewDelegate>
+@interface DWVodPlayViewController ()<UITableViewDelegate,UITableViewDataSource,DWVodPlayBottomViewDelegate,DWVodPlayerViewDelegate,DWAdShouViewDelegate,DWScreeningListViewControllerDelegate,DWScreeningBgViewDelegate>
 
 @property(nonatomic,assign)CGSize playerViewSize;
 @property(nonatomic,strong)DWVodPlayerView * playerView;
@@ -28,6 +30,8 @@ typedef enum : NSUInteger {
 @property(nonatomic,assign)DWVodPlayTableViewCellStyle cellStyle;
 
 @property(nonatomic,strong)DWAdShouView * adShowView;//广告
+
+@property(nonatomic,strong)DWScreeningBgView * screenBgView;//投屏控制器
 
 @end
 
@@ -140,6 +144,14 @@ typedef enum : NSUInteger {
             make.left.and.top.equalTo(@0);
             make.right.and.bottom.equalTo(@0);
         }];
+        
+        if (self.screenBgView) {
+            [_screenBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.left.and.top.equalTo(@0);
+                make.right.and.bottom.equalTo(@0);
+            }];
+
+        }
     }else{
         [_playerView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.and.left.equalTo(@0);
@@ -152,10 +164,22 @@ typedef enum : NSUInteger {
             make.width.equalTo(@(self.playerViewSize.width));
             make.height.equalTo(@(self.playerViewSize.height));
         }];
+        
+        if (self.screenBgView) {
+            [_screenBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.top.and.left.equalTo(@0);
+                make.width.equalTo(@(self.playerViewSize.width));
+                make.height.equalTo(@(self.playerViewSize.height));
+            }];
+        }
     }
     
     [self.adShowView screenRotate:isFull];
     [self.playerView reLayoutWithScreenState:isFull];
+
+    if (self.screenBgView) {
+        [self.screenBgView screenRotate:isFull];
+    }
 }
 
 #pragma mark - notification
@@ -249,6 +273,17 @@ typedef enum : NSUInteger {
     [self.listTableView reloadData];
 }
 
+//投屏事件
+-(void)vodPlayerView:(DWVodPlayerView *)playerView ScreeningJumpAction:(NSString *)playUrl
+{
+    DWScreeningListViewController * screeningListVC = [[DWScreeningListViewController alloc]init];
+    screeningListVC.playUrl = playUrl;
+    screeningListVC.delegate = self;
+    [self.navigationController pushViewController:screeningListVC animated:YES];
+    
+    self.playerView.isScreening = YES;
+}
+
 //网络检测事件
 -(void)vodPlayerView:(DWVodPlayerView *)playerView DidNetworkMonitor:(NSString *)vid AndPlayUrl:(NSString *)playUrl
 {
@@ -268,6 +303,36 @@ typedef enum : NSUInteger {
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.navigationController popViewControllerAnimated:YES];
+    });
+}
+
+#pragma mark - 投屏相关
+-(void)screeningReturnButtonAction
+{
+    self.playerView.isScreening = NO;
+}
+
+-(void)screeningListDidSelectAction:(DWUPnPDevice *)device AndPlayUrl:(NSString *)playUrl
+{
+    self.screenBgView = [[DWScreeningBgView alloc]initWithDevice:device AndPlayUrl:playUrl];
+    self.screenBgView.delegate = self;
+    self.screenBgView.title = self.playerView.videoTitle;
+    self.screenBgView.seekTime = self.playerView.currentPlayDuration;
+    [self.view addSubview:self.screenBgView];
+    [_screenBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.and.left.equalTo(@0);
+        make.width.equalTo(@(self.playerViewSize.width));
+        make.height.equalTo(@(self.playerViewSize.height));
+    }];
+    
+}
+
+-(void)screeningBgViewCloseAction
+{
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.screenBgView removeFromSuperview];
+        self.screenBgView = nil;
     });
 }
 
@@ -299,6 +364,12 @@ typedef enum : NSUInteger {
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (self.playerView.isScreening) {
+        //正在投屏
+        [@"正在投屏中，请退出投屏再切换视频" showAlert];
+        return;
+    }
     
     DWVodModel * vodModel = [self.vidoeList objectAtIndex:indexPath.row];
     

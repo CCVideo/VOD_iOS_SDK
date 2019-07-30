@@ -30,6 +30,7 @@ input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px;
 *, ::after, ::before { box-sizing: border-box; }
 #write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
 #write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
 h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
 p { orphans: 4; }
 h1 { font-size: 2rem; }
@@ -87,7 +88,6 @@ blockquote > :first-child, li > :first-child { margin-top: 0px; }
   html.blink-to-pdf { font-size: 13px; }
   .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid-page; }
   .typora-export #write::after { height: 0px; }
-  @page { margin: 20mm 0px; }
 }
 .footnote-line { margin-top: 0.714em; font-size: 0.7em; }
 a img, img a { cursor: pointer; }
@@ -138,10 +138,10 @@ a.md-print-anchor { white-space: pre !important; border: none !important; displa
 .MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
 .MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
 .MathJax_SVG * { transition: none; }
-.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
 .os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
 .md-diagram-panel > svg { max-width: 100%; }
-[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; }
+[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; height: auto; }
 [lang="mermaid"] .node text { font-size: 1rem; }
 table tr th { border-bottom-width: 0px; }
 video { max-width: 100%; display: block; margin: 0px auto; }
@@ -493,6 +493,6 @@ header, .context-menu, .megamenu-content, footer{
 </style>
 </head>
 <body class='typora-export' >
-<div  id='write'  class = 'is-mac'><h1><a name='header-n0' class='md-header-anchor '></a>概述</h1><h2><a name='header-n2' class='md-header-anchor '></a>SDK简介</h2><p>iOS点播SDK是适用于iOS平台的云点播SDK。使用此SDK可以与CC视频云服务进行对接，在iOS端使用CC视频的点播功能。</p><h2><a name='header-n4' class='md-header-anchor '></a>设备及开发环境</h2><p>Xcode 集成开发环境。</p><p>iOS 运行环境：iOS 8.0 及以上系统，armv7、arm64、x86_64的CPU架构。</p><h2><a name='header-n7' class='md-header-anchor '></a>功能特性</h2><figure><table><thead><tr><th>功能</th><th style='text-align:left;' >描述</th></tr></thead><tbody><tr><td>播放功能</td><td style='text-align:left;' >支持加密/非加密音视频在线和本地播放</td></tr><tr><td>广告功能</td><td style='text-align:left;' >支持添加视频前贴广告和暂停广告</td></tr><tr><td>播放统计</td><td style='text-align:left;' >支持用户实现播放的统计</td></tr><tr><td>视频打点</td><td style='text-align:left;' >支持用户自定义视频打点功能</td></tr><tr><td>视频问答</td><td style='text-align:left;' >支持用户自定义问答功能</td></tr><tr><td>视频字幕</td><td style='text-align:left;' >支持从服务器获取字幕资源并显示</td></tr><tr><td>授权验证</td><td style='text-align:left;' >支持设置视频是否允许预览</td></tr><tr><td>原片播放</td><td style='text-align:left;' >支持视频上传之后，立即播放</td></tr><tr><td>访客信息收集</td><td style='text-align:left;' >支持访客信息收集功能</td></tr><tr><td>课堂练习</td><td style='text-align:left;' >支持课堂练习功能</td></tr><tr><td>播放器皮肤</td><td style='text-align:left;' >支持带皮肤的播放页面</td></tr><tr><td>VR视频</td><td style='text-align:left;' >支持VR视频播放</td></tr><tr><td>GIF录制</td><td style='text-align:left;' >支持GIF录制功能</td></tr><tr><td>上传功能</td><td style='text-align:left;' >支持音视频上传、断点上传功能</td></tr><tr><td>下载功能</td><td style='text-align:left;' >支持音视频上传、断点下载、批量下载功能</td></tr></tbody></table></figure><p>&nbsp;</p></div>
+<div  id='write'  class = 'is-mac'><h1><a name="%E6%A6%82%E8%BF%B0" class="md-header-anchor"></a><span>概述</span></h1><h2><a name="sdk%E7%AE%80%E4%BB%8B" class="md-header-anchor"></a><span>SDK简介</span></h2><p><span>iOS点播SDK是适用于iOS平台的云点播SDK。使用此SDK可以与CC视频云服务进行对接，在iOS端使用CC视频的点播功能。</span></p><h2><a name="%E8%AE%BE%E5%A4%87%E5%8F%8A%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83" class="md-header-anchor"></a><span>设备及开发环境</span></h2><p><span>Xcode 集成开发环境。</span></p><p><span>iOS 运行环境：iOS 8.0 及以上系统，armv7、arm64、x86_64的CPU架构。</span></p><h2><a name="%E5%8A%9F%E8%83%BD%E7%89%B9%E6%80%A7" class="md-header-anchor"></a><span>功能特性</span></h2><figure><table><thead><tr><th><span>功能</span></th><th style='text-align:left;' ><span>描述</span></th></tr></thead><tbody><tr><td><span>播放功能</span></td><td style='text-align:left;' ><span>支持加密/非加密音视频在线和本地播放</span></td></tr><tr><td><span>广告功能</span></td><td style='text-align:left;' ><span>支持添加视频前贴广告和暂停广告</span></td></tr><tr><td><span>播放统计</span></td><td style='text-align:left;' ><span>支持用户实现播放的统计</span></td></tr><tr><td><span>视频打点</span></td><td style='text-align:left;' ><span>支持用户自定义视频打点功能</span></td></tr><tr><td><span>视频问答</span></td><td style='text-align:left;' ><span>支持用户自定义问答功能</span></td></tr><tr><td><span>视频字幕</span></td><td style='text-align:left;' ><span>支持从服务器获取字幕资源并显示</span></td></tr><tr><td><span>授权验证</span></td><td style='text-align:left;' ><span>支持设置视频是否允许预览</span></td></tr><tr><td><span>原片播放</span></td><td style='text-align:left;' ><span>支持视频上传之后，立即播放</span></td></tr><tr><td><span>访客信息收集</span></td><td style='text-align:left;' ><span>支持访客信息收集功能</span></td></tr><tr><td><span>课堂练习</span></td><td style='text-align:left;' ><span>支持课堂练习功能</span></td></tr><tr><td><span>播放器皮肤</span></td><td style='text-align:left;' ><span>支持带皮肤的播放页面</span></td></tr><tr><td><span>视频投屏</span></td><td style='text-align:left;' ><span>支持DLNA投屏</span></td></tr><tr><td><span>VR视频</span></td><td style='text-align:left;' ><span>支持VR视频播放</span></td></tr><tr><td><span>GIF录制</span></td><td style='text-align:left;' ><span>支持GIF录制功能</span></td></tr><tr><td><span>上传功能</span></td><td style='text-align:left;' ><span>支持音视频上传、断点上传功能</span></td></tr><tr><td><span>下载功能</span></td><td style='text-align:left;' ><span>支持音视频上传、断点下载、批量下载功能</span></td></tr></tbody></table></figure><p>&nbsp;</p></div>
 </body>
 </html>

@@ -84,7 +84,7 @@ static NSInteger setSectionListTableHeight = 60;
         return;
     }
     
-    DWSettingFuncButton * mediaTypeButton = (DWSettingFuncButton *)[self.bgScrollView viewWithTag:101];
+    DWSettingFuncButton * mediaTypeButton = (DWSettingFuncButton *)[self.bgScrollView viewWithTag:102];
     mediaTypeButton.selected = isVideo;
     
     self.sizeArray = sizeList;
@@ -183,13 +183,20 @@ static NSInteger setSectionListTableHeight = 60;
         }
     }
     if (button.tag == 101) {
+        //投屏
+        if ([_delegate respondsToSelector:@selector(playerSettingViewScreeningAction)]) {
+            [_delegate playerSettingViewScreeningAction];
+        }
+    }
+    
+    if (button.tag == 102) {
         //音视频切换
         button.selected = !button.selected;
         if ([_delegate respondsToSelector:@selector(playerSettingViewMediaTypeAction)]) {
             [_delegate playerSettingViewMediaTypeAction];
         }
     }
-    if (button.tag == 102) {
+    if (button.tag == 103) {
         //网络检测
         if ([_delegate respondsToSelector:@selector(playerSettingViewNetworkMonitorAction)]) {
             [_delegate playerSettingViewNetworkMonitorAction];
@@ -350,16 +357,16 @@ static NSInteger setSectionListTableHeight = 60;
         self.bgScrollView.frame = CGRectMake(0, 0, self.bgView.frame.size.width, self.bgView.frame.size.height);
         [self.bgView addSubview:self.bgScrollView];
         
-        NSArray * titles = @[@"下载",@"视频播放",@"网络检测"];
-        NSArray * images = @[@"icon_setting_dwonload.png",@"icon_setting_video.png",@"icon_setting_network.png"];
-        CGFloat buttonWidth = 58.0;
-        CGFloat space = (self.bgView.frame.size.width - buttonWidth * 3 - 10 * 2) / 2.0;
+        NSArray * titles = @[@"下载",@"投屏",@"视频播放",@"网络检测"];
+        NSArray * images = @[@"icon_setting_dwonload.png",@"icon_screen_horizontal.png",@"icon_setting_video.png",@"icon_setting_network.png"];
+        CGFloat buttonWidth = 48.0;
+        CGFloat space = (self.bgView.frame.size.width - buttonWidth * titles.count - 10 * 2) / 2.0;
         for (int i = 0; i < titles.count; i++) {
             DWSettingFuncButton * button = [DWSettingFuncButton buttonWithType:UIButtonTypeCustom];
             button.frame = CGRectMake(10 + (buttonWidth + space) * i, 20, buttonWidth, 46);
             [button setTitle:[titles objectAtIndex:i] forState:UIControlStateNormal];
             [button setImage:[UIImage imageNamed:[images objectAtIndex:i]] forState:UIControlStateNormal];
-            if (i == 1) {
+            if (i == 2) {
                 [button setTitle:@"音频播放" forState:UIControlStateSelected];
                 [button setImage:[UIImage imageNamed:@"icon_setting_radio.png"] forState:UIControlStateSelected];
             }

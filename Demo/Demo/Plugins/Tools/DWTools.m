@@ -4,6 +4,7 @@
 #import "sys/utsname.h"
 #import <ifaddrs.h>
 #import <arpa/inet.h>
+#import <SystemConfiguration/CaptiveNetwork.h>
 
 #define ScreenScale  ScreenHeight/ScreenWidth
 #define CR_COLOR(RED, GREEN, BLUE, ALPHA)    [UIColor colorWithRed:RED green:GREEN blue:BLUE alpha:ALPHA]
@@ -467,6 +468,21 @@
     freeifaddrs(interfaces);
     return address;
     
+}
+
+//获取wifi名称
++ (NSString *)getWifiName
+{
+    NSString *ssid = nil;
+    CFArrayRef array = CNCopySupportedInterfaces();
+    if (array != nil) {
+        CFDictionaryRef myDict = CNCopyCurrentNetworkInfo(CFArrayGetValueAtIndex(array, 0));
+        if (myDict != nil) {
+            NSDictionary *dict = (NSDictionary*)CFBridgingRelease(myDict);
+            ssid = [dict valueForKey:@"SSID"];
+        }
+    }
+    return ssid;
 }
 
 @end

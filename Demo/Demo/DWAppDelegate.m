@@ -31,7 +31,7 @@
     {
         NSLog(@"Error setting audio session active: %@", activeError);
     }
-    
+        
     //后台下载设置
     [[DWDownloadSessionManager manager] configureBackroundSession];
     

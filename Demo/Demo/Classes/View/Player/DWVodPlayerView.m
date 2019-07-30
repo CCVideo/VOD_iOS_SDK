@@ -58,6 +58,7 @@
 @property(nonatomic,strong)UIButton * otherFuncButton;//其他功能，字幕切换，画面尺寸之类的
 @property(nonatomic,strong)UIButton * vrInteractiveButton;//vrButton
 @property(nonatomic,strong)UIButton * vrDisplayButton;//vrButton
+@property(nonatomic,strong)UIButton * screeningButton;//投屏按钮
 
 //bottom
 @property(nonatomic,strong)DWPlayerFuncBgView * bottomFuncBgView;
@@ -147,6 +148,9 @@
 @property (nonatomic,strong)DWExercisesAlertView * exercisesAlertView;//课堂练习提示View
 @property (nonatomic,strong)DWExercisesView * exercisesView;//课堂练习view
 
+//**************************** airPlay ****************************
+@property(nonatomic,strong)UILabel * airPlayStatusLabel;
+
 @end
 
 @implementation DWVodPlayerView
@@ -159,9 +163,12 @@ static const CGFloat gifSeconds = 0.25;
 {
     if (self == [super init]) {
         
+        [UIApplication sharedApplication].idleTimerDisabled = YES;
+
         self.isFull = NO;
         self.isShowMarkView = NO;
         self.isLock = NO;
+        self.isScreening = NO;
         self.backgroundColor = [UIColor blackColor];
         
         [self initMaskView];
@@ -171,6 +178,7 @@ static const CGFloat gifSeconds = 0.25;
         [self initPlayerView];
         [self initRadioView];
         [self initFuncGesture];
+        [self initAirPlayView];
         
         //初始化时，默认竖屏设置
         [self hideAndClearNotNecessaryView];
@@ -190,19 +198,24 @@ static const CGFloat gifSeconds = 0.25;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterForegroundNotification) name:UIApplicationWillEnterForegroundNotification object:nil];
         // app退到后台
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resignActiveNotification) name:UIApplicationWillResignActiveNotification object:nil];
-
+        
+        //airplay监听
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wirelessRouteActiveNotification:) name:MPVolumeViewWirelessRouteActiveDidChangeNotification object:nil];
     }
     return self;
 }
 
 -(void)dealloc
 {
+    [UIApplication sharedApplication].idleTimerDisabled = NO;
+
     //移除网络监听
     [self.reachability stopNotifier];
     self.reachability = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPVolumeViewWirelessRouteActiveDidChangeNotification object:nil];
     NSLog(@"DWVodPlayerView dealloc");
 }
 
@@ -316,6 +329,11 @@ static const CGFloat gifSeconds = 0.25;
     _vodModel = vodModel;
     
     self.titleLabel.text = vodModel.title;
+}
+
+-(NSString *)videoTitle
+{
+    return self.titleLabel.text;
 }
 
 #pragma mark - function
@@ -501,10 +519,19 @@ static const CGFloat gifSeconds = 0.25;
                 [self.vrLibrary switchInteractiveMode:DWModeInteractiveMotion];
             }
             [self.vrLibrary switchInteractiveMode:_interative];
+            
+            [_vrInteractiveButton mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(@(-(40 * 1) - 10));
+            }];
+            
+            [_vrDisplayButton mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(@(-(40 * 2) - 10));
+            }];
         }
-        
+    
     }else{
         self.mediaKindButton.hidden = NO;
+        self.screeningButton.hidden = NO;
         self.rotateScreenButton.hidden = NO;
         //回复锁屏状态
         self.disableGesButton.selected = NO;
@@ -560,6 +587,14 @@ static const CGFloat gifSeconds = 0.25;
                 [self.vrLibrary switchInteractiveMode:DWModeInteractiveMotion];
             }
             [self.vrLibrary switchInteractiveMode:_interative];
+            
+            [_vrInteractiveButton mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(@(-(40 * 2) - 10));
+            }];
+            
+            [_vrDisplayButton mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(@(-(40 * 3) - 10));
+            }];
         }
 
     }
@@ -579,6 +614,7 @@ static const CGFloat gifSeconds = 0.25;
     //top
     self.mediaKindButton.hidden = YES;
     self.otherFuncButton.hidden = YES;
+    self.screeningButton.hidden = YES;
     
     //bottom
     self.nextButton.hidden = YES;
@@ -590,7 +626,7 @@ static const CGFloat gifSeconds = 0.25;
     //left
     self.gifButton.hidden = YES;
     self.disableGesButton.hidden = YES;
-
+    
     //打点视图隐藏
     self.isShowMarkView = NO;
     [self showOrHiddenMarkView:YES];
@@ -1139,6 +1175,15 @@ static const CGFloat gifSeconds = 0.25;
     }
 }
 
+-(void)screeningButtonAction
+{
+    [self pause];
+    
+    if ([self.delegate respondsToSelector:@selector(vodPlayerView:ScreeningJumpAction:)]) {
+        [self.delegate vodPlayerView:self ScreeningJumpAction:self.playerView.qualityModel.playUrl];
+    }
+}
+
 //其他设置
 -(void)otherFuncButtonAction
 {
@@ -1332,6 +1377,10 @@ static const CGFloat gifSeconds = 0.25;
             [@"切换到wi-fi网络" showAlert];
             if (self.videoModel) {
                 //切换到wifi  继续播放
+                if (self.isScreening) {
+                    return;
+                }
+                
                 if (!self.playerView.playing) {
                     [self play];
                 }
@@ -1357,6 +1406,11 @@ static const CGFloat gifSeconds = 0.25;
 #pragma mark - 前后台切换
 -(void)enterForegroundNotification
 {
+    //投屏时，禁止播放
+    if (self.isScreening) {
+        return;
+    }
+    
     if (_questionView || self.visitorCollectView || self.exercisesAlertView || self.exercisesView) {
         return;
     }
@@ -1370,6 +1424,15 @@ static const CGFloat gifSeconds = 0.25;
 {
     if (self.isVideo) {
         [self pause];
+    }
+}
+
+-(void)wirelessRouteActiveNotification:(NSNotification *)noti
+{
+    MPVolumeView * volumeView = (MPVolumeView *)noti.object;
+    self.airPlayStatusLabel.hidden = !volumeView.wirelessRouteActive;
+    if (!self.airPlayStatusLabel.hidden) {
+        [self play];
     }
 }
 
@@ -1547,7 +1610,8 @@ static const CGFloat gifSeconds = 0.25;
 
 - (void)showFeedBackView:(DWVideoQuestionModel *)model withRight:(BOOL )right
 {
-    model.isShow = NO;
+    //视频问答修改流程
+    model.isShow = !right;
     
     self.feedBackView =[[DWFeedBackView alloc]initWithFrame:CGRectMake(0,0,ScreenWidth,ScreenHeight)];
     [self.questionView addSubview:self.feedBackView];
@@ -2217,7 +2281,7 @@ static const CGFloat gifSeconds = 0.25;
             imageUrl = @"icon_placeholder.png";
         }
         
-        DWDownloadModel * model = [DWDownloadSessionManager createDownloadModel:self.videoModel Quality:qualitiyModel.quality AndOthersInfo:@{@"imageUrl":imageUrl,@"title":title}];
+        DWDownloadModel * model = [DWDownloadSessionManager createDownloadModel:vodVideo Quality:qualitiyModel.quality AndOthersInfo:@{@"imageUrl":imageUrl,@"title":title}];
         
         if (!model) {
             [@"DownloadModel创建失败，请检查参数" showAlert];
@@ -2231,6 +2295,14 @@ static const CGFloat gifSeconds = 0.25;
     };
     
     [playinfo start];
+}
+
+//投屏回调
+-(void)playerSettingViewScreeningAction
+{
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationPortrait] forKey:@"orientation"];
+    
+    [self screeningButtonAction];
 }
 
 //音视频回调
@@ -2377,6 +2449,8 @@ static const CGFloat gifSeconds = 0.25;
     if (_hud) {
         [self hideHudWithMessage:nil];
     }
+    
+    self.currentPlayDuration = time;
 
     //授权验证功能
     [self verificationCode:time];
@@ -2503,6 +2577,30 @@ static const CGFloat gifSeconds = 0.25;
         make.centerY.equalTo(self.backButton);
     }];
     
+    self.screeningButton.hidden = YES;
+    [self.topFuncBgView addSubview:self.screeningButton];
+    [_screeningButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(@(-(40 * 1) - 10));
+        make.width.and.height.equalTo(@30);
+        make.centerY.equalTo(self.backButton);
+    }];
+    
+    self.vrInteractiveButton.hidden = YES;
+    [self.topFuncBgView addSubview:self.vrInteractiveButton];
+    [_vrInteractiveButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(@(-(40 * 2) - 10));
+        make.width.and.height.equalTo(@30);
+        make.centerY.equalTo(self.backButton);
+    }];
+    
+    self.vrDisplayButton.hidden = YES;
+    [self.topFuncBgView addSubview:self.vrDisplayButton];
+    [_vrDisplayButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(@(-(40 * 3) - 10));
+        make.width.and.height.equalTo(@30);
+        make.centerY.equalTo(self.backButton);
+    }];
+    /*
     self.vrInteractiveButton.hidden = YES;
     [self.topFuncBgView addSubview:self.vrInteractiveButton];
     [_vrInteractiveButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -2518,6 +2616,7 @@ static const CGFloat gifSeconds = 0.25;
         make.width.and.height.equalTo(@30);
         make.centerY.equalTo(self.backButton);
     }];
+    */
 }
 
 //底部控件
@@ -2669,7 +2768,7 @@ static const CGFloat gifSeconds = 0.25;
         self.vrDisplayButton.hidden = NO;
         
         [_titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(@(-(40 * 3) - 10 - 5));
+            make.right.equalTo(@(-(40 * 4) - 10 - 5));
         }];
         
         //vr初始化设置
@@ -2727,6 +2826,17 @@ static const CGFloat gifSeconds = 0.25;
     [_config pinchEnabled:true];
     [_config setDirectorFactory:[[CustomDirectorFactory alloc]init]];
     self.vrLibrary = [_config build];
+}
+
+-(void)initAirPlayView
+{
+    [self addSubview:self.airPlayStatusLabel];
+    self.airPlayStatusLabel.hidden = YES;
+    [self.airPlayStatusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self);
+        make.height.equalTo(@15);
+        make.width.equalTo(@(200));
+    }];
 }
 
 #pragma mark - lazyLoad
@@ -2804,6 +2914,16 @@ static const CGFloat gifSeconds = 0.25;
     return _vrDisplayButton;
 }
 
+-(UIButton *)screeningButton
+{
+    if (!_screeningButton) {
+        _screeningButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_screeningButton setImage:[UIImage imageNamed:@"icon_screen_vertical.png"] forState:UIControlStateNormal];
+        [_screeningButton addTarget:self action:@selector(screeningButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _screeningButton;
+}
+
 //底部
 -(DWPlayerFuncBgView *)bottomFuncBgView
 {
@@ -2813,14 +2933,6 @@ static const CGFloat gifSeconds = 0.25;
     }
     return _bottomFuncBgView;
 }
-//-(UIView *)bottomFuncBgView
-//{
-//    if (!_bottomFuncBgView) {
-//        _bottomFuncBgView = [[UIView alloc]init];
-//        _bottomFuncBgView.backgroundColor = [UIColor blackColor];
-//    }
-//    return _bottomFuncBgView;
-//}
 
 -(UIButton *)playOrPauseButton
 {
@@ -3205,6 +3317,18 @@ static const CGFloat gifSeconds = 0.25;
         _vrView = [[UIView alloc]init];
     }
     return _vrView;
+}
+
+-(UILabel *)airPlayStatusLabel
+{
+    if (!_airPlayStatusLabel) {
+        _airPlayStatusLabel = [[UILabel alloc]init];
+        _airPlayStatusLabel.font = TitleFont(15);
+        _airPlayStatusLabel.textAlignment = NSTextAlignmentCenter;
+        _airPlayStatusLabel.textColor = [UIColor whiteColor];
+        _airPlayStatusLabel.text = @"AirPlay投屏中";
+    }
+    return _airPlayStatusLabel;
 }
 
 /*

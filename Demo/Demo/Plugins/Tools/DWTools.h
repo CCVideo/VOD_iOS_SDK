@@ -41,4 +41,7 @@
 //获取IP地址
 + (NSString *)getIPAddress;
 
+//获取wifi名称
++ (NSString *)getWifiName;
+
 @end

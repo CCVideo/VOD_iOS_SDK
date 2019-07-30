@@ -25,6 +25,8 @@ typedef NS_ENUM(NSInteger, DWVodSettingStyle) {
 //DWVodSettingStyleTotal 回调
 //下载回调
 -(void)playerSettingViewDownloadAction;
+//投屏回调
+-(void)playerSettingViewScreeningAction;
 //音视频回调
 -(void)playerSettingViewMediaTypeAction;
 //网络检测回调
