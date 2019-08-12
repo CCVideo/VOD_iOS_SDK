@@ -173,11 +173,7 @@
     
     if (self.totolButton.selected) {
         //暂停
-        for (DWDownloadModel * downloadModel in self.downloadList) {
-            if (downloadModel.state == DWDownloadStateRunning) {
-                [self.manager suspendWithDownloadModel:downloadModel];
-            }
-        }
+        [self.manager suspendAllDownloadModel];
     }else{
         //开始
         for (DWDownloadModel * downloadModel in self.downloadList) {

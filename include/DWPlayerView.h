@@ -114,10 +114,15 @@ typedef NS_ENUM(NSUInteger, DWPlayerViewLoadStyle) {
 @property(nonatomic,assign)DWPlayerViewLoadStyle loadStyle;
 
 /**
+ 是否开启防录屏模式，默认为NO。
+ 注意：此属性仅针对iOS11以上系统生效。
+ */
+@property(nonatomic,assign)BOOL videoProtect;
+
+/**
  期待缓冲时长 默认 0，建议取值1 ~ 50 。
  注意：此属性仅针对iOS10以上系统， m3u8格式视频有效。
  */
-
 @property(nonatomic,assign)NSTimeInterval forwardBufferDuration;
 
 /**

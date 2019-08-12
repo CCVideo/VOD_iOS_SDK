@@ -121,6 +121,11 @@
 -(void)deleteWithDownloadModel:(DWDownloadModel *)downloadModel;
 
 /**
+ 暂停全部任务
+ */
+-(void)suspendAllDownloadModel;
+
+/**
  删除全部任务
  */
 -(void)deleteAllDownloadModel;

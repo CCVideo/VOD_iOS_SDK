@@ -106,16 +106,39 @@ typedef void (^DWErrorBlock)(NSError *error);
            notifyURL:(NSString *)notifyURL;
 
 /**
- *  @brief 重新初始化上传对象
- *
- *  @param videoContext 通过 videoContextTryBlock 获取的视频上传上下文。
- *  使用该方法重新初始化 uploader，调用 resume 方法继续上传。
- *
- *  如果 videoContextTryBlock 未调用，则需要通过 initWithUserId:... 方法重新初始化对象，调用 start 重新上传。
- *
- *  @return 成功返回上传对象，如果 videoContext 无效，则初始化失败，返回nil。
+  重新初始化上传对象
+
+ @param videoContext  通过 videoContextTryBlock 获取的视频上传上下文。
+                                      使用该方法重新初始化 uploader，调用 resume 方法继续上传。
+                                      如果 videoContextTryBlock 未调用，则需要通过 initWithUserId:... 方法重新初始化对象，调用 start 重新上传。
+ 
+ @return 成功返回上传对象，如果 videoContext 无效，则初始化失败，返回nil。
  */
 - (id)initWithVideoContext:(NSDictionary *)videoContext;
+
+/**
+ 添加视频水印，请在上传开始前调用此方法。
+
+ @param text 水印文字内容, 1-50个字符，数字、字母、汉字，不填写则文字水印不生效
+ @param corner 水印位置0,左上 1右上 2左下 3右下，默认3，非必填
+ @param offsetX X轴偏移像素值，要求大于0，默认值5,超出视频大小按默认值，非必填
+ @param offsetY Y轴偏移像素值，要求大于0，默认值5,超出视频大小按默认值，非必填
+ @param fontFamily 字体类型：0,微软雅黑 1宋体 2黑体，默认0，非必填
+ @param fontSize 字体大小，[0-100]，默认12
+ @param fontColor 16进制字体颜色，如#FFFFFF，不能写#号，默认灰色D3D3D3，非必填
+ @param fontAlpha 透明度，[0-100],默认100，100为不透明，非必填
+ @return 是否设置成功。YES 设置成功，NO 设置失败，参数不合法
+ */
+
+-(BOOL)insertWaterMarkWithText:(NSString *)text
+                        Corner:(NSNumber *)corner
+                       OffsetX:(NSNumber *)offsetX
+                       OffsetY:(NSNumber *)offsetY
+                    FontFamily:(NSNumber *)fontFamily
+                      FontSize:(NSNumber *)fontSize
+                     FontColor:(NSString *)fontColor
+                     FontAlpha:(NSNumber *)fontAlpha;
+
 
 /**
  iscrop: @"1"为裁剪 @“0”不裁剪 不设置默认为不裁剪

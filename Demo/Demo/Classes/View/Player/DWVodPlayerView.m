@@ -2736,6 +2736,8 @@ static const CGFloat gifSeconds = 0.25;
 //    self.playerView.loadStyle = DWPlayerViewLoadStyleImmediately;
     self.playerView.forwardBufferDuration = 30;
     self.playerView.delegate = self;
+    //是否开启防录屏
+//    self.playerView.videoProtect = YES;
     [self insertSubview:self.playerView atIndex:0];
     [_playerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self);

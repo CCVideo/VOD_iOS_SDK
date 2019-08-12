@@ -238,6 +238,16 @@ static NSString *const uploadsArray =@"uploadsArray";
                                         videoPath:model.videoPath
                                         notifyURL:@"http://www.bokecc.com/"];
     
+    //若需添加视频动态水印，请取消注释并修改参数即可
+//    [uploader insertWaterMarkWithText:@"视频动态水印"
+//                               Corner:@0
+//                              OffsetX:@5
+//                              OffsetY:@5
+//                           FontFamily:@0
+//                             FontSize:@20
+//                            FontColor:@"FF00FF"
+//                            FontAlpha:@90];
+    
     __weak typeof(self) weakSelf = self;
     uploader.delegate =self;
     uploader.progressBlock = ^(float progress, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite) {
