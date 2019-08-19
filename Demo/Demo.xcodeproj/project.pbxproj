@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		040A47D32301086B00180DE1 /* vrlibraw.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 040A47B82301086B00180DE1 /* vrlibraw.bundle */; };
-		040A47D42301086B00180DE1 /* libCCSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 040A47C62301086B00180DE1 /* libCCSDK.a */; };
-		040A47D52301086B00180DE1 /* DWResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 040A47CD2301086B00180DE1 /* DWResource.bundle */; };
 		0412FA8E2266C12600D8E6C1 /* DWPlayerSettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0412FA8D2266C12600D8E6C1 /* DWPlayerSettingView.m */; };
 		0412FA912266D0D800D8E6C1 /* DWTableChooseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0412FA902266D0D800D8E6C1 /* DWTableChooseModel.m */; };
 		0425D5B122F2B269002C5195 /* DWUploadWaterMarkSettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0425D5B022F2B269002C5195 /* DWUploadWaterMarkSettingView.m */; };
@@ -129,7 +126,6 @@
 		049FF0B4225EEEA700D944C5 /* DWUploadInfoSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 049FEF73225EEEA000D944C5 /* DWUploadInfoSetupViewController.m */; };
 		049FF0B5225EEEA700D944C5 /* DWFeedBackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049FEF74225EEEA000D944C5 /* DWFeedBackView.m */; };
 		049FF0B6225EEEA700D944C5 /* DWSubtitleAnalysis.m in Sources */ = {isa = PBXBuildFile; fileRef = 049FEF75225EEEA000D944C5 /* DWSubtitleAnalysis.m */; };
-		049FF0B9225EEEA700D944C5 /* DWUploadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 049FEF7C225EEEA100D944C5 /* DWUploadModel.m */; };
 		049FF0BA225EEEA700D944C5 /* DWNetworkMonitorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 049FEF7D225EEEA100D944C5 /* DWNetworkMonitorViewController.m */; };
 		049FF0BD225EEEA700D944C5 /* DWUploadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 049FEF81225EEEA100D944C5 /* DWUploadTableViewCell.m */; };
 		049FF111225EEEA700D944C5 /* DWMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049FEFD6225EEEA200D944C5 /* DWMessageView.m */; };
@@ -253,6 +249,9 @@
 		04F0B79F22602D8F0097C3CB /* icon_return_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F0B79D22602D8F0097C3CB /* icon_return_black@2x.png */; };
 		04F0B7A022602D8F0097C3CB /* icon_return_black@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F0B79E22602D8F0097C3CB /* icon_return_black@3x.png */; };
 		04F0B7A3226054D50097C3CB /* DWMemberGeneralButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F0B7A2226054D50097C3CB /* DWMemberGeneralButton.m */; };
+		04FB3A77230A7A8700F70101 /* vrlibraw.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04FB3A5B230A7A8700F70101 /* vrlibraw.bundle */; };
+		04FB3A78230A7A8700F70101 /* libCCSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FB3A68230A7A8700F70101 /* libCCSDK.a */; };
+		04FB3A79230A7A8700F70101 /* DWResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04FB3A70230A7A8700F70101 /* DWResource.bundle */; };
 		04FFA9AB226426CC008C2713 /* DWVodPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FFA9AA226426CC008C2713 /* DWVodPlayViewController.m */; };
 		04FFA9AE226426E0008C2713 /* DWVodModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FFA9AD226426E0008C2713 /* DWVodModel.m */; };
 		04FFA9B122642E7D008C2713 /* DWVodPlayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FFA9B022642E7D008C2713 /* DWVodPlayTableViewCell.m */; };
@@ -307,39 +306,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		040A47B22301086B00180DE1 /* DWExt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWExt.h; sourceTree = "<group>"; };
-		040A47B32301086B00180DE1 /* DWVRHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWVRHeader.h; sourceTree = "<group>"; };
-		040A47B42301086B00180DE1 /* DWDownloadSessionManager+File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DWDownloadSessionManager+File.h"; sourceTree = "<group>"; };
-		040A47B52301086B00180DE1 /* DWErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWErrorCode.h; sourceTree = "<group>"; };
-		040A47B62301086B00180DE1 /* NSURLSession+DWCorrectedResumeData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+DWCorrectedResumeData.h"; sourceTree = "<group>"; };
-		040A47B72301086B00180DE1 /* DWAdInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWAdInfo.h; sourceTree = "<group>"; };
-		040A47B82301086B00180DE1 /* vrlibraw.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = vrlibraw.bundle; sourceTree = "<group>"; };
-		040A47B92301086B00180DE1 /* DWBatchDownloadUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWBatchDownloadUtility.h; sourceTree = "<group>"; };
-		040A47BA2301086B00180DE1 /* DWLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWLog.h; sourceTree = "<group>"; };
-		040A47BB2301086B00180DE1 /* DWVideoDataAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWVideoDataAdapter.h; sourceTree = "<group>"; };
-		040A47BC2301086B00180DE1 /* DWGIFManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWGIFManager.h; sourceTree = "<group>"; };
-		040A47BD2301086B00180DE1 /* DWVodVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWVodVideoModel.h; sourceTree = "<group>"; };
-		040A47BE2301086B00180DE1 /* DWUPnPDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUPnPDevice.h; sourceTree = "<group>"; };
-		040A47BF2301086B00180DE1 /* DWSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWSDK.h; sourceTree = "<group>"; };
-		040A47C02301086B00180DE1 /* DWUPnPRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUPnPRenderer.h; sourceTree = "<group>"; };
-		040A47C12301086B00180DE1 /* DWDownloadSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWDownloadSessionManager.h; sourceTree = "<group>"; };
-		040A47C22301086B00180DE1 /* DWDownloadUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWDownloadUtility.h; sourceTree = "<group>"; };
-		040A47C32301086B00180DE1 /* DWUPnPResponseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUPnPResponseDelegate.h; sourceTree = "<group>"; };
-		040A47C42301086B00180DE1 /* DWUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUploader.h; sourceTree = "<group>"; };
-		040A47C52301086B00180DE1 /* DWUPnPAVPositionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUPnPAVPositionInfo.h; sourceTree = "<group>"; };
-		040A47C62301086B00180DE1 /* libCCSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCCSDK.a; sourceTree = "<group>"; };
-		040A47C72301086B00180DE1 /* DWDownloadModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWDownloadModel.h; sourceTree = "<group>"; };
-		040A47C82301086B00180DE1 /* DWPlayerSkinView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWPlayerSkinView.h; sourceTree = "<group>"; };
-		040A47C92301086B00180DE1 /* DWPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWPlayerView.h; sourceTree = "<group>"; };
-		040A47CA2301086B00180DE1 /* DWUPnPSubscription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUPnPSubscription.h; sourceTree = "<group>"; };
-		040A47CB2301086B00180DE1 /* DWUPnPSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUPnPSearch.h; sourceTree = "<group>"; };
-		040A47CC2301086B00180DE1 /* DWVRLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWVRLibrary.h; sourceTree = "<group>"; };
-		040A47CD2301086B00180DE1 /* DWResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DWResource.bundle; sourceTree = "<group>"; };
-		040A47CE2301086B00180DE1 /* DWVodAdInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWVodAdInfoModel.h; sourceTree = "<group>"; };
-		040A47CF2301086B00180DE1 /* DWPlayInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWPlayInfo.h; sourceTree = "<group>"; };
-		040A47D02301086B00180DE1 /* DW360Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DW360Program.h; sourceTree = "<group>"; };
-		040A47D12301086B00180DE1 /* DW360Director.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DW360Director.h; sourceTree = "<group>"; };
-		040A47D22301086B00180DE1 /* DWVideoCompressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWVideoCompressController.h; sourceTree = "<group>"; };
 		0412FA8C2266C12600D8E6C1 /* DWPlayerSettingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWPlayerSettingView.h; sourceTree = "<group>"; };
 		0412FA8D2266C12600D8E6C1 /* DWPlayerSettingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWPlayerSettingView.m; sourceTree = "<group>"; };
 		0412FA8F2266D0D800D8E6C1 /* DWTableChooseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWTableChooseModel.h; sourceTree = "<group>"; };
@@ -567,8 +533,6 @@
 		049FEF74225EEEA000D944C5 /* DWFeedBackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWFeedBackView.m; sourceTree = "<group>"; };
 		049FEF75225EEEA000D944C5 /* DWSubtitleAnalysis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWSubtitleAnalysis.m; sourceTree = "<group>"; };
 		049FEF77225EEEA100D944C5 /* DWToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWToastView.h; sourceTree = "<group>"; };
-		049FEF7B225EEEA100D944C5 /* DWUploadModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUploadModel.h; sourceTree = "<group>"; };
-		049FEF7C225EEEA100D944C5 /* DWUploadModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWUploadModel.m; sourceTree = "<group>"; };
 		049FEF7D225EEEA100D944C5 /* DWNetworkMonitorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWNetworkMonitorViewController.m; sourceTree = "<group>"; };
 		049FEF80225EEEA100D944C5 /* DWQuestionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWQuestionView.h; sourceTree = "<group>"; };
 		049FEF81225EEEA100D944C5 /* DWUploadTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWUploadTableViewCell.m; sourceTree = "<group>"; };
@@ -717,6 +681,40 @@
 		04F0B79E22602D8F0097C3CB /* icon_return_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_return_black@3x.png"; sourceTree = "<group>"; };
 		04F0B7A1226054D50097C3CB /* DWMemberGeneralButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWMemberGeneralButton.h; sourceTree = "<group>"; };
 		04F0B7A2226054D50097C3CB /* DWMemberGeneralButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWMemberGeneralButton.m; sourceTree = "<group>"; };
+		04FB3A55230A7A8700F70101 /* DWExt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWExt.h; sourceTree = "<group>"; };
+		04FB3A56230A7A8700F70101 /* DWVRHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWVRHeader.h; sourceTree = "<group>"; };
+		04FB3A57230A7A8700F70101 /* DWDownloadSessionManager+File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DWDownloadSessionManager+File.h"; sourceTree = "<group>"; };
+		04FB3A58230A7A8700F70101 /* DWErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWErrorCode.h; sourceTree = "<group>"; };
+		04FB3A59230A7A8700F70101 /* NSURLSession+DWCorrectedResumeData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+DWCorrectedResumeData.h"; sourceTree = "<group>"; };
+		04FB3A5A230A7A8700F70101 /* DWAdInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWAdInfo.h; sourceTree = "<group>"; };
+		04FB3A5B230A7A8700F70101 /* vrlibraw.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = vrlibraw.bundle; sourceTree = "<group>"; };
+		04FB3A5C230A7A8700F70101 /* DWBatchDownloadUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWBatchDownloadUtility.h; sourceTree = "<group>"; };
+		04FB3A5D230A7A8700F70101 /* DWLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWLog.h; sourceTree = "<group>"; };
+		04FB3A5E230A7A8700F70101 /* DWVideoDataAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWVideoDataAdapter.h; sourceTree = "<group>"; };
+		04FB3A5F230A7A8700F70101 /* DWGIFManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWGIFManager.h; sourceTree = "<group>"; };
+		04FB3A60230A7A8700F70101 /* DWVodVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWVodVideoModel.h; sourceTree = "<group>"; };
+		04FB3A61230A7A8700F70101 /* DWUPnPDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUPnPDevice.h; sourceTree = "<group>"; };
+		04FB3A62230A7A8700F70101 /* DWSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWSDK.h; sourceTree = "<group>"; };
+		04FB3A63230A7A8700F70101 /* DWUPnPRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUPnPRenderer.h; sourceTree = "<group>"; };
+		04FB3A64230A7A8700F70101 /* DWDownloadSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWDownloadSessionManager.h; sourceTree = "<group>"; };
+		04FB3A65230A7A8700F70101 /* DWDownloadUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWDownloadUtility.h; sourceTree = "<group>"; };
+		04FB3A66230A7A8700F70101 /* DWUPnPResponseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUPnPResponseDelegate.h; sourceTree = "<group>"; };
+		04FB3A67230A7A8700F70101 /* DWUPnPAVPositionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUPnPAVPositionInfo.h; sourceTree = "<group>"; };
+		04FB3A68230A7A8700F70101 /* libCCSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCCSDK.a; sourceTree = "<group>"; };
+		04FB3A69230A7A8700F70101 /* DWDownloadModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWDownloadModel.h; sourceTree = "<group>"; };
+		04FB3A6A230A7A8700F70101 /* DWPlayerSkinView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWPlayerSkinView.h; sourceTree = "<group>"; };
+		04FB3A6B230A7A8700F70101 /* DWPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWPlayerView.h; sourceTree = "<group>"; };
+		04FB3A6C230A7A8700F70101 /* DWUPnPSubscription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUPnPSubscription.h; sourceTree = "<group>"; };
+		04FB3A6D230A7A8700F70101 /* DWUPnPSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUPnPSearch.h; sourceTree = "<group>"; };
+		04FB3A6E230A7A8700F70101 /* DWVRLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWVRLibrary.h; sourceTree = "<group>"; };
+		04FB3A6F230A7A8700F70101 /* DWUploadModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUploadModel.h; sourceTree = "<group>"; };
+		04FB3A70230A7A8700F70101 /* DWResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DWResource.bundle; sourceTree = "<group>"; };
+		04FB3A71230A7A8700F70101 /* DWVodAdInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWVodAdInfoModel.h; sourceTree = "<group>"; };
+		04FB3A72230A7A8700F70101 /* DWPlayInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWPlayInfo.h; sourceTree = "<group>"; };
+		04FB3A73230A7A8700F70101 /* DW360Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DW360Program.h; sourceTree = "<group>"; };
+		04FB3A74230A7A8700F70101 /* DW360Director.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DW360Director.h; sourceTree = "<group>"; };
+		04FB3A75230A7A8700F70101 /* DWVideoCompressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWVideoCompressController.h; sourceTree = "<group>"; };
+		04FB3A76230A7A8700F70101 /* DWUploadSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWUploadSessionManager.h; sourceTree = "<group>"; };
 		04FFA9A9226426CC008C2713 /* DWVodPlayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWVodPlayViewController.h; sourceTree = "<group>"; };
 		04FFA9AA226426CC008C2713 /* DWVodPlayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DWVodPlayViewController.m; sourceTree = "<group>"; };
 		04FFA9AC226426E0008C2713 /* DWVodModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DWVodModel.h; sourceTree = "<group>"; };
@@ -789,7 +787,7 @@
 				043441FF225EF2BB003F7EC1 /* CoreServices.framework in Frameworks */,
 				352CBDD91FD6980C00D24715 /* AudioToolbox.framework in Frameworks */,
 				352CBDD71FD697E800D24715 /* MediaPlayer.framework in Frameworks */,
-				040A47D42301086B00180DE1 /* libCCSDK.a in Frameworks */,
+				04FB3A78230A7A8700F70101 /* libCCSDK.a in Frameworks */,
 				B88562A41DED1AC8008D1763 /* SystemConfiguration.framework in Frameworks */,
 				B57CC7C018E2E581001A1696 /* AVFoundation.framework in Frameworks */,
 				B57CC7BE18E2E575001A1696 /* CoreLocation.framework in Frameworks */,
@@ -803,46 +801,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		040A47B12301086B00180DE1 /* SDK */ = {
-			isa = PBXGroup;
-			children = (
-				040A47B22301086B00180DE1 /* DWExt.h */,
-				040A47B32301086B00180DE1 /* DWVRHeader.h */,
-				040A47B42301086B00180DE1 /* DWDownloadSessionManager+File.h */,
-				040A47B52301086B00180DE1 /* DWErrorCode.h */,
-				040A47B62301086B00180DE1 /* NSURLSession+DWCorrectedResumeData.h */,
-				040A47B72301086B00180DE1 /* DWAdInfo.h */,
-				040A47B82301086B00180DE1 /* vrlibraw.bundle */,
-				040A47B92301086B00180DE1 /* DWBatchDownloadUtility.h */,
-				040A47BA2301086B00180DE1 /* DWLog.h */,
-				040A47BB2301086B00180DE1 /* DWVideoDataAdapter.h */,
-				040A47BC2301086B00180DE1 /* DWGIFManager.h */,
-				040A47BD2301086B00180DE1 /* DWVodVideoModel.h */,
-				040A47BE2301086B00180DE1 /* DWUPnPDevice.h */,
-				040A47BF2301086B00180DE1 /* DWSDK.h */,
-				040A47C02301086B00180DE1 /* DWUPnPRenderer.h */,
-				040A47C12301086B00180DE1 /* DWDownloadSessionManager.h */,
-				040A47C22301086B00180DE1 /* DWDownloadUtility.h */,
-				040A47C32301086B00180DE1 /* DWUPnPResponseDelegate.h */,
-				040A47C42301086B00180DE1 /* DWUploader.h */,
-				040A47C52301086B00180DE1 /* DWUPnPAVPositionInfo.h */,
-				040A47C62301086B00180DE1 /* libCCSDK.a */,
-				040A47C72301086B00180DE1 /* DWDownloadModel.h */,
-				040A47C82301086B00180DE1 /* DWPlayerSkinView.h */,
-				040A47C92301086B00180DE1 /* DWPlayerView.h */,
-				040A47CA2301086B00180DE1 /* DWUPnPSubscription.h */,
-				040A47CB2301086B00180DE1 /* DWUPnPSearch.h */,
-				040A47CC2301086B00180DE1 /* DWVRLibrary.h */,
-				040A47CD2301086B00180DE1 /* DWResource.bundle */,
-				040A47CE2301086B00180DE1 /* DWVodAdInfoModel.h */,
-				040A47CF2301086B00180DE1 /* DWPlayInfo.h */,
-				040A47D02301086B00180DE1 /* DW360Program.h */,
-				040A47D12301086B00180DE1 /* DW360Director.h */,
-				040A47D22301086B00180DE1 /* DWVideoCompressController.h */,
-			);
-			path = SDK;
-			sourceTree = "<group>";
-		};
 		0434420D225F0EDD003F7EC1 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -921,8 +879,6 @@
 				04FFA9AD226426E0008C2713 /* DWVodModel.m */,
 				0412FA8F2266D0D800D8E6C1 /* DWTableChooseModel.h */,
 				0412FA902266D0D800D8E6C1 /* DWTableChooseModel.m */,
-				049FEF7B225EEEA100D944C5 /* DWUploadModel.h */,
-				049FEF7C225EEEA100D944C5 /* DWUploadModel.m */,
 				049FEF28225EEE9F00D944C5 /* CustomDirectorFactory.h */,
 				049FF087225EEEA500D944C5 /* CustomDirectorFactory.m */,
 			);
@@ -1494,6 +1450,47 @@
 			path = Authorize;
 			sourceTree = "<group>";
 		};
+		04FB3A54230A7A8700F70101 /* SDK */ = {
+			isa = PBXGroup;
+			children = (
+				04FB3A55230A7A8700F70101 /* DWExt.h */,
+				04FB3A56230A7A8700F70101 /* DWVRHeader.h */,
+				04FB3A57230A7A8700F70101 /* DWDownloadSessionManager+File.h */,
+				04FB3A58230A7A8700F70101 /* DWErrorCode.h */,
+				04FB3A59230A7A8700F70101 /* NSURLSession+DWCorrectedResumeData.h */,
+				04FB3A5A230A7A8700F70101 /* DWAdInfo.h */,
+				04FB3A5B230A7A8700F70101 /* vrlibraw.bundle */,
+				04FB3A5C230A7A8700F70101 /* DWBatchDownloadUtility.h */,
+				04FB3A5D230A7A8700F70101 /* DWLog.h */,
+				04FB3A5E230A7A8700F70101 /* DWVideoDataAdapter.h */,
+				04FB3A5F230A7A8700F70101 /* DWGIFManager.h */,
+				04FB3A60230A7A8700F70101 /* DWVodVideoModel.h */,
+				04FB3A61230A7A8700F70101 /* DWUPnPDevice.h */,
+				04FB3A62230A7A8700F70101 /* DWSDK.h */,
+				04FB3A63230A7A8700F70101 /* DWUPnPRenderer.h */,
+				04FB3A64230A7A8700F70101 /* DWDownloadSessionManager.h */,
+				04FB3A65230A7A8700F70101 /* DWDownloadUtility.h */,
+				04FB3A66230A7A8700F70101 /* DWUPnPResponseDelegate.h */,
+				04FB3A67230A7A8700F70101 /* DWUPnPAVPositionInfo.h */,
+				04FB3A68230A7A8700F70101 /* libCCSDK.a */,
+				04FB3A69230A7A8700F70101 /* DWDownloadModel.h */,
+				04FB3A6A230A7A8700F70101 /* DWPlayerSkinView.h */,
+				04FB3A6B230A7A8700F70101 /* DWPlayerView.h */,
+				04FB3A6C230A7A8700F70101 /* DWUPnPSubscription.h */,
+				04FB3A6D230A7A8700F70101 /* DWUPnPSearch.h */,
+				04FB3A6E230A7A8700F70101 /* DWVRLibrary.h */,
+				04FB3A6F230A7A8700F70101 /* DWUploadModel.h */,
+				04FB3A70230A7A8700F70101 /* DWResource.bundle */,
+				04FB3A71230A7A8700F70101 /* DWVodAdInfoModel.h */,
+				04FB3A72230A7A8700F70101 /* DWPlayInfo.h */,
+				04FB3A73230A7A8700F70101 /* DW360Program.h */,
+				04FB3A74230A7A8700F70101 /* DW360Director.h */,
+				04FB3A75230A7A8700F70101 /* DWVideoCompressController.h */,
+				04FB3A76230A7A8700F70101 /* DWUploadSessionManager.h */,
+			);
+			path = SDK;
+			sourceTree = "<group>";
+		};
 		B547EC3D18E033FB00BC980C = {
 			isa = PBXGroup;
 			children = (
@@ -1533,7 +1530,7 @@
 			isa = PBXGroup;
 			children = (
 				044C66A122D46DAE0032396F /* Demo.entitlements */,
-				040A47B12301086B00180DE1 /* SDK */,
+				04FB3A54230A7A8700F70101 /* SDK */,
 				0434420D225F0EDD003F7EC1 /* Classes */,
 				B547EC5818E033FB00BC980C /* DWAppDelegate.h */,
 				B547EC5918E033FB00BC980C /* DWAppDelegate.m */,
@@ -1672,7 +1669,7 @@
 				04FFA9F622647C84008C2713 /* icon_play_more@3x.png in Resources */,
 				04D60ED722719B9C0009C572 /* icon_play_vr_display_normal@2x.png in Resources */,
 				04FFA9EA22647579008C2713 /* icon_play_full@2x.png in Resources */,
-				040A47D32301086B00180DE1 /* vrlibraw.bundle in Resources */,
+				04FB3A77230A7A8700F70101 /* vrlibraw.bundle in Resources */,
 				04AB4A3B22B1F22A00BB9BF9 /* icon_exercises_answer_f_select@3x.png in Resources */,
 				04EB65DD226D9B6200FAB532 /* icon_setting_sound_low@2x.png in Resources */,
 				B547EC5418E033FB00BC980C /* InfoPlist.strings in Resources */,
@@ -1715,7 +1712,7 @@
 				04FFA9F822647C84008C2713 /* icon_play_gif_normal@3x.png in Resources */,
 				04F0B79F22602D8F0097C3CB /* icon_return_black@2x.png in Resources */,
 				043D018722B76F1C008589DA /* icon_exercises_statistics_error@3x.png in Resources */,
-				040A47D52301086B00180DE1 /* DWResource.bundle in Resources */,
+				04FB3A79230A7A8700F70101 /* DWResource.bundle in Resources */,
 				04FFA9D622647579008C2713 /* icon_play_return@3x.png in Resources */,
 				04D7188B22D45BDC002D41BD /* icon_screen_horizontal@2x.png in Resources */,
 				04AB4A3922B1F22A00BB9BF9 /* icon_exercises_answer_g_select@3x.png in Resources */,
@@ -1921,7 +1918,6 @@
 				04FFA9AB226426CC008C2713 /* DWVodPlayViewController.m in Sources */,
 				043443AA225F436D003F7EC1 /* DWBaseViewController.m in Sources */,
 				047CE82622B8DBD500D87AAF /* DWExercisesView.m in Sources */,
-				049FF0B9225EEEA700D944C5 /* DWUploadModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2034,6 +2030,7 @@
 				HEADER_SEARCH_PATHS = (
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(inherited)",
+					/usr/include/libxml2,
 				);
 				INFOPLIST_FILE = "Demo/Demo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2043,7 +2040,10 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Demo/SDK",
 				);
-				OTHER_LDFLAGS = "-all_load";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-lxml2",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bokecc.demo1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2073,6 +2073,7 @@
 				HEADER_SEARCH_PATHS = (
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(inherited)",
+					/usr/include/libxml2,
 				);
 				INFOPLIST_FILE = "Demo/Demo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2082,7 +2083,10 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Demo/SDK",
 				);
-				OTHER_LDFLAGS = "-all_load";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-lxml2",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bokecc.demo1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

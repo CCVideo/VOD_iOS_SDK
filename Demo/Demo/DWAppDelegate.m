@@ -143,8 +143,11 @@
 }
 
 -(void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)(void))completionHandler
-{    
-    [[DWDownloadSessionManager manager] setBackgroundSessionCompletionHandler:completionHandler];
+{
+    //下载的应该也得 搞个id传进去
+    [[DWDownloadSessionManager manager] setBackgroundSession:identifier CompletionHandler:completionHandler];
+ 
+    [[DWUploadSessionManager manager] setUploadSession:identifier CompletionHandler:completionHandler];
 }
 
 -(UICollectionViewFlowLayout *)getLayout

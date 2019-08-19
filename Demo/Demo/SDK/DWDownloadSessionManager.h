@@ -21,7 +21,7 @@
 - (void)downloadModel:(DWDownloadModel *)downloadModel error:(NSError *)error;
 
 // 后台下载完成时回调
-- (void)backgroundSessionCompletion;
+- (void)downloadBackgroundSessionCompletion;
 
 @end
 
@@ -164,14 +164,13 @@
  */
 -(void)reStartDownloadUrlWithNewUrlString:(NSString *)newUrlString AndDownloadModel:(DWDownloadModel *)downloadModel;
 
-
 /**
  获取appdelegate，handleEventsForBackgroundURLSession事件回调
 
+ @param identifier identifier
  @param completionHandler completionHandler
  */
--(void)setBackgroundSessionCompletionHandler:(void (^)())completionHandler;
-
+-(void)setBackgroundSession:(NSString *)identifier CompletionHandler:(void (^)())completionHandler;
 
 //3.x.x升级4.x.x以上版本所使用的过渡方法
 /**

@@ -61,7 +61,8 @@ typedef NS_ENUM(NSUInteger, DWSDK_SERVICE_ERROR) {
     ERROR_UPLOAD_NOTPERMISSION   = 4005 , //用户服务无权限
     ERROR_UPLOAD_FAIL            = 4100 , //上传失败
     ERROR_UPLOAD_ANALYSIS        = 4150 , //上传数据解析失败
-
+    ERROR_UPLOAD_RECEIVE         = 4301 , //获取上传服务器失败
+    ERROR_UPLOAD_FILEDAMAGED     = 4302 , //上传文件已损坏
 };
 
 #endif /* DWErrorCode_h */

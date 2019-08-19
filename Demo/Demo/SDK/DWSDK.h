@@ -1,5 +1,4 @@
 #import "DWLog.h"
-#import "DWUploader.h"
 #import "DWVideoCompressController.h"
 #import "DWAdInfo.h"
 
@@ -12,6 +11,10 @@
 #import "DWDownloadUtility.h"
 #import "DWBatchDownloadUtility.h"
 
+//上传相关
+#import "DWUploadSessionManager.h"
+#import "DWUploadModel.h"
+
 //VR
 #import "DWVRLibrary.h"
 #import "DWVideoDataAdapter.h"
@@ -23,5 +26,5 @@
 #import "DWVodAdInfoModel.h"
 
 //版本号
-#define SDK_VERSION @"4.2.0"
+#define SDK_VERSION @"4.2.1"
 

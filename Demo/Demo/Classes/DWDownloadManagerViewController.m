@@ -222,9 +222,9 @@
     }
 }
 
--(void)backgroundSessionCompletion
+-(void)downloadBackgroundSessionCompletion
 {
-    NSLog(@"DWDownloadManagerViewController backgroundSessionCompletion");
+    NSLog(@"DWDownloadManagerViewController downloadBackgroundSessionCompletion");
 }
 
 #pragma mark - delegate

@@ -4,31 +4,25 @@
 #import "MJExtension.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #include <AssetsLibrary/AssetsLibrary.h>
+#import "DWUploadSessionManager.h"
+#import "Reachability.h"
 
 static NSString *const uploadsArray =@"uploadsArray";
 
-@interface DWUploadViewController () <UITableViewDataSource, UITableViewDelegate,DWUploaderDelegate>
-
+@interface DWUploadViewController () <UITableViewDataSource, UITableViewDelegate,DWUploadSessionManagerDelegate>
 
 @property(strong, nonatomic)NSString *videoPath;
-
-@property(strong, nonatomic)UITableView *tableView;
-
-@property(copy, nonatomic)NSString * userID;
-@property(copy, nonatomic)NSString * apiKey;
-@property(copy, nonatomic)NSString * videoTitle;
-@property(copy, nonatomic)NSString * videoTag;
-@property(copy, nonatomic)NSString * videoDescription;
-
-@property(nonatomic,strong)NSMutableArray <DWUploader *> * uploaderArray;//存放上传uploader对象
-@property(nonatomic,strong)NSMutableArray * uploadModelArray;//上传数组 里面放的是字典
-@property(nonatomic,strong)NSMutableArray * uploadingList;
-@property(nonatomic,strong)NSMutableArray * uploadFinishList;
 
 @property(nonatomic,assign)NSInteger index;
 @property(nonatomic,strong)UIButton * totolButton;
 
-@property(nonatomic,strong)NSTimer * timer;
+@property(strong, nonatomic)UITableView *tableView;
+
+@property(nonatomic,weak)DWUploadSessionManager * manager;
+
+@property(nonatomic,strong)NSArray * uploadList;
+
+@property(nonatomic,strong)Reachability * reachability; //网络状态监听
 
 @end
 
@@ -41,18 +35,87 @@ static NSString *const uploadsArray =@"uploadsArray";
     //** !! **
     //温馨提示:演示账号没有开通上传视频的权限，如需测试上传功能，请填写自己的账号信息
     
-    self.index = 0;
+    self.manager = [DWUploadSessionManager manager];
+    self.manager.delegate = self;
     
-    [self getUploadArray];
+    self.index = 0;
     
     [self initUI];
     
-    [self initTimerIfNecessary];
+    [self setUploadingList];
+
+    //增加网络状态监听
+    self.reachability = [Reachability reachabilityForInternetConnection];
+    [self.reachability startNotifier];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStateChange) name:kReachabilityChangedNotification object:nil];
 }
 
--(BOOL)canShowTotalButton
+-(void)setUploadingList
 {
-    return self.uploadingList.count == 0 ? NO : YES;
+    NSMutableArray * array = [NSMutableArray array];
+    for (DWUploadModel * uploadModel in self.manager.uploadModelList) {
+        if (uploadModel.state != DWUploadStateFinish) {
+            [array addObject:uploadModel];
+        }
+    }
+
+    self.uploadList = array;
+    [self.tableView reloadData];
+    
+    if (self.uploadList.count == 0) {
+        self.totolButton.hidden = YES;
+    }else{
+        self.totolButton.hidden = NO;
+    }
+}
+
+-(void)setFinishUploadList
+{
+    NSMutableArray * array = [NSMutableArray array];
+    for (DWUploadModel * uploadModel in self.manager.uploadModelList) {
+        if (uploadModel.state == DWUploadStateFinish) {
+            [array addObject:uploadModel];
+        }
+    }
+    
+    self.uploadList = array;
+    [self.tableView reloadData];
+    
+    self.totolButton.hidden = YES;
+}
+
+-(void)suspendOrResumeUploadWithNetwork:(BOOL)reachable
+{
+    if (reachable) {
+        //网络恢复
+        for (DWUploadModel * uploadModel in self.manager.uploadModelList) {
+            if (uploadModel.state == DWUploadStatePause) {
+                if ([uploadModel.otherInfo objectForKey:@"NetworkFailure"] && [[uploadModel.otherInfo objectForKey:@"NetworkFailure"] boolValue]) {
+                    [self.manager resumeWithUploadModel:uploadModel];
+                    NSMutableDictionary * otherInfo = [uploadModel.otherInfo mutableCopy];
+                    [otherInfo removeObjectForKey:@"NetworkFailure"];
+                    uploadModel.otherInfo = otherInfo;
+                }
+            }
+        }
+    }else{
+        //网络故障
+        for (DWUploadModel * uploadModel in self.manager.uploadModelList) {
+            if (uploadModel.state == DWUploadStateUploading) {
+                [self.manager suspendWithUploadModel:uploadModel];
+                NSMutableDictionary * otherInfo = [uploadModel.otherInfo mutableCopy];
+                [otherInfo setValue:@YES forKey:@"NetworkFailure"];
+                uploadModel.otherInfo = otherInfo;
+            }
+        }
+    }
+}
+
+-(void)dealloc
+{
+    [self.reachability stopNotifier];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+    NSLog(@"DWUploadViewController dealloc");
 }
 
 - (void)didReceiveMemoryWarning
@@ -95,65 +158,65 @@ static NSString *const uploadsArray =@"uploadsArray";
             make.bottom.equalTo(@(-70));
         }];
         
-        self.totolButton.hidden = ![self canShowTotalButton];
-        
+        [self setUploadingList];
+
     }else{
         
         [_tableView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(@0);
         }];
         
-        self.totolButton.hidden = YES;
+        [self setFinishUploadList];
     }
     
-    [_tableView reloadData];
 }
 
 -(void)totolButtonButton
 {
-    if (self.uploadingList.count == 0) {
+    if (self.uploadList.count == 0) {
         return;
     }
-    
     self.totolButton.selected = !self.totolButton.selected;
-    
+
     if (self.totolButton.selected) {
-        for (DWUploadModel * uploadModel in self.uploadingList) {
-            if (uploadModel.status == DWUploadStatusUploading) {
-                uploadModel.status = DWUploadStatusPause;
-                DWUploader * currentUploader = nil;
-                for (DWUploader * uploader in self.uploaderArray) {
-                    if ([[uploader.videoPath lastPathComponent] isEqualToString:[uploadModel.videoPath lastPathComponent]]) {
-                        currentUploader = uploader;
-                        break;
-                    }
-                }
-                //杀app后，可能会出现不存在的情况
-                if (currentUploader) {
-                    [currentUploader pause];
-                }
+        //暂停
+        for (DWUploadModel * uploadModel in self.uploadList) {
+            if (uploadModel.state == DWUploadStateUploading) {
+                [self.manager suspendWithUploadModel:uploadModel];
             }
         }
     }else{
-        //续传
-        for (DWUploadModel * uploadModel in self.uploadingList) {
-            if (uploadModel.status == DWUploadStatusUploading) {
-                break;
+        //开始
+        for (DWUploadModel * uploadModel in self.uploadList) {
+            if (uploadModel.state == DWUploadStatePause || uploadModel.state == DWUploadStateNone) {
+                [self.manager resumeWithUploadModel:uploadModel];
             }
-            DWUploader * currentUploader = nil;
-            for (DWUploader * uploader in self.uploaderArray) {
-                if ([[uploader.videoPath lastPathComponent] isEqualToString:[uploadModel.videoPath lastPathComponent]]) {
-                    currentUploader = uploader;
-                    break;
-                }
-            }
-            [self resumeUpload:uploadModel AndUploader:currentUploader];
-    
         }
     }
     
-   
-    [self.tableView reloadData];
+    [self setUploadingList];
+}
+
+-(void)networkStateChange
+{
+    NetworkStatus status = [self.reachability currentReachabilityStatus];
+    switch (status) {
+        case NotReachable:{
+            //暂无网络
+            [self suspendOrResumeUploadWithNetwork:NO];
+            break;
+        }
+        case ReachableViaWiFi:{
+            [self suspendOrResumeUploadWithNetwork:YES];
+            break;
+        }
+        case ReachableViaWWAN:{
+            [self suspendOrResumeUploadWithNetwork:YES];
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 #pragma mark - UIActionSheetDelegate
@@ -176,9 +239,18 @@ static NSString *const uploadsArray =@"uploadsArray";
         [@"请选择视频文件" showAlert];
         return;
     }
-    //此时视频保存在临时路径temp中，建议保存在document中 demo只为示例
+
     NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
-    self.videoPath = [videoURL path];
+    //注意！获取到上传路径之后，请务必调用moveToLocalWithVideoPath:方法获取SDK所需的视频url，否则可能会出现上传失败，找不到视频文件等情况。
+    self.videoPath = [self.manager moveToLocalWithVideoPath:[videoURL path]];
+    
+    if (!self.videoPath) {
+        [@"上传视频保存失败，请重试" showAlert];
+        [picker dismissViewControllerAnimated:NO completion:nil];
+        return;
+    }
+    
+    NSLog(@"imagePickerController videoPath:%@",self.videoPath);
     
     // 跳转到 设置视频标题、标签、简介等信息界面。
     DWUploadInfoSetupViewController *viewController = [[DWUploadInfoSetupViewController alloc] init];
@@ -186,16 +258,27 @@ static NSString *const uploadsArray =@"uploadsArray";
     //开始上传
     WeakSelf(self);
     [viewController didBackBlock:^(BOOL isCancel, NSString *userId, NSString *apiKey, NSString *videoTitle, NSString *videoTag, NSString *videoDescription) {
-        //开始上传
+     
         if (!isCancel) {
-            weakself.userID = userId;
-            weakself.apiKey = apiKey;
-            weakself.videoTitle = videoTitle;
-            weakself.videoTag = videoTag;
-            weakself.videoDescription = videoDescription;
-            [weakself startUpload];
+            DWUploadModel * uploadModel = [DWUploadSessionManager createUploadModelWithUserId:userId Apikey:apiKey VideoTitle:videoTitle VideoDescription:videoDescription VideoTag:videoTag VideoPath:weakself.videoPath CategoryId:nil NotifyURL:nil];
+            UIImage * image = [DWTools getThumbnailImage:self.videoPath time:0];
+            if (image) {
+                uploadModel.otherInfo = @{@"image":UIImagePNGRepresentation(image)};
+            }
+            
+            //添加视频水印，根据自己需求调用即可。
+//            [self.manager insertWaterMarkWithUploadModel:uploadModel Text:@"测试水印" Corner:@0 OffsetX:@5 OffsetY:@5 FontFamily:@0 FontSize:@20 FontColor:@"FF00FF" FontAlpha:@100];
+            
+            //开始上传
+            [self.manager startWithUploadModel:uploadModel];
+            
+            if (self.index == 0) {
+                [self setUploadingList];
+            }else{
+                [self setFinishUploadList];
+            }
         }
-        
+    
     }];
     
     [self.navigationController pushViewController:viewController animated:NO];
@@ -207,226 +290,63 @@ static NSString *const uploadsArray =@"uploadsArray";
 	[self dismissViewControllerAnimated:NO completion:nil];
 }
 
-# pragma mark - func
-- (void)startUpload
+#pragma mark - DWUploadSessionManagerDelegate
+//开始上传
+-(void)uploadSessionManagerBeginWithUploadModel:(DWUploadModel *)uploadModel
 {
-    NSError *error = nil;
-    
-    DWUploadModel *model = [[DWUploadModel alloc] init];
-    model.status = DWUploadStatusUploading;
-    model.userID = _userID;
-    model.apiKey = _apiKey;
-    model.videoPath = _videoPath;
-    model.videoTitle = _videoTitle;
-    model.videoTag = _videoTag;
-    model.videoDescripton = _videoDescription;
-    model.first = @"1";
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:_videoPath]) {
-        [@"上传路径有误" showAlert];
-        return;
-    }
-    // 文件不存在则不设置
-    model.videoFileSize = [DWTools getFileSizeWithPath:self.videoPath Error:&error];
-
-    DWUploader *uploader;
-    uploader = [[DWUploader alloc] initWithUserId:model.userID
-                                           andKey:model.apiKey
-                                 uploadVideoTitle:model.videoTitle
-                                 videoDescription:model.videoDescripton
-                                         videoTag:model.videoTag
-                                        videoPath:model.videoPath
-                                        notifyURL:@"http://www.bokecc.com/"];
-    
-    //若需添加视频动态水印，请取消注释并修改参数即可
-//    [uploader insertWaterMarkWithText:@"视频动态水印"
-//                               Corner:@0
-//                              OffsetX:@5
-//                              OffsetY:@5
-//                           FontFamily:@0
-//                             FontSize:@20
-//                            FontColor:@"FF00FF"
-//                            FontAlpha:@90];
-    
-    __weak typeof(self) weakSelf = self;
-    uploader.delegate =self;
-    uploader.progressBlock = ^(float progress, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite) {
-
-        //不断的保存进度
-        @autoreleasepool {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[weakSelf.uploadingList indexOfObject:model] inSection:0];
-                DWUploadTableViewCell *cell = (DWUploadTableViewCell *)[weakSelf.tableView cellForRowAtIndexPath:indexPath];
-                model.videoUploadProgress = progress;
-                model.videoUploadedSize = totalBytesWritten;
-                model.first = @"2";
-                model.status = DWUploadStatusUploading;
-                [cell updateCell];
-            });
-        }
-        
-        [weakSelf initTimerIfNecessary];
-
-    };
-    
-    uploader.finishBlock = ^() {
-        
-        model.status = DWUploadStatusFinish;
-        [weakSelf setUploadArray];
-        [weakSelf.tableView reloadData];
-    };
-    
-    uploader.failBlock = ^(NSError *error) {
-        
-        model.status = DWUploadStatusFail;
-        //余下逻辑根据项目需求处理
-        [weakSelf setUploadArray];
-
-        [weakSelf.tableView reloadData];
-
-        [@"上传失败" showAlert];
-    };
-    
-    uploader.videoContextForRetryBlock = ^(NSDictionary *videoContext) {
-        
-        model.uploadContext = videoContext;
-        [weakSelf setUploadArray];
-        
-    };
-    
-    //开始上传
-    uploader.timeoutSeconds = 20;
-    [uploader start];
-    
-    [self.uploaderArray addObject:uploader];
-    [self.uploadModelArray addObject:model];
-
-    self.totolButton.hidden = ![self canShowTotalButton];
-
-    [self setUploadArray];
-    [self.tableView reloadData];
+    NSLog(@"uploadSessionManagerBeginWithUploadModel videoId:%@",uploadModel.videoId);
 }
 
--(void)resumeUpload:(DWUploadModel *)model AndUploader:(DWUploader *)uploader
+//更新上传状态
+-(void)uploadSessionManagerUploadModel:(DWUploadModel *)uploadModel WithState:(DWUploadState)state
 {
-    if (!uploader) {
-        //杀死过app，重新开始上传
-        uploader = [[DWUploader alloc] initWithUserId:model.userID
-                                                      andKey:model.apiKey
-                                            uploadVideoTitle:model.videoTitle
-                                            videoDescription:model.videoDescripton
-                                                    videoTag:model.videoTag
-                                                   videoPath:model.videoPath
-                                                   notifyURL:@"http://www.bokecc.com/"];
-        
-        [self.uploaderArray addObject:uploader];
-        
-        [uploader start];
-        
-        __weak typeof(self) weakSelf = self;
-        uploader.delegate = self;
-        uploader.progressBlock = ^(float progress, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite) {
-            //不断的保存进度
-            @autoreleasepool {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[weakSelf.uploadingList indexOfObject:model] inSection:0];
-                    DWUploadTableViewCell *cell = (DWUploadTableViewCell *)[weakSelf.tableView cellForRowAtIndexPath:indexPath];
-                    model.videoUploadProgress = progress;
-                    model.videoUploadedSize = totalBytesWritten;
-                    model.first = @"2";
-                    model.status = DWUploadStatusUploading;
-                    [cell updateCell];
-                });
-                
-            }
-            [weakSelf initTimerIfNecessary];
-        };
-        
-        uploader.finishBlock = ^() {
-            model.status = DWUploadStatusFinish;
-            [weakSelf setUploadArray];
-            [weakSelf.tableView reloadData];
-        };
-        
-        uploader.failBlock = ^(NSError *error) {
-            model.status = DWUploadStatusFail;
-            //余下逻辑根据项目需求处理
-            [weakSelf.tableView reloadData];
-            [weakSelf setUploadArray];
-            [@"上传失败" showAlert];
-        };
-        
-        uploader.videoContextForRetryBlock = ^(NSDictionary *videoContext) {
-            model.uploadContext = videoContext;
-            [weakSelf setUploadArray];
-            
-        };
-        
-        uploader.timeoutSeconds = 20;
-        
+    NSLog(@"uploadSessionManagerUploadModel state:%ld",state);
+    if (state == DWUploadStateFinish) {
+        //完成
+        if (self.index == 0) {
+            [self setUploadingList];
+        }else{
+            [self setFinishUploadList];
+        }
     }else{
-        [uploader resume];
+        NSInteger row = [self.uploadList indexOfObject:uploadModel];
+        DWUploadTableViewCell * cell = (DWUploadTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+        cell.uploadModel = uploadModel;
+    }
+}
+
+//更新上传进度
+-(void)uploadSessionManagerUploadModel:(DWUploadModel *)uploadModel totalBytesSent:(int64_t)totalBytesSent WithExpectedToSend:(int64_t)expectedToSend
+{
+    @autoreleasepool {
+        NSInteger row = [self.uploadList indexOfObject:uploadModel];
+        DWUploadTableViewCell * cell = (DWUploadTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+        [cell updateCellTotalBytesSent:totalBytesSent WithExpectedToSend:expectedToSend];
     }
     
+//    NSLog(@"上传进度 totalBytesSent:%lld  expectedToSend:%lld",totalBytesSent,expectedToSend);
 }
 
-- (void)setUploadArray
+//上传失败回调
+-(void)uploadSessionManagerUploadModel:(DWUploadModel *)uploadModel WithError:(NSError *)error
 {
-    //将model转化成NSDictionary保存
-    NSMutableArray * dictArray = [NSMutableArray array];
-    for (DWUploadModel * uploadModel in self.uploadModelArray) {
-        NSDictionary * dict = [uploadModel mj_keyValues];
-        [dictArray addObject:dict];
-    }
-    [[NSUserDefaults standardUserDefaults]setObject:dictArray forKey:uploadsArray];
-    [[NSUserDefaults standardUserDefaults]synchronize];
-}
-
-- (void)getUploadArray
-{
-    //获取保存下来的model
-    NSArray * dictArray = [[NSUserDefaults standardUserDefaults] objectForKey:uploadsArray];
-    for (NSDictionary * dict in dictArray) {
-        DWUploadModel * model = [DWUploadModel mj_objectWithKeyValues:dict];
-        if (model.status == DWUploadStatusUploading) {
-            model.status = DWUploadStatusPause;
-        }
-        [self.uploadModelArray addObject:model];
+    [error.localizedDescription showAlert];
+    if (self.index == 0) {
+        [self setUploadingList];
+    }else{
+        [self setFinishUploadList];
     }
 }
 
--(void)initTimerIfNecessary
+-(void)uploadBackgroundSessionCompletion
 {
-    //这里只是示例，具体逻辑根据自己业务需求做调整
-    if (self.timer) {
-        return;
-    }
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(saveUploadArrayTimerAction) userInfo:nil repeats:YES];
-}
-
--(void)saveUploadArrayTimerAction
-{
-    BOOL isContinue = NO;
-    for (DWUploadModel * model in self.uploadingList) {
-        if (model.status == DWUploadStatusUploading) {
-            isContinue = YES;
-        }
-    }
-    if (!isContinue) {
-        [self.timer invalidate];
-        self.timer = nil;
-    }
-    [self setUploadArray];
+    NSLog(@"uploadBackgroundSessionCompletion");
 }
 
 #pragma mark - UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.index == 0) {
-        return self.uploadingList.count;
-    }else{
-        return self.uploadFinishList.count;
-    }
+    return self.uploadList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -436,14 +356,7 @@ static NSString *const uploadsArray =@"uploadsArray";
         cell = [[DWUploadTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
-    NSArray * array = nil;
-    if (self.index == 0) {
-        array = self.uploadingList;
-    }else{
-        array = self.uploadFinishList;
-    }
-    
-    cell.uploadModel = [array objectAtIndex:indexPath.row];
+    cell.uploadModel = [self.uploadList objectAtIndex:indexPath.row];
 
     return cell;
 }
@@ -451,32 +364,37 @@ static NSString *const uploadsArray =@"uploadsArray";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    if (self.index != 0) {
-        return;
+
+    DWUploadModel * uploadModel = [self.uploadList objectAtIndex:indexPath.row];
+    switch (uploadModel.state) {
+        case DWUploadStateUploading:
+            [self.manager suspendWithUploadModel:uploadModel];
+            break;
+        case DWUploadStateReadying:
+            [self.manager suspendWithUploadModel:uploadModel];
+            break;
+        case DWUploadStatePause:
+            [self.manager resumeWithUploadModel:uploadModel];
+            if ([uploadModel.otherInfo objectForKey:@"NetworkFailure"] && [[uploadModel.otherInfo objectForKey:@"NetworkFailure"] boolValue]) {
+                //判断是否是因为网络故障原因造成的暂停
+                NSMutableDictionary * otherInfo = [uploadModel.otherInfo mutableCopy];
+                [otherInfo removeObjectForKey:@"NetworkFailure"];
+                uploadModel.otherInfo = otherInfo;
+            }
+            break;
+        case DWUploadStateNone:
+            [@"请调用startWithUploadModel:方法" showAlert];
+            break;
+        case DWUploadStateFail:
+            [@"上传失败，请重试" showAlert];
+            break;
+        case DWUploadStateFinish:
+            [@"上传已完成" showAlert];
+            break;
+        default:
+            break;
     }
 
-    DWUploadModel *model = [self.uploadingList objectAtIndex:indexPath.row];
-    DWUploader * currentUploader = nil;
-    for (DWUploader * uploader in self.uploaderArray) {
-        if ([[uploader.videoPath lastPathComponent] isEqualToString:[model.videoPath lastPathComponent]]) {
-            currentUploader = uploader;
-            break;
-        }
-    }
-    
-    DWUploadTableViewCell *cell = (DWUploadTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-    if (model.status == DWUploadStatusUploading) {
-        //暂停
-        [currentUploader pause];
-        model.status = DWUploadStatusPause;
-        cell.uploadModel = model;
-    }else{
-        //pause fail 续传
-        [self resumeUpload:model AndUploader:currentUploader];
-    
-        [self.tableView reloadData];
-    }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -486,45 +404,14 @@ static NSString *const uploadsArray =@"uploadsArray";
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
-        NSMutableArray * array;
-        if (self.index == 0) {
-            array = self.uploadingList;
-        }else{
-            array = self.uploadFinishList;
-        }
-        DWUploadModel * model = [array objectAtIndex:indexPath.row];
-        DWUploader * currentUploader = nil;
-        for (DWUploader * uploader in self.uploaderArray) {
-            if ([[uploader.videoPath lastPathComponent] isEqualToString:[model.videoPath lastPathComponent]]) {
-                currentUploader = uploader;
-            }
-        }
-        
-        if (currentUploader) {
-            if (model.status == DWUploadStatusUploading) {
-                [currentUploader pause];
-            }
-            
-            [self.uploaderArray removeObject:currentUploader];
-        }else{
-            
-        }
-      
-        [self.uploadModelArray removeObject:model];
-        self.totolButton.hidden = ![self canShowTotalButton];
-        [self setUploadArray];
-        [tableView reloadData];
-        
+    DWUploadModel * uploadModel = [self.uploadList objectAtIndex:indexPath.row];
+    [self.manager deleteWithUploadModel:uploadModel];
+    
+    if (self.index == 0) {
+        [self setUploadingList];
+    }else{
+        [self setFinishUploadList];
     }
-}
-
-#pragma mark-----DWUploaderDelegate
-//checkupload第一次请求成功的回调
-- (void)checkUploadWithFilePath:(NSString  *)filePath
-{
-    [self setUploadArray];
 }
 
 #pragma mark - init
@@ -608,42 +495,5 @@ static NSString *const uploadsArray =@"uploadsArray";
     self.totolButton.hidden = NO;
 }
 
--(NSMutableArray<DWUploader *> *)uploaderArray
-{
-    if (!_uploaderArray) {
-        _uploaderArray = [[NSMutableArray alloc]init];
-    }
-    return _uploaderArray;
-}
-
-- (NSMutableArray *)uploadModelArray
-{
-    if (!_uploadModelArray) {
-        _uploadModelArray =[NSMutableArray array];
-    }
-    return _uploadModelArray;
-}
-
--(NSMutableArray *)uploadingList
-{
-    NSMutableArray * array = [NSMutableArray array];
-    for (DWUploadModel * model in self.uploadModelArray) {
-        if (model.status != DWUploadStatusFinish) {
-            [array addObject:model];
-        }
-    }
-    return array;
-}
-
-- (NSMutableArray *)uploadFinishList
-{
-    NSMutableArray * array = [NSMutableArray array];
-    for (DWUploadModel * model in self.uploadModelArray) {
-        if (model.status == DWUploadStatusFinish) {
-            [array addObject:model];
-        }
-    }
-    return array;
-}
 
 @end

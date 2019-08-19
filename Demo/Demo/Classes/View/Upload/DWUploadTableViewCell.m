@@ -83,58 +83,48 @@
 {
     _uploadModel = uploadModel;
     
-    //拼接路径
-    NSString *tmp =NSTemporaryDirectory();
-    uploadModel.videoPath =[tmp stringByAppendingPathComponent:[uploadModel.videoPath lastPathComponent]];
-    
-    if ([[NSFileManager defaultManager] fileExistsAtPath:uploadModel.videoPath]) {
-        // 视频缩略图
-        UIImage *image = [DWTools getThumbnailImage:uploadModel.videoPath time:1];
-        [self.thumbnailView setImage:image];
+    if ([uploadModel.otherInfo objectForKey:@"image"]) {
+        self.thumbnailView.image = [UIImage imageWithData:[uploadModel.otherInfo objectForKey:@"image"]];
+    }else{
+        self.thumbnailView.image = [UIImage imageNamed:@"icon_placeholder.png"];
     }
     
-    [self updateCell];
-}
-
--(void)updateCell
-{
-    // 视频标题
-    self.titleLabel.text = self.uploadModel.videoTitle;
+    self.titleLabel.text = self.uploadModel.title;
     
     CGFloat titleLabelWidth = (ScreenWidth - 10 - 128 - 10 - 10);
     CGSize size = [DWTools widthWithHeight:titleLabelWidth andFont:self.titleLabel.font andLabelText:self.titleLabel.text];
     if (ceil(size.height) < (self.titleLabel.font.lineHeight * 2)) {
         [_titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.thumbnailView).offset(5);
-            make.height.equalTo(@14);
+            make.height.equalTo(@16);
         }];
     }else{
         [_titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.thumbnailView);
-            make.height.equalTo(@36);
+            make.height.equalTo(@40);
         }];
     }
     
-    self.progressView.progress = self.uploadModel.videoUploadProgress;
-        
-    if (self.uploadModel.status == DWUploadStatusFinish) {
+    if (self.uploadModel.state == DWUploadStateFinish) {
         self.progressView.hidden = YES;
         self.scheduleLabel.hidden = YES;
-        self.stateLabel.text = [NSString stringWithFormat:@"%.2fM",self.uploadModel.videoFileSize/1024.0/1024.0];
+
+        self.stateLabel.text = [NSString stringWithFormat:@"%.2fM",self.uploadModel.fileSize/1024.0/1024.0];
+        self.progressView.progress = 1;
     }else{
         //未完成
         self.progressView.hidden = NO;
         self.scheduleLabel.hidden = NO;
-        switch (self.uploadModel.status) {
-            case DWUploadStatusFail:{
+        switch (self.uploadModel.state) {
+            case DWUploadStateFail:{
                 self.stateLabel.text = @"已失败";
                 break;
             }
-            case DWUploadStatusUploading:{
+            case DWUploadStateUploading:{
                 self.stateLabel.text = @"上传中";
                 break;
             }
-            case DWUploadStatusPause:{
+            case DWUploadStatePause:{
                 self.stateLabel.text = @"已暂停";
                 break;
             }
@@ -142,10 +132,17 @@
                 break;
         }
         
-        float uploadedSizeMB = [self.uploadModel videoUploadedSize]/1024.0/1024.0;
-        float fileSizeMB = [self.uploadModel videoFileSize]/1024.0/1024.0;
-        self.scheduleLabel.text = [NSString stringWithFormat:@"%0.1fM/%0.1fM", uploadedSizeMB, fileSizeMB];
+        [self updateCellTotalBytesSent:self.uploadModel.totalSentBytes WithExpectedToSend:self.uploadModel.fileSize];
     }
-
+    
 }
+
+-(void)updateCellTotalBytesSent:(int64_t)totalBytesSent WithExpectedToSend:(int64_t)expectedToSend
+{
+    float uploadedSizeMB = self.uploadModel.totalSentBytes/1024.0/1024.0;
+    float fileSizeMB = self.uploadModel.fileSize/1024.0/1024.0;
+    self.scheduleLabel.text = [NSString stringWithFormat:@"%0.1fM/%0.1fM", uploadedSizeMB, fileSizeMB];
+    self.progressView.progress = uploadedSizeMB / fileSizeMB;
+}
+
 @end
