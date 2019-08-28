@@ -9,6 +9,7 @@
 
 @class DWVodVideoModel;
 @class DWDownloadModel;
+@class DWVideoQualityModel;
 
 typedef NS_ENUM(NSUInteger, DWPlayerViewTimeOut) {
     DWPlayerViewStatusTimeOutLoad,//加载超时
@@ -63,6 +64,11 @@ typedef NS_ENUM(NSUInteger, DWPlayerViewLoadStyle) {
  播放属性
  */
 @property(nonatomic,strong,readonly)AVPlayer *player;
+
+/**
+ 播放图层
+ */
+@property(nonatomic,strong,readonly)AVPlayerLayer *playerLayer;
 
 /**
  代理
