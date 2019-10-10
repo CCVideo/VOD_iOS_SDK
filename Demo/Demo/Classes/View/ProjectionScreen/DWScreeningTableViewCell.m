@@ -21,6 +21,8 @@
 {
     if (self == [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
+        self.backgroundColor = [UIColor whiteColor];
+        
         self.iconImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"icon_screen_list.png"]];
         [self.contentView addSubview:self.iconImageView];
         [_iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {

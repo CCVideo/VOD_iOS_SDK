@@ -24,6 +24,8 @@
 {
     if (self == [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
+        self.backgroundColor = [UIColor whiteColor];
+        
         self.iconImageView = [[UIImageView alloc]init];
         [self.contentView addSubview:self.iconImageView];
         [_iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {

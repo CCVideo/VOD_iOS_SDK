@@ -14,6 +14,8 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
+        self.backgroundColor = [UIColor whiteColor];
+        
         // 视频缩略图
         self.thumbnailView = [[UIImageView alloc]init];
         [self.contentView addSubview:self.thumbnailView];

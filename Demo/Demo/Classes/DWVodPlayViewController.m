@@ -534,6 +534,8 @@ typedef enum : NSUInteger {
     self.listTableView.delegate = self;
     self.listTableView.dataSource = self;
     self.listTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+    self.listTableView.backgroundColor = self.view.backgroundColor;
     [self.view addSubview:self.listTableView];
     [_listTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.and.right.equalTo(@0);

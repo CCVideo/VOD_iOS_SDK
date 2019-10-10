@@ -13,6 +13,7 @@
 #import "DWUPnPRenderer.h"
 #import <AVKit/AVKit.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface DWScreeningListViewController () <UITableViewDelegate,UITableViewDataSource,DWUPnPSearchDelegate>
 
@@ -30,6 +31,8 @@
 @property(nonatomic,strong)NSArray * listArray;
 @property(nonatomic,strong)UITableView * tableView;
 
+@property(nonatomic,strong)CLLocationManager * locationManager;
+
 @end
 
 @implementation DWScreeningListViewController
@@ -43,6 +46,14 @@
     self.upnpSearch = [[DWUPnPSearch alloc]init];
     self.upnpSearch.delegate = self;
     [self.upnpSearch start];
+    
+    //iOS13需要获取定位权限才可以获取到SSID
+    if (@available(iOS 13.0, *)) {
+        if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+            self.locationManager = [[CLLocationManager alloc]init];
+            [self.locationManager requestWhenInUseAuthorization];
+        }
+    }
 }
 
 -(void)dealloc
