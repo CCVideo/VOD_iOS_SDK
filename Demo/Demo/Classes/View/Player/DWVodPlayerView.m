@@ -606,6 +606,9 @@ static const CGFloat gifSeconds = 0.25;
 
     [self setNeedsLayout];
     [self layoutIfNeeded];
+    
+    //获取到真实位置后，重置进度条位置
+    [self.slider resetSubViewFrame];
 }
 
 //清理和隐藏页面控件
@@ -793,7 +796,12 @@ static const CGFloat gifSeconds = 0.25;
     
     [self.qualityButton setTitle:qualityModel.desp forState:UIControlStateNormal];
     [self.playerView switchQuality:qualityModel withCustomId:nil];
-    [self play];
+    
+    //如果播放加密视频时,SDK解密服务需要一定的时间启动，这里延迟执行play。
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self play];
+    });
+//    [self play];
 }
 
 -(void)showHudWithMessage:(NSString *)message
@@ -3200,7 +3208,7 @@ static const CGFloat gifSeconds = 0.25;
     if (!self.nextButton.hidden) {
         nextButtonWidth = 30 + 5;
     }
-
+    
     return w - 10 - 30 - nextButtonWidth - 5 - self.currentLabel.frame.size.width - 2.5 - self.lineLabel.frame.size.width - 2.5 - self.totalLabel.frame.size.width - 5 - rightWidth - 10 - 5;
 
 }

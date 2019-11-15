@@ -82,11 +82,11 @@ blockquote > :first-child, li > :first-child { margin-top: 0px; }
 .footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
 #write .footnote-line { white-space: pre-wrap; }
 @media print { 
-  body, html { border: 1px solid transparent; height: 99%; break-after: avoid-page; break-before: avoid-page; }
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; }
   #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
   .typora-export * { -webkit-print-color-adjust: exact; }
   html.blink-to-pdf { font-size: 13px; }
-  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid-page; }
+  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid; }
   .typora-export #write::after { height: 0px; }
 }
 .footnote-line { margin-top: 0.714em; font-size: 0.7em; }
@@ -313,13 +313,11 @@ table tr th {
     font-weight: bold;
     border: 1px solid #dfe2e5;
     border-bottom: 0;
-    text-align: left;
     margin: 0;
     padding: 6px 13px;
 }
 table tr td {
     border: 1px solid #dfe2e5;
-    text-align: left;
     margin: 0;
     padding: 6px 13px;
 }
@@ -489,10 +487,19 @@ header, .context-menu, .megamenu-content, footer{
     border-color: #e5e5e5;
 }
 
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
  .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
 </style>
 </head>
 <body class='typora-export' >
-<div  id='write'  class = 'is-mac'><h1><a name="%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" class="md-header-anchor"></a><span>常见问题</span></h1><h2><a name="1.dwplayinfo%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98" class="md-header-anchor"></a><span>1.DWPlayInfo数据获取失败的问题</span></h2><p><span>当遇到DWPlayInfo回调失败时，首先要排除userId、APIKEY是否有效，其次判断网络是否正常、是否已经连接、videoId是否是userId和APIKEY名下的视频。除此之外还可以通过HTTP通信日志排查问题。</span></p><h2><a name="2.%E5%85%B3%E4%BA%8E%E5%8A%A0%E5%AF%86%E9%9F%B3%E8%A7%86%E9%A2%91%E7%9A%84%E6%92%AD%E6%94%BE%E9%97%AE%E9%A2%98" class="md-header-anchor"></a><span>2.关于加密音视频的播放问题</span></h2><p><span>新版本中，对于原旧版本加密服务DWDrmServer的调用封装到了SDK内部，用户无需再对DWDrmServer服务进行操作，SDK会自动识别加密音视频进行播放。</span></p><h2><a name="3.%E5%AF%B9%E4%BA%8E%E9%80%9A%E8%BF%87%23import-%22dwsdk.h%22%E6%97%A0%E6%B3%95%E5%BC%95%E5%85%A5%E8%B7%AF%E5%BE%84%E4%B8%8B%E7%9A%84%E6%96%87%E4%BB%B6%E7%9A%84%E9%97%AE%E9%A2%98" class="md-header-anchor"></a><span>3.对于通过#import &quot;DWSDK.h&quot;无法引入路径下的文件的问题</span></h2><p><span>找到TARGETS -&gt; Build Setting -&gt; Search Paths。添加</span><code>Header Search Path</code><span>，路径到SDK的文件夹下。若还无法找到，继续添加</span><code>User Header Search Path</code><span>即可。</span></p><h2><a name="4.%E5%85%B3%E4%BA%8E%E6%8E%A7%E5%88%B6%E5%8F%B0%E9%A2%91%E7%B9%81%E5%87%BA%E7%8E%B0%22%5B%5D-nw_connection_copy_connected_path%22%E6%97%A5%E5%BF%97%E7%9A%84%E9%97%AE%E9%A2%98" class="md-header-anchor"></a><span>4.关于控制台频繁出现&quot;[] nw_connection_copy_connected_path&quot;日志的问题</span></h2><p><span>找到Edit Scheme -&gt; Run -&gt; Arguments -&gt; Enviroment Variables，添加属性</span><code>OS_ACTIVITY_MODE</code><span>，设置为0即可。</span></p><h2><a name="5.%E7%A8%8B%E5%BA%8F%E8%BF%9B%E5%85%A5%E5%89%8D%E5%8F%B0%E6%97%B6%EF%BC%8C%E4%B8%8B%E8%BD%BD%E4%BB%BB%E5%8A%A1%E5%9B%9E%E8%B0%83%E5%8F%AF%E8%83%BD%E4%B8%8D%E6%89%A7%E8%A1%8C%E7%9A%84%E9%97%AE%E9%A2%98" class="md-header-anchor"></a><span>5.程序进入前台时，下载任务回调可能不执行的问题</span></h2><p><span>我们发现，在iOS12的系统下，app进入前台时，有极小的概率会发生下载的回调不执行的问题。若想临时解决这个问题，只需要在appDelegate的applicationDidBecomeActive:方法中，将正在下载的任务暂停，然后延迟1秒以后在重新开始下载即可。最终还要等待苹果官方解决此问题。</span></p><p><span>更多信息请参考</span><a href='https://doc.bokecc.com'><span> “CC视频帮助中心”</span></a><span>，如果在使用SDK过程中遇到其他问题请联系CC客服进行反馈。</span></p></div>
+<div  id='write'  class = 'is-mac'><h1><a name="常见问题" class="md-header-anchor"></a><span>常见问题</span></h1><h2><a name="1dwplayinfo数据获取失败的问题" class="md-header-anchor"></a><span>1.DWPlayInfo数据获取失败的问题</span></h2><p><span>当遇到DWPlayInfo回调失败时，首先要排除userId、APIKEY是否有效，其次判断网络是否正常、是否已经连接、videoId是否是userId和APIKEY名下的视频。除此之外还可以通过HTTP通信日志排查问题。</span></p><h2><a name="2关于加密音视频的播放问题" class="md-header-anchor"></a><span>2.关于加密音视频的播放问题</span></h2><p><span>新版本中，对于原旧版本加密服务DWDrmServer的调用封装到了SDK内部，用户无需再对DWDrmServer服务进行操作，SDK会自动识别加密音视频进行播放。</span></p><h2><a name="3对于通过import-dwsdkh无法引入路径下的文件的问题" class="md-header-anchor"></a><span>3.对于通过#import &quot;DWSDK.h&quot;无法引入路径下的文件的问题</span></h2><p><span>找到TARGETS -&gt; Build Setting -&gt; Search Paths。添加</span><code>Header Search Path</code><span>，路径到SDK的文件夹下。若还无法找到，继续添加</span><code>User Header Search Path</code><span>即可。</span></p><h2><a name="4关于控制台频繁出现-nwconnectioncopyconnectedpath日志的问题" class="md-header-anchor"></a><span>4.关于控制台频繁出现&quot;[] nw_connection_copy_connected_path&quot;日志的问题</span></h2><p><span>找到Edit Scheme -&gt; Run -&gt; Arguments -&gt; Enviroment Variables，添加属性</span><code>OS_ACTIVITY_MODE</code><span>，设置为0即可。</span></p><h2><a name="5程序进入前台时下载任务回调可能不执行的问题" class="md-header-anchor"></a><span>5.程序进入前台时，下载任务回调可能不执行的问题</span></h2><p><span>我们发现，在iOS12的系统下，app进入前台时，有极小的概率会发生下载的回调不执行的问题。若想临时解决这个问题，只需要在appDelegate的applicationDidBecomeActive:方法中，将正在下载的任务暂停，然后延迟1秒以后在重新开始下载即可。最终还要等待苹果官方解决此问题。</span></p><h2><a name="6当集成423-sdk时若出现" class="md-header-anchor"></a><span>6.当集成4.2.3 SDK时，若出现 </span></h2><p><span>Undefined symbols for architecture x84_64:</span></p><p><span> &quot;__isPlatformVersionAtLeast&quot;,referenced from;</span></p><p><span>  ...</span></p><p><span>  ...</span></p><p><span>  ...</span></p><p><span>ld:symbol(s) not found for architecture x84_64</span></p><p><span>clane: error: linker command failed with exit code 1 (use -v to see invocation)</span></p><p><span>编译错误时，请升级4.2.4及以上版本SDK或升级最新的Xcode重新编译即可。</span></p><p><span>更多信息请参考</span><a href='https://doc.bokecc.com'><span> “CC视频帮助中心”</span></a><span>，如果在使用SDK过程中遇到其他问题请联系CC客服进行反馈。</span></p></div>
 </body>
 </html>

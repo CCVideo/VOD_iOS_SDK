@@ -14,6 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,assign)CGFloat bufferValue;
 
+//切换屏幕状态时，重置子视图frame
+-(void)resetSubViewFrame;
+
 @end
 
 @interface DWPlayerSliderBufferView : UIView

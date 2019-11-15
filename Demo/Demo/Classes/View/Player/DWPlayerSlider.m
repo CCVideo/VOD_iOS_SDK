@@ -35,6 +35,10 @@
 
 -(void)setBufferValue:(CGFloat)bufferValue
 {
+    if (isnan(bufferValue)) {
+        bufferValue = 0;
+    }
+    
     _bufferValue = bufferValue;
     
     if (self.bufferView) {
@@ -48,6 +52,11 @@
     }else{
         [self setMaximumTrackImage:[[UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:0.4] createImageWithSize:CGSizeMake(10, 3)] forState:UIControlStateNormal];
     }
+}
+
+-(void)resetSubViewFrame
+{
+    self.bufferView.frame = CGRectMake(self.bufferView.frame.origin.x, self.bufferView.frame.origin.y, self.frame.size.width * self.bufferValue, self.bufferView.frame.size.height);
 }
 
 -(void)layoutSubviews

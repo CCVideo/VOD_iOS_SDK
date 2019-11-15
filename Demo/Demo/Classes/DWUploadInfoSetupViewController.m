@@ -57,7 +57,7 @@
 }
 
 - (void)uploadAction:(UIBarButtonItem *)item
-{
+{    
     if (self.userIdTextField.text.length == 0) {
         [@"请输入User ID" showAlert];
         return;

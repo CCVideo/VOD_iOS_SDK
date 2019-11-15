@@ -261,6 +261,7 @@ static NSString *const uploadsArray =@"uploadsArray";
      
         if (!isCancel) {
             DWUploadModel * uploadModel = [DWUploadSessionManager createUploadModelWithUserId:userId Apikey:apiKey VideoTitle:videoTitle VideoDescription:videoDescription VideoTag:videoTag VideoPath:weakself.videoPath CategoryId:nil NotifyURL:nil];
+
             UIImage * image = [DWTools getThumbnailImage:self.videoPath time:0];
             if (image) {
                 uploadModel.otherInfo = @{@"image":UIImagePNGRepresentation(image)};
@@ -324,7 +325,7 @@ static NSString *const uploadsArray =@"uploadsArray";
         [cell updateCellTotalBytesSent:totalBytesSent WithExpectedToSend:expectedToSend];
     }
     
-//    NSLog(@"上传进度 totalBytesSent:%lld  expectedToSend:%lld",totalBytesSent,expectedToSend);
+//    NSLog(@"上传进度 totalBytesSent:%lld  expectedToSend:%lld progress:%lf",totalBytesSent,expectedToSend,uploadModel.progress);
 }
 
 //上传失败回调
