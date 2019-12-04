@@ -4,6 +4,7 @@
 #import "DWNavigationViewController.h"
 #import "DWOfflineModel.h"
 #import "MJExtension.h"
+#import <Photos/Photos.h>
 
 #define DWUploadItemPlistFilename @"uploadItems.plist"
 
@@ -34,6 +35,9 @@
         
     //后台下载设置
     [[DWDownloadSessionManager manager] configureBackroundSession];
+    //设置最大下载并发数，默认不设置
+//    [DWDownloadSessionManager manager].maxDownloadCount = 2;
+//    [DWDownloadSessionManager manager].isBatchDownload = NO;
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];

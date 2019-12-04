@@ -256,13 +256,14 @@
     
     if (self.index == 0) {
         //未完成
-        if (downloadModel.state == DWDownloadStateRunning) {
+        if (downloadModel.state == DWDownloadStateRunning || downloadModel.state == DWDownloadStateReadying) {
             [self.manager suspendWithDownloadModel:downloadModel];
         }else{
             //判断下载链接是否超时
             if ([self.manager isValidateURLWithDownloadModel:downloadModel]) {
                 NSLog(@"url可用");
                 [self.manager resumeWithDownloadModel:downloadModel];
+//                [self.manager startWithDownloadModel:downloadModel];
             }else{
                 NSLog(@"url不可用");
                 //重新获取下载路径
