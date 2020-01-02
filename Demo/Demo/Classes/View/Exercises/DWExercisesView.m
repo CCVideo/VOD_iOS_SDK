@@ -129,17 +129,35 @@
         make.left.and.right.equalTo(@0);
         make.top.and.bottom.equalTo(@0);
     }];
+    
+    //新增监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationChangeNotification) name:UIDeviceOrientationDidChangeNotification object:nil];
+
 }
 
 -(void)dismiss
 {
     [self removeFromSuperview];
+    
+    //移除监听
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+
 }
 
 -(void)guideTapAction
 {
     [self.guideView removeFromSuperview];
     self.guideView = nil;
+}
+
+-(void)deviceOrientationChangeNotification
+{
+    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+    UIInterfaceOrientation interfaceOrientation = (UIInterfaceOrientation)orientation;
+    
+    if (interfaceOrientation == UIInterfaceOrientationPortrait) {
+        [@"横屏答题体验更加" showAlert];
+    }
 }
 
 #pragma mark - delegate

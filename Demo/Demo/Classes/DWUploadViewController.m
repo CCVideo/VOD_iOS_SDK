@@ -131,7 +131,7 @@ static NSString *const uploadsArray =@"uploadsArray";
                                cancelButtonTitle:nil
                           destructiveButtonTitle:@"取消"
                                otherButtonTitles:@"从相册选择", nil];
-    
+    sheet.actionSheetStyle = UIActionSheetStyleAutomatic;
     [sheet showInView:self.view];
 }
 
@@ -222,13 +222,15 @@ static NSString *const uploadsArray =@"uploadsArray";
 #pragma mark - UIActionSheetDelegate
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 0) {
+    if (buttonIndex <= 0) {
         return;
     }
     
+    [self dismissViewControllerAnimated:YES completion:nil];
+        
     DWVideoCompressController *imagePicker = [[DWVideoCompressController alloc] initWithQuality: DWUIImagePickerControllerQualityTypeMedium andSourceType:DWUIImagePickerControllerSourceTypePhotoLibrary andMediaType:DWUIImagePickerControllerMediaTypeMovie];
     imagePicker.delegate = self;
-    [self presentViewController:imagePicker animated:NO completion:nil];
+    [self presentViewController:imagePicker animated:YES completion:nil];
 }
 
 #pragma mark - UIImagePickerControllerDelegate

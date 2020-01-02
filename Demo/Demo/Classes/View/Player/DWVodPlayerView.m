@@ -197,7 +197,8 @@ static const CGFloat gifSeconds = 0.25;
         //回到前台
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterForegroundNotification) name:UIApplicationWillEnterForegroundNotification object:nil];
         // app退到后台
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resignActiveNotification) name:UIApplicationWillResignActiveNotification object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resignActiveNotification) name:UIApplicationWillResignActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackgroundNotification) name:UIApplicationDidEnterBackgroundNotification object:nil];
         
         //airplay监听
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wirelessRouteActiveNotification:) name:MPVolumeViewWirelessRouteActiveDidChangeNotification object:nil];
@@ -214,7 +215,7 @@ static const CGFloat gifSeconds = 0.25;
     self.reachability = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPVolumeViewWirelessRouteActiveDidChangeNotification object:nil];
     NSLog(@"DWVodPlayerView dealloc");
 }
@@ -233,6 +234,7 @@ static const CGFloat gifSeconds = 0.25;
     self.videoModel = videoModel;
 
     [self.playerView playVodViedo:videoModel withCustomId:nil];
+    
     [self play];
     
     //处理视频清晰度数据
@@ -1295,6 +1297,9 @@ static const CGFloat gifSeconds = 0.25;
         
     }
     
+    //解决弱网下，拖拽可能会引起音画不同步的问题
+    [self pause];
+    
     __weak typeof(self) weakSelf = self;
     [self.playerView scrubPrecise:time CompletionHandler:^(BOOL finished) {
         weakSelf.isSlidering = NO;
@@ -1304,10 +1309,13 @@ static const CGFloat gifSeconds = 0.25;
             weakSelf.exercisesLastScrubTime = -1;
         }
         
+        if (_questionView || weakSelf.visitorCollectView || weakSelf.exercisesAlertView || weakSelf.exercisesView) {
+            return;
+        }
+        
+        [self play];
     }];
-    
-    [self play];
-    
+        
 }
 
 //速率选择
@@ -1389,7 +1397,7 @@ static const CGFloat gifSeconds = 0.25;
                     return;
                 }
                 
-                if (!self.playerView.playing) {
+                if (self.playOrPauseButton.selected) {
                     [self play];
                 }
             }
@@ -1428,7 +1436,7 @@ static const CGFloat gifSeconds = 0.25;
     }
 }
 
--(void)resignActiveNotification
+-(void)didEnterBackgroundNotification
 {
     if (self.isVideo) {
         [self pause];
@@ -2091,10 +2099,9 @@ static const CGFloat gifSeconds = 0.25;
     //UIInterfaceOrientationMaskLandscapeRight
     UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
     UIInterfaceOrientation interfaceOrientation = (UIInterfaceOrientation)orientation;
-    if (UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
-        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationLandscapeLeft] forKey:@"orientation"];
-    }
     
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationLandscapeLeft] forKey:@"orientation"];
+
     DWVideoExercisesModel * exercisesModel = nil;
     for (DWVideoExercisesModel * exercises in self.videoModel.exercises) {
         if (exercises.isShow) {
@@ -2438,6 +2445,8 @@ static const CGFloat gifSeconds = 0.25;
 //播放完毕
 - (void)videoPlayerDidReachEnd:(DWPlayerView *)playerView
 {
+    [self pause];
+    
     //播放完成，自动播放下一集
     [self nextButtonAction];
     
@@ -2509,13 +2518,28 @@ static const CGFloat gifSeconds = 0.25;
 //    _hud.label.text = @"播放卡顿，请稍后";
     [self showHudWithMessage:@"播放卡顿，请稍后"];
     
-//    [self pause];
+//    NSLog(@"videoPlayerPlaybackBufferEmpty rate:%lf",playerView.player.rate);
 }
 
 //有数据 能够继续播放
 - (void)videoPlayerPlaybackLikelyToKeepUp:(DWPlayerView *)playerView
 {
     [self hideHudWithMessage:nil];
+    
+    if (!self.videoModel) {
+        return;
+    }
+    
+    if (_questionView || self.visitorCollectView || self.exercisesAlertView || self.exercisesView) {
+        return;
+    }
+    
+    //防止在有数据缓冲，但播放器播放状态与页面按钮状态不一致。
+    if (self.playerView.player.rate == 0 && self.playOrPauseButton.selected) {
+        [self play];
+    }
+    
+//    NSLog(@"videoPlayerPlaybackLikelyToKeepUp rate:%lf",playerView.player.rate);
 }
 
 //加载失败
