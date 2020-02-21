@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>cc视频Demo</string>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIcons</key>
@@ -43,6 +43,8 @@
 	<string>使用期间允许定位</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>请求访问麦克风</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>我们需要访问您的相册</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
@@ -61,7 +63,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>我们需要访问您的相册</string>
 </dict>
 </plist>

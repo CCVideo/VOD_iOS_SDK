@@ -26,8 +26,9 @@
 #import "DWVisitorCollectView.h"
 #import "DWExercisesAlertView.h"
 #import "DWExercisesView.h"
+#import <AVKit/AVKit.h>
 
-@interface DWVodPlayerView ()<DWVideoPlayerDelegate,DWPlayerSettingViewDelegate,DWGifRecordFinishViewDelegate,DWVisitorCollectViewDelegate,DWExercisesAlertViewDelegate,DWExercisesViewDelegate>
+@interface DWVodPlayerView ()<DWVideoPlayerDelegate,DWPlayerSettingViewDelegate,DWGifRecordFinishViewDelegate,DWVisitorCollectViewDelegate,DWExercisesAlertViewDelegate,DWExercisesViewDelegate,AVPictureInPictureControllerDelegate>
 
 @property(nonatomic,strong)UIView * maskView;//遮罩层
 
@@ -42,6 +43,11 @@
 
 //是否加载完毕
 @property(nonatomic,assign)BOOL readyToPlay;
+
+//是否开启后台播放
+@property(nonatomic,assign)BOOL allowBackgroundPlay;
+//是否开启画中画，仅对pad有效
+@property(nonatomic,assign)BOOL allowPictureInPicture;
 
 @property(nonatomic,assign)UIEdgeInsets areaInsets;
 @property(nonatomic,assign)BOOL isFull;
@@ -59,6 +65,7 @@
 @property(nonatomic,strong)UIButton * vrInteractiveButton;//vrButton
 @property(nonatomic,strong)UIButton * vrDisplayButton;//vrButton
 @property(nonatomic,strong)UIButton * screeningButton;//投屏按钮
+@property(nonatomic,strong)UIButton * pipButton;//画中画按钮
 
 //bottom
 @property(nonatomic,strong)DWPlayerFuncBgView * bottomFuncBgView;
@@ -151,6 +158,9 @@
 //**************************** airPlay ****************************
 @property(nonatomic,strong)UILabel * airPlayStatusLabel;
 
+//**************************** ipad PictureInPicture ****************************
+@property(nonatomic,strong)AVPictureInPictureController * pipVC;
+
 @end
 
 @implementation DWVodPlayerView
@@ -169,6 +179,11 @@ static const CGFloat gifSeconds = 0.25;
         self.isShowMarkView = NO;
         self.isLock = NO;
         self.isScreening = NO;
+        //是否允许后台播放
+        self.allowBackgroundPlay = NO;
+        //是否开启画中画
+        self.allowPictureInPicture = NO;
+        
         self.backgroundColor = [UIColor blackColor];
         
         [self initMaskView];
@@ -374,6 +389,11 @@ static const CGFloat gifSeconds = 0.25;
 //更新约束和控件状态
 -(void)updateConstraintsAndHidden
 {
+    NSInteger buttonCount = 1;
+    if (IS_PAD) {
+        buttonCount++;
+    }
+    
     if (self.isFull) {
         self.otherFuncButton.hidden = NO;
         self.speedButton.hidden = NO;
@@ -523,11 +543,11 @@ static const CGFloat gifSeconds = 0.25;
             [self.vrLibrary switchInteractiveMode:_interative];
             
             [_vrInteractiveButton mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(@(-(40 * 1) - 10));
+                make.right.equalTo(@(-(40 * buttonCount) - 10));
             }];
             
             [_vrDisplayButton mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(@(-(40 * 2) - 10));
+                make.right.equalTo(@(-(40 * (buttonCount + 1)) - 10));
             }];
         }
     
@@ -591,11 +611,11 @@ static const CGFloat gifSeconds = 0.25;
             [self.vrLibrary switchInteractiveMode:_interative];
             
             [_vrInteractiveButton mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(@(-(40 * 2) - 10));
+                make.right.equalTo(@(-(40 * (buttonCount + 1)) - 10));
             }];
             
             [_vrDisplayButton mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(@(-(40 * 3) - 10));
+                make.right.equalTo(@(-(40 * (buttonCount + 2)) - 10));
             }];
         }
 
@@ -908,6 +928,11 @@ static const CGFloat gifSeconds = 0.25;
 
 -(void)funcIsAppearTap
 {
+    //新增判断，画中画启动时，不显示状态栏
+    if (self.pipVC && self.pipVC.isPictureInPictureActive) {
+        return;
+    }
+    
     if (self.funcTimer) {
         self.isShowMarkView = NO;
         [self destroyFuncTimer];
@@ -1203,6 +1228,31 @@ static const CGFloat gifSeconds = 0.25;
     [self.settingView show];
 }
 
+//开启画中画
+-(void)pipButtonAction
+{
+    /*
+     注意：
+     如果要启用画中画功能，请务必设置DWPlayerView对象下列方法值为YES，允许播放器进行后台播放。否则程序进入后台时，可能无法播放视频。
+     - (void)setPlayInBackground:(BOOL)play;
+     */
+  
+    if (![AVPictureInPictureController isPictureInPictureSupported]) {
+        [@"设备不支持画中画功能" showAlert];
+        return;
+    }
+    
+    if (!self.pipVC) {
+        return;
+    }
+    
+    if (self.pipVC.isPictureInPictureActive) {
+        [self.pipVC stopPictureInPicture];
+    }else{
+        [self.pipVC startPictureInPicture];
+    }
+}
+
 //播放/暂停
 -(void)playOrPauseButtonAction
 {
@@ -1430,17 +1480,11 @@ static const CGFloat gifSeconds = 0.25;
     if (_questionView || self.visitorCollectView || self.exercisesAlertView || self.exercisesView) {
         return;
     }
-    
-    if (self.isVideo) {
-        [self play];
-    }
 }
 
 -(void)didEnterBackgroundNotification
 {
-    if (self.isVideo) {
-        [self pause];
-    }
+
 }
 
 -(void)wirelessRouteActiveNotification:(NSNotification *)noti
@@ -1461,22 +1505,18 @@ static const CGFloat gifSeconds = 0.25;
     MPRemoteCommandCenter * commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
     commandCenter.playCommand.enabled = YES;
     [commandCenter.playCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
-        if (!weakSelf.isVideo) {
-            if (!weakSelf.playerView.playing) {
-                [weakSelf play];
-            }
-        }
+//        if (!weakSelf.playerView.playing) {
+            [weakSelf play];
+//        }
         return MPRemoteCommandHandlerStatusSuccess;
     }];
     
     
     commandCenter.pauseCommand.enabled = YES;
     [commandCenter.pauseCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
-        if (!weakSelf.isVideo) {
-            if (weakSelf.playerView.playing) {
-                [weakSelf pause];
-            }
-        }
+//        if (weakSelf.playerView.playing) {
+            [weakSelf pause];
+//        }
         return MPRemoteCommandHandlerStatusSuccess;
     }];
 }
@@ -2536,10 +2576,9 @@ static const CGFloat gifSeconds = 0.25;
     
     //防止在有数据缓冲，但播放器播放状态与页面按钮状态不一致。
     if (self.playerView.player.rate == 0 && self.playOrPauseButton.selected) {
-        [self play];
+        self.playOrPauseButton.selected = NO;
     }
-    
-//    NSLog(@"videoPlayerPlaybackLikelyToKeepUp rate:%lf",playerView.player.rate);
+
 }
 
 //加载失败
@@ -2559,6 +2598,15 @@ static const CGFloat gifSeconds = 0.25;
 - (void)videoPlayer:(DWPlayerView *)playerView receivedTimeOut:(DWPlayerViewTimeOut )timeOut
 {
     [@"加载超时，请稍后" showAlert];
+}
+
+//AVPlayerLayer对象变动时回调
+- (void)videoPlayer:(DWPlayerView *)playerView ChangePlayerLayer:(AVPlayerLayer *)playerLayer
+{
+    if (IS_PAD) {
+        self.pipVC = [[AVPictureInPictureController alloc]initWithPlayerLayer:self.playerView.playerLayer];
+        self.pipVC.delegate = self;
+    }
 }
 
 #pragma mark - init
@@ -2609,10 +2657,21 @@ static const CGFloat gifSeconds = 0.25;
         make.centerY.equalTo(self.backButton);
     }];
     
+    NSInteger buttonCount = 1;
+    if (IS_PAD) {
+        buttonCount++;
+        [self.topFuncBgView addSubview:self.pipButton];
+        [_pipButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(@(-(40 * 1) - 10));
+            make.width.and.height.equalTo(@30);
+            make.centerY.equalTo(self.backButton);
+        }];
+    }
+    
     self.screeningButton.hidden = YES;
     [self.topFuncBgView addSubview:self.screeningButton];
     [_screeningButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(@(-(40 * 1) - 10));
+        make.right.equalTo(@(-(40 * buttonCount) - 10));
         make.width.and.height.equalTo(@30);
         make.centerY.equalTo(self.backButton);
     }];
@@ -2620,7 +2679,7 @@ static const CGFloat gifSeconds = 0.25;
     self.vrInteractiveButton.hidden = YES;
     [self.topFuncBgView addSubview:self.vrInteractiveButton];
     [_vrInteractiveButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(@(-(40 * 2) - 10));
+        make.right.equalTo(@(-(40 * (buttonCount + 1)) - 10));
         make.width.and.height.equalTo(@30);
         make.centerY.equalTo(self.backButton);
     }];
@@ -2628,27 +2687,11 @@ static const CGFloat gifSeconds = 0.25;
     self.vrDisplayButton.hidden = YES;
     [self.topFuncBgView addSubview:self.vrDisplayButton];
     [_vrDisplayButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(@(-(40 * 3) - 10));
+        make.right.equalTo(@(-(40 * (buttonCount + 2)) - 10));
         make.width.and.height.equalTo(@30);
         make.centerY.equalTo(self.backButton);
     }];
-    /*
-    self.vrInteractiveButton.hidden = YES;
-    [self.topFuncBgView addSubview:self.vrInteractiveButton];
-    [_vrInteractiveButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(@(-(40 * 1) - 10));
-        make.width.and.height.equalTo(@30);
-        make.centerY.equalTo(self.backButton);
-    }];
-    
-    self.vrDisplayButton.hidden = YES;
-    [self.topFuncBgView addSubview:self.vrDisplayButton];
-    [_vrDisplayButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(@(-(40 * 2) - 10));
-        make.width.and.height.equalTo(@30);
-        make.centerY.equalTo(self.backButton);
-    }];
-    */
+
 }
 
 //底部控件
@@ -2768,6 +2811,9 @@ static const CGFloat gifSeconds = 0.25;
 //    self.playerView.loadStyle = DWPlayerViewLoadStyleImmediately;
     self.playerView.forwardBufferDuration = 30;
     self.playerView.delegate = self;
+    [self.playerView setPlayInBackground:self.allowBackgroundPlay];
+    [self.playerView setPictureInPicture:self.allowPictureInPicture];
+    
     //是否开启防录屏
 //    self.playerView.videoProtect = YES;
     [self insertSubview:self.playerView atIndex:0];
@@ -2956,6 +3002,16 @@ static const CGFloat gifSeconds = 0.25;
         [_screeningButton addTarget:self action:@selector(screeningButtonAction) forControlEvents:UIControlEventTouchUpInside];
     }
     return _screeningButton;
+}
+
+-(UIButton *)pipButton
+{
+    if (!_pipButton) {
+        _pipButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_pipButton setImage:[UIImage imageNamed:@"icon_pip.png"] forState:UIControlStateNormal];
+        [_pipButton addTarget:self action:@selector(pipButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _pipButton;
 }
 
 //底部

@@ -56,6 +56,9 @@ typedef NS_ENUM(NSUInteger, DWPlayerViewLoadStyle) {
 //加载失败
 - (void)videoPlayer:(DWPlayerView *)playerView didFailWithError:(NSError *)error;
 
+//AVPlayerLayer对象发生改变时回调
+- (void)videoPlayer:(DWPlayerView *)playerView ChangePlayerLayer:(AVPlayerLayer *)playerLayer;
+
 @end
 
 @interface DWPlayerView : UIView
@@ -198,12 +201,19 @@ typedef NS_ENUM(NSUInteger, DWPlayerViewLoadStyle) {
 -(void)switchSparPlayLine;
 
 /**
- 设置是否允许后台播放，目前只支持音频后台播放
+ 设置是否允许后台播放
 
  @param play 是否允许后台播放
  */
 
 - (void)setPlayInBackground:(BOOL)play;
+
+/**
+设置是否画中画模式
+
+@param play 是否画中画模式
+*/
+- (void)setPictureInPicture:(BOOL)openPIP API_AVAILABLE(ios(9.0));
 
 /**
  切换倍速
