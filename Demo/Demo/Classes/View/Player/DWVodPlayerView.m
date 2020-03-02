@@ -9,7 +9,6 @@
 #import "DWVodPlayerView.h"
 #import "DWPlayerFuncBgView.h"
 #import "DWPlayerSlider.h"
-#import "DWPlayerView.h"
 #import "DWPlayerSettingView.h"
 #import "DWTableChooseModel.h"
 #import "DWMarkView.h"
@@ -161,6 +160,9 @@
 //**************************** ipad PictureInPicture ****************************
 @property(nonatomic,strong)AVPictureInPictureController * pipVC;
 
+//@property(nonatomic,strong)UILabel * testLabel;
+//@property(nonatomic,strong)NSTimer * testTimer;
+
 @end
 
 @implementation DWVodPlayerView
@@ -180,7 +182,9 @@ static const CGFloat gifSeconds = 0.25;
         self.isLock = NO;
         self.isScreening = NO;
         //是否允许后台播放
+//        self.allowBackgroundPlay = YES;
         self.allowBackgroundPlay = NO;
+
         //是否开启画中画
         self.allowPictureInPicture = NO;
         
@@ -217,9 +221,30 @@ static const CGFloat gifSeconds = 0.25;
         
         //airplay监听
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wirelessRouteActiveNotification:) name:MPVolumeViewWirelessRouteActiveDidChangeNotification object:nil];
+        
+//        self.testLabel = [[UILabel alloc]init];
+//        self.testLabel.font = [UIFont systemFontOfSize:14];
+//        self.testLabel.textColor = [UIColor purpleColor];
+//        self.testLabel.textAlignment = NSTextAlignmentLeft;
+//        self.testLabel.numberOfLines = 0;
+//        [self addSubview:self.testLabel];
+//        [self.testLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(@30);
+//            make.right.equalTo(@(-30));
+//            make.height.equalTo(@50);
+//            make.bottom.equalTo(self.bottomFuncBgView.mas_top).offset(-10);
+//        }];
+//
+//        self.testTimer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(testTimeAction) userInfo:nil repeats:YES];
+//        [[NSRunLoop mainRunLoop] addTimer:self.testTimer forMode:NSRunLoopCommonModes];
     }
     return self;
 }
+
+//-(void)testTimeAction
+//{
+//    self.testLabel.text = [NSString stringWithFormat:@"播放时长:%.2fs \n暂停时长:%.2fs",self.playerView.playedTimes,self.playerView.pausedTimes];
+//}
 
 -(void)dealloc
 {
@@ -323,6 +348,9 @@ static const CGFloat gifSeconds = 0.25;
 //关闭播放器
 -(void)closePlayer
 {
+//    [self.testTimer invalidate];
+//    self.testTimer = nil;
+    
     [self destroyFuncTimer];
     
     //清理player
@@ -1480,11 +1508,14 @@ static const CGFloat gifSeconds = 0.25;
     if (_questionView || self.visitorCollectView || self.exercisesAlertView || self.exercisesView) {
         return;
     }
+    
 }
 
 -(void)didEnterBackgroundNotification
 {
-
+    if (!self.allowBackgroundPlay) {
+        [self pause];
+    }
 }
 
 -(void)wirelessRouteActiveNotification:(NSNotification *)noti

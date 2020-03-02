@@ -61,6 +61,7 @@ typedef enum : NSUInteger {
 -(void)startRequestVideo:(NSString *)videoId
 {
     __weak typeof(self) weakSelf = self;
+
     DWPlayInfo * playInfo = [[DWPlayInfo alloc]initWithUserId:[DWConfigurationManager sharedInstance].DWAccount_userId andVideoId:videoId key:[DWConfigurationManager sharedInstance].DWAccount_apikey hlsSupport:@"1"];
     playInfo.timeoutSeconds = 30;
     //音频 + 视频数据，这里仅做示范，可根据自己项目业务逻辑来调整

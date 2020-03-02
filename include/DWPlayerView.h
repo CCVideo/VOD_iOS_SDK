@@ -151,6 +151,16 @@ typedef NS_ENUM(NSUInteger, DWPlayerViewLoadStyle) {
 @property (nonatomic,strong,readonly) DWDownloadModel * downloadModel;
 
 /**
+ 当前播放时长
+ */
+@property (nonatomic,assign,readonly)NSTimeInterval playedTimes;
+
+/**
+ 当前暂停时长
+*/
+@property (nonatomic,assign,readonly)NSTimeInterval pausedTimes;
+
+/**
  单例
 
  @return 单例对象

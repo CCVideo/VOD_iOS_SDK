@@ -48,6 +48,12 @@
     
 }
 
+-(void)dealloc
+{
+    NSLog(@"DWLocalPlayViewController dealloc");
+    
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
