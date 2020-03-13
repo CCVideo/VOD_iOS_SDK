@@ -163,6 +163,9 @@
 //@property(nonatomic,strong)UILabel * testLabel;
 //@property(nonatomic,strong)NSTimer * testTimer;
 
+//**************************** marquee ****************************
+@property(nonatomic,strong)HDMarqueeView * marqueeView;
+
 @end
 
 @implementation DWVodPlayerView
@@ -198,6 +201,8 @@ static const CGFloat gifSeconds = 0.25;
         [self initRadioView];
         [self initFuncGesture];
         [self initAirPlayView];
+        //开启跑马灯功能
+//        [self initMarqueeView];
         
         //初始化时，默认竖屏设置
         [self hideAndClearNotNecessaryView];
@@ -310,6 +315,10 @@ static const CGFloat gifSeconds = 0.25;
     [self hideAndClearNotNecessaryView];
     
     [self updateConstraintsAndHidden];
+    
+    if (self.marqueeView) {
+        [self.marqueeView startMarquee];
+    }
 }
 
 -(void)play
@@ -2948,6 +2957,120 @@ static const CGFloat gifSeconds = 0.25;
         make.height.equalTo(@15);
         make.width.equalTo(@(200));
     }];
+}
+
+-(void)initMarqueeView
+{
+    NSData * jsonData = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"marquee" ofType:@"json"]];
+    NSDictionary * marqueeSetDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableLeaves error:nil];
+    if (!marqueeSetDict) {
+        return;
+    }
+    
+    //解析数据格式如下
+    /*
+     {
+         "loop": 0,
+         "type": "text",
+         "text": {
+             "content": "<<<我是跑马灯>>>",
+             "font_size": 20,
+             "color": "0x008800"
+         },
+         "image": {
+             "image_url": "abc.jpg",
+             "width": 300,
+             "height": 22
+         },
+         "action": [{
+             "duration": 3,
+             "start": {
+                 "xpos": 0.012,
+                 "ypos": 0,
+                 "alpha": 0.8
+             },
+             "end": {
+                 "xpos": 0.912,
+                 "ypos": 0.823,
+                 "alpha": 0.8
+             }
+         }, {
+             "duration": 5,
+             "start": {
+                 "xpos": 0.312,
+                 "ypos": 0.823,
+                 "alpha": 0.8
+             },
+             "end": {
+                 "xpos": 0.912,
+                 "ypos": 0.123,
+                 "alpha": 0.2
+             }
+         }]
+     }
+     */
+    CGFloat width = 0.0;
+    CGFloat height = 0.0;
+    
+    self.marqueeView = [[HDMarqueeView alloc]init];
+    
+    HDMarqueeViewStyle style = [[marqueeSetDict objectForKey:@"type"] isEqualToString:@"text"] ? HDMarqueeViewStyleTitle : HDMarqueeViewStyleImage;
+    self.marqueeView.style = style;
+    self.marqueeView.fatherView = self.playerView;
+    self.marqueeView.repeatCount = [[marqueeSetDict objectForKey:@"loop"] integerValue];
+    if (style == HDMarqueeViewStyleTitle) {
+        NSDictionary * textDict = [marqueeSetDict objectForKey:@"text"];
+        NSString * text = [textDict objectForKey:@"content"];
+        UIColor * textColor = [DWTools colorWithHexString:[textDict objectForKey:@"color"]];
+        UIFont * textFont = [UIFont systemFontOfSize:[[textDict objectForKey:@"font_size"] floatValue]];
+        
+        self.marqueeView.text = text;
+        self.marqueeView.textAttributed = @{NSFontAttributeName:textFont,NSForegroundColorAttributeName:textColor};
+            
+        CGSize textSize = [self.marqueeView.text calculateRectWithSize:CGSizeMake(ScreenWidth, ScreenHeight) Font:textFont WithLineSpace:0];
+        width = textSize.width;
+        height = textSize.height;
+        
+    }else{
+        NSDictionary * imageDict = [marqueeSetDict objectForKey:@"image"];
+        NSURL * imageURL = [NSURL URLWithString:[imageDict objectForKey:@"image_url"]];
+        self.marqueeView.imageURL = imageURL;
+        
+        width = [[imageDict objectForKey:@"width"] floatValue];
+        height = [[imageDict objectForKey:@"height"] floatValue];
+    }
+    self.marqueeView.frame = CGRectMake(0, 0, width, height);
+    
+    //处理action
+    NSArray * setActionsArray = [marqueeSetDict objectForKey:@"action"];
+    
+    NSMutableArray <HDMarqueeAction *> * actions = [NSMutableArray array];
+    for (int i = 0; i < setActionsArray.count; i++) {
+        NSDictionary * actionDict = [setActionsArray objectAtIndex:i];
+        CGFloat duration = [[actionDict objectForKey:@"duration"] floatValue];
+        NSDictionary * startDict = [actionDict objectForKey:@"start"];
+        NSDictionary * endDict = [actionDict objectForKey:@"end"];
+
+        HDMarqueeAction * marqueeAction = [[HDMarqueeAction alloc]init];
+        marqueeAction.duration = duration;
+        marqueeAction.startPostion.alpha = [[startDict objectForKey:@"alpha"] floatValue];
+        marqueeAction.startPostion.pos = CGPointMake([[startDict objectForKey:@"xpos"] floatValue], [[startDict objectForKey:@"ypos"] floatValue]);
+        marqueeAction.endPostion.alpha = [[endDict objectForKey:@"alpha"] floatValue];
+        marqueeAction.endPostion.pos = CGPointMake([[endDict objectForKey:@"xpos"] floatValue], [[endDict objectForKey:@"ypos"] floatValue]);
+        
+        [actions addObject:marqueeAction];
+    }
+    
+//    NSLog(@"marqueeView actions : %@",actions);
+    
+    self.marqueeView.actions = actions;
+    [self.playerView insertSubview:self.marqueeView atIndex:0];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.marqueeView startMarquee];
+    });
+    
+//    [self.marqueeView startMarquee];
 }
 
 #pragma mark - lazyLoad

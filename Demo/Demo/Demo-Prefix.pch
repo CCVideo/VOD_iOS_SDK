@@ -53,3 +53,5 @@
 #import "DWVodModel.h"
 #import "DWConfigurationManager.h"
 #import "UIImageView+WebCache.h"
+
+#import <HDMarqueeTool/HDMarqueeTool.h>
