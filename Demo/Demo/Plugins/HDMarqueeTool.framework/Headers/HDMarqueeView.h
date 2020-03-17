@@ -48,6 +48,9 @@ typedef NS_ENUM(NSUInteger, HDMarqueeViewStyle) {
 ///跑马灯图片
 @property(nonatomic,strong)NSURL * imageURL;
 
+///跑马灯图片显示模式，默认kCAGravityResize
+@property(nonatomic,copy)NSString * imageGravity;
+
 ///跑马灯效果，必填
 @property(nonatomic,strong)NSArray <HDMarqueeAction *> * actions;
 

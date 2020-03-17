@@ -69,6 +69,9 @@ typedef void (^DWDownloadStateBlock)(DWDownloadModel *downloadModel, NSError *er
 //videoId
 @property (nonatomic, strong, readonly) NSString * videoId;
 
+///跑马灯数据
+@property (nonatomic, strong, readonly)NSString * marqueeStr;
+
 /// 自定义字段 根据自己需求适当添加，比如添加媒体图片，标题等
 @property (nonatomic, strong) NSDictionary * othersInfo;
 

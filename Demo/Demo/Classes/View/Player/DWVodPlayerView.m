@@ -164,7 +164,9 @@
 //@property(nonatomic,strong)NSTimer * testTimer;
 
 //**************************** marquee ****************************
+#if __has_include(<HDMarqueeTool/HDMarqueeTool.h>)
 @property(nonatomic,strong)HDMarqueeView * marqueeView;
+#endif
 
 @end
 
@@ -201,8 +203,6 @@ static const CGFloat gifSeconds = 0.25;
         [self initRadioView];
         [self initFuncGesture];
         [self initAirPlayView];
-        //开启跑马灯功能
-//        [self initMarqueeView];
         
         //初始化时，默认竖屏设置
         [self hideAndClearNotNecessaryView];
@@ -284,6 +284,11 @@ static const CGFloat gifSeconds = 0.25;
     
     //处理视频清晰度数据
     [self dealQualityArray];
+    
+#if __has_include(<HDMarqueeTool/HDMarqueeTool.h>)
+    //开启跑马灯功能
+    [self initMarqueeView];
+#endif
 }
 
 -(void)playLocalVideo:(DWDownloadModel *)downloadModel
@@ -306,6 +311,11 @@ static const CGFloat gifSeconds = 0.25;
 
     [self.playerView playLocalVideo:downloadModel];
     [self play];
+    
+#if __has_include(<HDMarqueeTool/HDMarqueeTool.h>)
+    //开启跑马灯功能
+    [self initMarqueeView];
+#endif
 }
 
 -(void)reLayoutWithScreenState:(BOOL)isFull
@@ -316,9 +326,11 @@ static const CGFloat gifSeconds = 0.25;
     
     [self updateConstraintsAndHidden];
     
+#if __has_include(<HDMarqueeTool/HDMarqueeTool.h>)
     if (self.marqueeView) {
         [self.marqueeView startMarquee];
     }
+#endif
 }
 
 -(void)play
@@ -2959,56 +2971,30 @@ static const CGFloat gifSeconds = 0.25;
     }];
 }
 
+#if __has_include(<HDMarqueeTool/HDMarqueeTool.h>)
 -(void)initMarqueeView
 {
-    NSData * jsonData = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"marquee" ofType:@"json"]];
-    NSDictionary * marqueeSetDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableLeaves error:nil];
-    if (!marqueeSetDict) {
+    if (self.marqueeView) {
+        [self.marqueeView removeFromSuperview];
+        self.marqueeView = nil;
+    }
+    
+    NSData * jsonData = nil;
+    //判断是否是离线视频
+    if (self.downloadModel) {
+        //离线视频
+        jsonData = [self.downloadModel.marqueeStr dataUsingEncoding:NSUTF8StringEncoding];
+    }else{
+        //在线视频
+        jsonData = [self.videoModel.authorize.marqueeStr dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    
+    if (!jsonData) {
         return;
     }
     
-    //解析数据格式如下
-    /*
-     {
-         "loop": 0,
-         "type": "text",
-         "text": {
-             "content": "<<<我是跑马灯>>>",
-             "font_size": 20,
-             "color": "0x008800"
-         },
-         "image": {
-             "image_url": "abc.jpg",
-             "width": 300,
-             "height": 22
-         },
-         "action": [{
-             "duration": 3,
-             "start": {
-                 "xpos": 0.012,
-                 "ypos": 0,
-                 "alpha": 0.8
-             },
-             "end": {
-                 "xpos": 0.912,
-                 "ypos": 0.823,
-                 "alpha": 0.8
-             }
-         }, {
-             "duration": 5,
-             "start": {
-                 "xpos": 0.312,
-                 "ypos": 0.823,
-                 "alpha": 0.8
-             },
-             "end": {
-                 "xpos": 0.912,
-                 "ypos": 0.123,
-                 "alpha": 0.2
-             }
-         }]
-     }
-     */
+    NSDictionary * marqueeSetDict = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableLeaves error:nil];
+    
     CGFloat width = 0.0;
     CGFloat height = 0.0;
     
@@ -3022,7 +3008,7 @@ static const CGFloat gifSeconds = 0.25;
         NSDictionary * textDict = [marqueeSetDict objectForKey:@"text"];
         NSString * text = [textDict objectForKey:@"content"];
         UIColor * textColor = [DWTools colorWithHexString:[textDict objectForKey:@"color"]];
-        UIFont * textFont = [UIFont systemFontOfSize:[[textDict objectForKey:@"font_size"] floatValue]];
+        UIFont * textFont = [UIFont systemFontOfSize:[[textDict objectForKey:@"font_size"] floatValue] / [UIScreen mainScreen].scale];
         
         self.marqueeView.text = text;
         self.marqueeView.textAttributed = @{NSFontAttributeName:textFont,NSForegroundColorAttributeName:textColor};
@@ -3036,8 +3022,8 @@ static const CGFloat gifSeconds = 0.25;
         NSURL * imageURL = [NSURL URLWithString:[imageDict objectForKey:@"image_url"]];
         self.marqueeView.imageURL = imageURL;
         
-        width = [[imageDict objectForKey:@"width"] floatValue];
-        height = [[imageDict objectForKey:@"height"] floatValue];
+        width = [[imageDict objectForKey:@"width"] floatValue] / [UIScreen mainScreen].scale;
+        height = [[imageDict objectForKey:@"height"] floatValue] / [UIScreen mainScreen].scale;
     }
     self.marqueeView.frame = CGRectMake(0, 0, width, height);
     
@@ -3052,7 +3038,7 @@ static const CGFloat gifSeconds = 0.25;
         NSDictionary * endDict = [actionDict objectForKey:@"end"];
 
         HDMarqueeAction * marqueeAction = [[HDMarqueeAction alloc]init];
-        marqueeAction.duration = duration;
+        marqueeAction.duration = duration / 1000.0;
         marqueeAction.startPostion.alpha = [[startDict objectForKey:@"alpha"] floatValue];
         marqueeAction.startPostion.pos = CGPointMake([[startDict objectForKey:@"xpos"] floatValue], [[startDict objectForKey:@"ypos"] floatValue]);
         marqueeAction.endPostion.alpha = [[endDict objectForKey:@"alpha"] floatValue];
@@ -3064,14 +3050,16 @@ static const CGFloat gifSeconds = 0.25;
 //    NSLog(@"marqueeView actions : %@",actions);
     
     self.marqueeView.actions = actions;
-    [self.playerView insertSubview:self.marqueeView atIndex:0];
-    
+//    [self.playerView insertSubview:self.marqueeView atIndex:0];
+    [self.playerView addSubview:self.marqueeView];
+        
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.marqueeView startMarquee];
     });
     
 //    [self.marqueeView startMarquee];
 }
+#endif
 
 #pragma mark - lazyLoad
 //顶部

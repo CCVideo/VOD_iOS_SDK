@@ -222,6 +222,9 @@
 ///提示内容
 @property (nonatomic, strong, readonly)NSString * message;
 
+///跑马灯数据
+@property (nonatomic, strong, readonly)NSString * marqueeStr;
+
 @end
 
 //访客信息收集器
