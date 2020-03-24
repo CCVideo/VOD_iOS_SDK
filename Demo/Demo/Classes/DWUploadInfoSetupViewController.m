@@ -244,10 +244,7 @@
             }
         }
     }
-    
-//    if (CGRectGetMaxY(lastView.frame) > self.bgScrollView.frame.size.height) {
-//        self.bgScrollView.contentSize = CGSizeMake(self.view.frame.size.width, CGRectGetMaxY(lastView.frame));
-//    }
+
 }
 
 @end

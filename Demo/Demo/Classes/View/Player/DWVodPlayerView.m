@@ -26,8 +26,9 @@
 #import "DWExercisesAlertView.h"
 #import "DWExercisesView.h"
 #import <AVKit/AVKit.h>
+#import "DWVodPlayerPanGesture.h"
 
-@interface DWVodPlayerView ()<DWVideoPlayerDelegate,DWPlayerSettingViewDelegate,DWGifRecordFinishViewDelegate,DWVisitorCollectViewDelegate,DWExercisesAlertViewDelegate,DWExercisesViewDelegate,AVPictureInPictureControllerDelegate>
+@interface DWVodPlayerView ()<DWVideoPlayerDelegate,DWPlayerSettingViewDelegate,DWGifRecordFinishViewDelegate,DWVisitorCollectViewDelegate,DWExercisesAlertViewDelegate,DWExercisesViewDelegate,AVPictureInPictureControllerDelegate,DWVodPlayerPanGestureDelegate>
 
 @property(nonatomic,strong)UIView * maskView;//遮罩层
 
@@ -100,6 +101,8 @@
 @property(nonatomic,strong)UISlider * volumeViewSlider;
 
 @property(nonatomic,strong)Reachability * reachability; //网络状态监听
+
+@property(nonatomic,strong)DWVodPlayerPanGesture * pan;
 
 //**************************** 视频打点 ****************************
 @property(nonatomic,strong)NSArray * videomarkArray;//打点数组
@@ -203,6 +206,7 @@ static const CGFloat gifSeconds = 0.25;
         [self initRadioView];
         [self initFuncGesture];
         [self initAirPlayView];
+        [self initPlayerPanGesture];
         
         //初始化时，默认竖屏设置
         [self hideAndClearNotNecessaryView];
@@ -1476,6 +1480,14 @@ static const CGFloat gifSeconds = 0.25;
     }
 }
 
+-(void)setIsLock:(BOOL)isLock
+{
+    _isLock = isLock;
+    
+    //锁屏时，禁用拖拽手势
+    self.pan.canResponse = !_isLock;
+}
+
 #pragma mark - 网络状态改变
 -(void)networkStateChange
 {
@@ -1516,6 +1528,14 @@ static const CGFloat gifSeconds = 0.25;
         default:
             break;
     }
+}
+
+#pragma mark - 快进/快退
+-(void)playerPanHandleEnd:(CGFloat)sliderProgress
+{
+    self.slider.value = sliderProgress;
+    
+    [self sliderEndedAction];
 }
 
 #pragma mark - 前后台切换
@@ -2532,6 +2552,9 @@ static const CGFloat gifSeconds = 0.25;
 
     //读取原先的播放时间 用oldTimeScrub方法
     [self.playerView oldTimeScrub:self.switchTime];
+    
+    //同步视频总时间
+    self.pan.duration = CMTimeGetSeconds(self.playerView.player.currentItem.duration);
 }
 
 //播放完毕
@@ -2591,6 +2614,9 @@ static const CGFloat gifSeconds = 0.25;
         
         self.currentLabel.text = [DWTools formatSecondsToString:time];
         self.totalLabel.text = [DWTools formatSecondsToString:durSec];
+        
+        //同步进度
+        self.pan.progress = self.slider.value;
     }
 }
 
@@ -2969,6 +2995,12 @@ static const CGFloat gifSeconds = 0.25;
         make.height.equalTo(@15);
         make.width.equalTo(@(200));
     }];
+}
+
+-(void)initPlayerPanGesture
+{
+    self.pan = [[DWVodPlayerPanGesture alloc]initWithFatherView:self];
+    self.pan.vodPanDelegate = self;
 }
 
 #if __has_include(<HDMarqueeTool/HDMarqueeTool.h>)
