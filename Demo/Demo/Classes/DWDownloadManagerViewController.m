@@ -98,6 +98,7 @@
     __weak typeof(self) weakSelf = self;
     //请求视频播放信息  获取下载地址 hlsSupport传@"0"
     DWPlayInfo *playinfo = [[DWPlayInfo alloc] initWithUserId:[DWConfigurationManager sharedInstance].DWAccount_userId andVideoId:model.videoId key:[DWConfigurationManager sharedInstance].DWAccount_apikey hlsSupport:@"0"];
+    playinfo.mediatype = @"0";
     //网络请求超时时间
     playinfo.timeoutSeconds = 30;
     playinfo.errorBlock = ^(NSError *error){
@@ -177,8 +178,16 @@
     }else{
         //开始
         for (DWDownloadModel * downloadModel in self.downloadList) {
-            if (downloadModel.state != DWDownloadStateRunning) {
-                [self.manager resumeWithDownloadModel:downloadModel];
+            if (downloadModel.state != DWDownloadStateRunning && downloadModel.state != DWDownloadStateReadying) {
+                //判断下载链接是否超时
+                if ([self.manager isValidateURLWithDownloadModel:downloadModel]) {
+//                    NSLog(@"url可用");
+                    [self.manager resumeWithDownloadModel:downloadModel];
+                }else{
+//                    NSLog(@"url不可用");
+                    //重新获取下载路径
+                    [self requestPlayInfo:downloadModel];
+                }
             }
         }
     }
