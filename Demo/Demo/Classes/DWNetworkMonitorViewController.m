@@ -159,11 +159,9 @@
 
     dispatch_async(t, ^{
         [self startMainPing];
+        CFRunLoopRun();
     });
     
-    dispatch_barrier_async(t, ^{
-        [self startNodePing];
-    });
 }
 
 //检测bokecc.com
@@ -197,16 +195,18 @@
         [self appendString:[NSString stringWithFormat:@"%ld packets transmitted,%ld received,%ld%% packet loss,time %.2lfms\n",packetNum,receiveNum,(NSInteger)(((packetNum - receiveNum) / (double)packetNum) * 100),time]];
         
         if (receiveNum != 0) {
+
             //如果ping不通，后面的也不需要执行了
             self.isPingNode = YES;
         }
+        
+        [self startNodePing];
         
         //            [strongSelf startNodePing];
         
     };
     [networkMonitor startPing];
     self.networkMonitor = networkMonitor;
-    CFRunLoopRun();
 }
 
 //检测当前节点
@@ -218,6 +218,8 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             _repeatTestButton.selected = NO;
         });
+        
+        CFRunLoopStop(CFRunLoopGetCurrent());
         return;
     }
 
@@ -259,10 +261,11 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             self.repeatTestButton.selected = NO;
         });
+        
+        CFRunLoopStop(CFRunLoopGetCurrent());
     };
     [networkMonitor startPing];
     self.networkMonitor = networkMonitor;
-    CFRunLoopRun();
 }
 
 //增加数据显示

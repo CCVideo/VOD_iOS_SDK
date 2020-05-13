@@ -202,6 +202,12 @@ static NSInteger setSectionListTableHeight = 60;
             [_delegate playerSettingViewNetworkMonitorAction];
         }
     }
+    if (button.tag == 104) {
+        //窗口播放
+        if ([_delegate respondsToSelector:@selector(playerSettingWindowsPlay)]) {
+            [_delegate playerSettingWindowsPlay];
+        }
+    }
 }
 
 -(void)sizeButtonAction:(UIButton *)button
@@ -356,14 +362,21 @@ static NSInteger setSectionListTableHeight = 60;
     }else{
         self.bgScrollView.frame = CGRectMake(0, 0, self.bgView.frame.size.width, self.bgView.frame.size.height);
         [self.bgView addSubview:self.bgScrollView];
-        
-        NSArray * titles = @[@"下载",@"投屏",@"视频播放",@"网络检测"];
-        NSArray * images = @[@"icon_setting_dwonload.png",@"icon_screen_horizontal.png",@"icon_setting_video.png",@"icon_setting_network.png"];
+
+        NSArray * titles = @[@"下载",@"投屏",@"视频播放",@"网络检测",@"小窗播放"];
+        NSArray * images = @[@"icon_setting_dwonload.png",@"icon_screen_horizontal.png",@"icon_setting_video.png",@"icon_setting_network.png",@"icon_windows_full.png"];
+
         CGFloat buttonWidth = 48.0;
-        CGFloat space = (self.bgView.frame.size.width - buttonWidth * titles.count - 10 * 2) / 2.0;
+        CGFloat space = 18;
+        
+        UIScrollView * scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.bgView.frame.size.width, 46)];
+        scrollView.contentSize = CGSizeMake(buttonWidth * titles.count + space * (titles.count - 1) + 20, CGRectGetHeight(scrollView.frame));
+        [self.bgScrollView addSubview:scrollView];
+         
         for (int i = 0; i < titles.count; i++) {
             DWSettingFuncButton * button = [DWSettingFuncButton buttonWithType:UIButtonTypeCustom];
-            button.frame = CGRectMake(10 + (buttonWidth + space) * i, 20, buttonWidth, 46);
+            button.frame = CGRectMake(10 + (buttonWidth + space) * i, 0, buttonWidth, CGRectGetHeight(scrollView.frame));
+
             [button setTitle:[titles objectAtIndex:i] forState:UIControlStateNormal];
             [button setImage:[UIImage imageNamed:[images objectAtIndex:i]] forState:UIControlStateNormal];
             if (i == 2) {
@@ -375,7 +388,8 @@ static NSInteger setSectionListTableHeight = 60;
             [button setTitleColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.7] forState:UIControlStateNormal];
             button.tag = 100 + i;
             [button addTarget:self action:@selector(funcButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-            [self.bgScrollView addSubview:button];
+//            [self.bgScrollView addSubview:button];
+            [scrollView addSubview:button];
         }
         
         self.sizeLabel.frame = CGRectMake(10, 103, self.sizeLabel.frame.size.width, self.sizeLabel.frame.size.height);

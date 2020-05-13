@@ -77,8 +77,10 @@
             vodModel.imageUrl = [vodDict objectForKey:@"videoCover"];
             [self.videoList addObject:vodModel];
         }
-        
+                
         dispatch_async(dispatch_get_main_queue(), ^{
+            DWAPPDELEGATE.videoList = self.videoList;
+
             DWVodModel * vodModel = self.videoList.firstObject;
             [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:vodModel.imageUrl] placeholderImage:[UIImage imageNamed:@"icon_placeholder.png"]];
             [self.collectionView reloadData];
@@ -91,9 +93,8 @@
 -(void)reloadLoaclData
 {
     //请自行替换数据
-    
     NSArray * videos = @[];
-    
+
     for (int i = 0; i < videos.count; i++) {
         DWVodModel * vodModel = [[DWVodModel alloc]init];
         vodModel.videoId = [videos objectAtIndex:i];
@@ -102,6 +103,7 @@
         vodModel.imageUrl = @"icon_placeholder.png";
         [self.videoList addObject:vodModel];
     }
+    DWAPPDELEGATE.videoList = self.videoList;
     
     [self.collectionView reloadData];
 }

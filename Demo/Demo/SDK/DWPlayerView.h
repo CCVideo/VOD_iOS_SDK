@@ -324,6 +324,10 @@ typedef NS_ENUM(NSUInteger, DWPlayerViewLoadStyle) {
  */
 - (BOOL)isAirplayEnabled;
 
+/**
+ 获取当前播放器截图
+*/
+- (UIImage *)screenShot;
 
 /**
  获取可播放的持续时间

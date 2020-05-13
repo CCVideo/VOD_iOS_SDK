@@ -24,12 +24,24 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.playerView = [[DWVodPlayerView alloc]init];
+    if (DWAPPDELEGATE.vodPlayerView) {
+        self.playerView = DWAPPDELEGATE.vodPlayerView;
+        [self.playerView quitWindowsModel];
+    }else{
+        self.playerView = [[DWVodPlayerView alloc]init];
+    }
+
     self.playerView.delegate = self;
     [self.view addSubview:self.playerView];
-    [_playerView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_playerView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
+    
+    if (DWAPPDELEGATE.vodPlayerView) {
+        if ([DWAPPDELEGATE.vodPlayerView.downloadModel.videoId isEqualToString:self.downloadModel.videoId]) {
+            return;
+        }
+    }
     [self.playerView playLocalVideo:self.downloadModel];
     [self.playerView reLayoutWithScreenState:YES];
     
@@ -84,6 +96,15 @@
 -(void)vodPlayerView:(DWVodPlayerView *)playerView ReturnBackAction:(BOOL)isFull
 {
     [self.playerView closePlayer];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+//窗口模式播放
+-(void)vodPlayerViewDidEnterWindowsModel:(DWVodPlayerView *)playerView
+{
+//    DWAPPDELEGATE.vodPlayerView.delegate = nil;
+    [DWAPPDELEGATE.vodPlayerView enterWindowsModel];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 

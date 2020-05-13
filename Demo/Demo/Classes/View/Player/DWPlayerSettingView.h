@@ -39,6 +39,8 @@ typedef NS_ENUM(NSInteger, DWVodSettingStyle) {
 -(void)playerSettingViewScreenLightChange:(CGFloat)changeValue;
 //系统音量改变回调
 -(void)playerSettingViewSoundChange:(CGFloat)changeValue;
+//窗口播放
+-(void)playerSettingWindowsPlay;
 
 @end
 

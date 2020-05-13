@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)vodPlayerView:(DWVodPlayerView *)playerView DidNetworkMonitor:(NSString *)vid AndPlayUrl:(NSString *)playUrl;
 //访客信息收集器，退出填写
 -(void)vodPlayerViewVisitorReturnBack:(DWVodPlayerView *)playerView;
+//窗口模式播放
+-(void)vodPlayerViewDidEnterWindowsModel:(DWVodPlayerView *)playerView;
 
 @end
 
@@ -39,6 +41,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DWVodPlayerView : UIView
 
 @property(nonatomic,weak) id <DWVodPlayerViewDelegate> delegate;
+
+@property(nonatomic,strong,readonly)DWVodVideoModel * videoModel;
+
+@property(nonatomic,strong,readonly)DWDownloadModel * downloadModel;
 
 //选集列表
 @property(nonatomic,strong)NSArray * selectionList;
@@ -69,6 +75,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 //清理player
 -(void)closePlayer;
+
+//进入窗口模式
+-(void)enterWindowsModel;
+
+//退出窗口模式
+-(void)quitWindowsModel;
 
 @end
 

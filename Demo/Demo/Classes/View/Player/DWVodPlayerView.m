@@ -27,6 +27,7 @@
 #import "DWExercisesView.h"
 #import <AVKit/AVKit.h>
 #import "DWVodPlayerPanGesture.h"
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface DWVodPlayerView ()<DWVideoPlayerDelegate,DWPlayerSettingViewDelegate,DWGifRecordFinishViewDelegate,DWVisitorCollectViewDelegate,DWExercisesAlertViewDelegate,DWExercisesViewDelegate,AVPictureInPictureControllerDelegate,DWVodPlayerPanGestureDelegate>
 
@@ -40,6 +41,14 @@
 //音频
 @property(nonatomic,strong)UIView * radioBgView;
 @property(nonatomic,strong)UIImageView * radioImageView;
+
+@property(nonatomic,assign)BOOL openWindowsPlay;//是否开启窗口播放功能
+@property(nonatomic,assign)BOOL isWindowsPlay;//当前是否在小窗模式
+
+@property(nonatomic,strong)UIPanGestureRecognizer * windowsPan;//窗口拖拽手势
+@property(nonatomic,strong)UIButton * windowsCloseButton;
+@property(nonatomic,strong)UIButton * windowsPlayOrPauseButton;
+@property(nonatomic,strong)UIButton * windowsResumeButton;
 
 //是否加载完毕
 @property(nonatomic,assign)BOOL readyToPlay;
@@ -56,6 +65,8 @@
 @property(nonatomic,assign)BOOL isSwitchquality;//是否切换清晰度
 @property(nonatomic,assign)BOOL isLock;//锁屏
 
+@property(nonatomic,strong)UITapGestureRecognizer * tap;//状态栏控制
+
 //top
 @property(nonatomic,strong)DWPlayerFuncBgView * topFuncBgView;
 @property(nonatomic,strong)UIButton * backButton;//返回按钮
@@ -66,6 +77,7 @@
 @property(nonatomic,strong)UIButton * vrDisplayButton;//vrButton
 @property(nonatomic,strong)UIButton * screeningButton;//投屏按钮
 @property(nonatomic,strong)UIButton * pipButton;//画中画按钮
+@property(nonatomic,strong)UIButton * windowsButton;//窗口播放按钮
 
 //bottom
 @property(nonatomic,strong)DWPlayerFuncBgView * bottomFuncBgView;
@@ -82,6 +94,8 @@
 
 @property(nonatomic,strong)UIButton * gifButton;//GIF录制
 @property(nonatomic,strong)UIButton * disableGesButton;//禁用页面手势
+
+@property(nonatomic,strong)UIButton * screenShotButton;//截屏按钮
 
 @property(nonatomic,strong)MBProgressHUD * hud;
 
@@ -102,7 +116,7 @@
 
 @property(nonatomic,strong)Reachability * reachability; //网络状态监听
 
-@property(nonatomic,strong)DWVodPlayerPanGesture * pan;
+@property(nonatomic,strong)DWVodPlayerPanGesture * pan;//亮度,音量，快进快退调节
 
 //**************************** 视频打点 ****************************
 @property(nonatomic,strong)NSArray * videomarkArray;//打点数组
@@ -192,6 +206,11 @@ static const CGFloat gifSeconds = 0.25;
         //是否允许后台播放
 //        self.allowBackgroundPlay = YES;
         self.allowBackgroundPlay = NO;
+        
+        //是否开启小窗播放
+        self.openWindowsPlay = YES;
+
+        self.isWindowsPlay = NO;
 
         //是否开启画中画
         self.allowPictureInPicture = NO;
@@ -274,6 +293,8 @@ static const CGFloat gifSeconds = 0.25;
 {
 //    _hud = [MBProgressHUD showHUDAddedTo:self.maskView animated:YES];
 //    _hud.label.text = @"努力加载中，请稍后";
+    self.downloadModel = nil;
+    
     [self showHudWithMessage:@"努力加载中，请稍后"];
     
     self.readyToPlay = NO;
@@ -297,6 +318,8 @@ static const CGFloat gifSeconds = 0.25;
 
 -(void)playLocalVideo:(DWDownloadModel *)downloadModel
 {
+    self.videoModel = nil;
+    
     self.downloadModel  = downloadModel;
     self.enable = YES;
     
@@ -340,12 +363,14 @@ static const CGFloat gifSeconds = 0.25;
 -(void)play
 {
     self.playOrPauseButton.selected = YES;
+    self.windowsPlayOrPauseButton.selected = self.playOrPauseButton.selected;
     [self.playerView play];
 }
 
 -(void)pause
 {
     self.playOrPauseButton.selected = NO;
+    self.windowsPlayOrPauseButton.selected = self.playOrPauseButton.selected;
     [self.playerView pause];
 }
 
@@ -448,6 +473,7 @@ static const CGFloat gifSeconds = 0.25;
     }
     
     if (self.isFull) {
+        
         self.otherFuncButton.hidden = NO;
         self.speedButton.hidden = NO;
         self.qualityButton.hidden = !self.isVideo;
@@ -461,6 +487,7 @@ static const CGFloat gifSeconds = 0.25;
         }
         self.gifButton.hidden = NO;
         self.disableGesButton.hidden = NO;
+        self.screenShotButton.hidden = NO;
         
         //根据状态 切换字幕
         [self switchSubtitleStyle];
@@ -496,9 +523,16 @@ static const CGFloat gifSeconds = 0.25;
                 make.right.equalTo(@(-self.areaInsets.right));
             }];
             
+            [_screenShotButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(@(-self.areaInsets.right));
+                make.centerY.equalTo(self.mas_centerY).offset(-24);
+                make.width.and.height.equalTo(@30);
+            }];
+            
             [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(@10);
             }];
+            
         }
         if (interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
 
@@ -506,9 +540,16 @@ static const CGFloat gifSeconds = 0.25;
                 make.right.equalTo(@(-10));
             }];
             
+            [_screenShotButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(@(-10));
+                make.centerY.equalTo(self.mas_centerY).offset(-24);
+                make.width.and.height.equalTo(@30);
+            }];
+            
             [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(@(self.areaInsets.left));
             }];
+            
         }
         
         //本地模式 不显示选集按钮。页面控件做调整
@@ -594,11 +635,11 @@ static const CGFloat gifSeconds = 0.25;
                 [self.vrLibrary switchInteractiveMode:DWModeInteractiveMotion];
             }
             [self.vrLibrary switchInteractiveMode:_interative];
-            
+
             [_vrInteractiveButton mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.right.equalTo(@(-(40 * buttonCount) - 10));
             }];
-            
+
             [_vrDisplayButton mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.right.equalTo(@(-(40 * (buttonCount + 1)) - 10));
             }];
@@ -607,9 +648,12 @@ static const CGFloat gifSeconds = 0.25;
     }else{
         self.mediaKindButton.hidden = NO;
         self.screeningButton.hidden = NO;
+        self.windowsButton.hidden = NO;
+        
         self.rotateScreenButton.hidden = NO;
         //回复锁屏状态
         self.disableGesButton.selected = NO;
+        self.screenShotButton.hidden = NO;
         self.isLock = NO;
         //如果正在录制gif ，取消
         if (self.isGIF) {
@@ -664,14 +708,21 @@ static const CGFloat gifSeconds = 0.25;
             [self.vrLibrary switchInteractiveMode:_interative];
             
             [_vrInteractiveButton mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(@(-(40 * (buttonCount + 1)) - 10));
+//                make.right.equalTo(@(-(40 * (buttonCount + 1)) - 10));
+                make.right.equalTo(@(-(40 * (buttonCount + 2)) - 10));
             }];
             
             [_vrDisplayButton mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(@(-(40 * (buttonCount + 2)) - 10));
+//                make.right.equalTo(@(-(40 * (buttonCount + 2)) - 10));
+                make.right.equalTo(@(-(40 * (buttonCount + 3)) - 10));
             }];
         }
 
+        [_screenShotButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(@10);
+            make.centerY.equalTo(self);
+            make.width.and.height.equalTo(@30);
+        }];
     }
     
     //访客信息收集器
@@ -693,6 +744,7 @@ static const CGFloat gifSeconds = 0.25;
     self.mediaKindButton.hidden = YES;
     self.otherFuncButton.hidden = YES;
     self.screeningButton.hidden = YES;
+    self.windowsButton.hidden = YES;
     
     //bottom
     self.nextButton.hidden = YES;
@@ -704,6 +756,7 @@ static const CGFloat gifSeconds = 0.25;
     //left
     self.gifButton.hidden = YES;
     self.disableGesButton.hidden = YES;
+    self.screenShotButton.hidden = YES;
     
     //打点视图隐藏
     self.isShowMarkView = NO;
@@ -865,7 +918,7 @@ static const CGFloat gifSeconds = 0.25;
 
 //    _hud = [MBProgressHUD showHUDAddedTo:self.maskView animated:YES];
 //    _hud.label.text = @"切换清晰度，请稍后";
-    [self showHudWithMessage:@"切换清晰度，请稍后"];
+    [self showHudWithMessage:@"切换中..."];
     
 //    self.currentQualityModel = qualityModel;
     
@@ -970,11 +1023,22 @@ static const CGFloat gifSeconds = 0.25;
     
 }
 
+-(void)setOpenWindowsPlay:(BOOL)openWindowsPlay
+{
+    _openWindowsPlay = openWindowsPlay;
+    
+    if (_openWindowsPlay) {
+        DWAPPDELEGATE.vodPlayerView = self;
+    }else{
+        DWAPPDELEGATE.vodPlayerView = nil;
+    }
+}
+
 #pragma mark - func Timer
 -(void)initFuncGesture
 {
-    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(funcIsAppearTap)];
-    [self addGestureRecognizer:tap];
+    self.tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(funcIsAppearTap)];
+    [self addGestureRecognizer:self.tap];
 
     [self createFuncTimer];
 }
@@ -1055,18 +1119,28 @@ static const CGFloat gifSeconds = 0.25;
                     make.right.equalTo(@(ScreenWidth + self.areaInsets.right + 30));
                 }];
                 
+                [_screenShotButton mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.right.equalTo(@(ScreenWidth + self.areaInsets.right + 30));
+                }];
+                
                 [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(@10);
                 }];
+            
             }
             if (interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
                 [_gifButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.right.equalTo(@(10 + 30));
                 }];
                 
+                [_screenShotButton mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.right.equalTo(@(10 + 30));
+                }];
+
                 [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(@(self.areaInsets.left));
                 }];
+         
             }
         }else{
             if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
@@ -1075,9 +1149,14 @@ static const CGFloat gifSeconds = 0.25;
                     make.right.equalTo(@(ScreenWidth + self.areaInsets.right + 30));
                 }];
                 
+                [_screenShotButton mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.right.equalTo(@(ScreenWidth + self.areaInsets.right + 30));
+                }];
+                
                 [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(@(-10 - 30));
                 }];
+            
             }
             if (interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
                 
@@ -1085,9 +1164,14 @@ static const CGFloat gifSeconds = 0.25;
                     make.right.equalTo(@(10 + 30));
                 }];
                 
+                [_screenShotButton mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.right.equalTo(@(10 + 30));
+                }];
+                
                 [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(@(-self.areaInsets.left - 30));
                 }];
+        
             }
         }
     }else{
@@ -1116,9 +1200,14 @@ static const CGFloat gifSeconds = 0.25;
                     make.right.equalTo(@(-self.areaInsets.right));
                 }];
                 
+                [_screenShotButton mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.right.equalTo(@(-self.areaInsets.right));
+                }];
+            
                 [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(@10);
                 }];
+                
             }
             if (interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
                 
@@ -1126,9 +1215,14 @@ static const CGFloat gifSeconds = 0.25;
                     make.right.equalTo(@(-10));
                 }];
                 
+                [_screenShotButton mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.right.equalTo(@(-10));
+                }];
+                
                 [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(@(self.areaInsets.left));
                 }];
+
             }
             
             if (self.isShowMarkView && self.isFull) {
@@ -1160,10 +1254,15 @@ static const CGFloat gifSeconds = 0.25;
                         make.right.equalTo(@(ScreenWidth + self.areaInsets.right + 30));
                     }];
                 }
+                
+                [_screenShotButton mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.right.equalTo(@(ScreenWidth + self.areaInsets.right + 30));
+                }];
          
                 [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(@(-10 - 30));
                 }];
+      
             }
             if (interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
                 
@@ -1173,9 +1272,14 @@ static const CGFloat gifSeconds = 0.25;
                     }];
                 }
                 
+                [_screenShotButton mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.right.equalTo(@(10 + 30));
+                }];
+                
                 [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(@(-self.areaInsets.left - 30));
                 }];
+    
             }
             
             [self showOrHiddenMarkView:YES];
@@ -1188,11 +1292,171 @@ static const CGFloat gifSeconds = 0.25;
     }];
 }
 
+#pragma mark - windowsPlay
+//进入窗口模式
+-(void)enterWindowsModel
+{
+    if (!self.openWindowsPlay) {
+        return;
+    }
+    
+    self.isWindowsPlay = YES;
+    
+    [DWAPPDELEGATE.vodPlayerView removeFromSuperview];
+    [DWAPPDELEGATE.window addSubview:DWAPPDELEGATE.vodPlayerView];
+    
+    [DWAPPDELEGATE.vodPlayerView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(@15);
+        make.bottom.equalTo(@(-134 - self.areaInsets.bottom));
+        make.width.equalTo(@200);
+        make.height.equalTo(@(112.5));
+    }];
+    
+    //窗口模式拖拽手势
+    self.windowsPan =  [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(windowsPanGestureTap)];
+    [self addGestureRecognizer:self.windowsPan];
+    
+    //取消原view手势
+    [self removeGestureRecognizer:self.tap];
+    [self removeGestureRecognizer:self.pan];
+    self.pan.vodPanDelegate = nil;
+    
+    //修改原view按钮，定时器等
+    [self destroyFuncTimer];
+    self.topFuncBgView.hidden = YES;
+    self.bottomFuncBgView.hidden = YES;
+    self.gifButton.hidden = YES;
+    self.disableGesButton.hidden = YES;
+    self.windowsButton.hidden = YES;
+    self.screenShotButton.hidden = YES;
+    
+    self.windowsCloseButton.hidden = NO;
+    self.windowsPlayOrPauseButton.hidden = NO;
+    self.windowsResumeButton.hidden = NO;
+    
+}
+
+//退出窗口模式
+-(void)quitWindowsModel
+{
+    if (!self.openWindowsPlay) {
+        return;
+    }
+    
+    self.isWindowsPlay = NO;
+
+    [DWAPPDELEGATE.vodPlayerView removeFromSuperview];
+    
+    [self removeGestureRecognizer:self.windowsPan];
+    
+    [self initFuncGesture];
+    [self initPlayerPanGesture];
+    
+    self.topFuncBgView.hidden = NO;
+    self.bottomFuncBgView.hidden = NO;
+    self.windowsButton.hidden = NO;
+    self.screenShotButton.hidden = NO;
+    [self reLayoutWithScreenState:NO];
+    
+    self.windowsCloseButton.hidden = YES;
+    self.windowsPlayOrPauseButton.hidden = YES;
+    self.windowsResumeButton.hidden = YES;
+    
+    //处理选集数据
+    [self dealChooseArray];
+    
+#if __has_include(<HDMarqueeTool/HDMarqueeTool.h>)
+    //开启跑马灯功能
+    [self initMarqueeView];
+#endif
+        
+}
+
+//处理拖拽事件
+-(void)windowsPanGestureTap
+{
+    CGPoint position = [self.windowsPan translationInView:self.windowsPan.view];
+    
+    switch (self.windowsPan.state) {
+        case UIGestureRecognizerStateBegan:
+        {
+//            self.transform = CGAffineTransformScale(self.transform, 0, 0);
+//            NSLog(@"UIGestureRecognizerStateBegan : %@",NSStringFromCGPoint(position));
+        }
+            break;
+        case UIGestureRecognizerStateChanged:
+        {
+//            NSLog(@"UIGestureRecognizerStateChanged : %@",NSStringFromCGPoint(position));
+            
+            self.transform = CGAffineTransformMakeTranslation(position.x, position.y);
+//            CGAffineTransformTranslate(self.transform, position.x, position.y);
+ 
+//            NSLog(@"UIGestureRecognizerStateChanged : %@",NSStringFromCGRect(self.frame));
+            
+        }
+            break;
+        case UIGestureRecognizerStateEnded:
+        {
+//            NSLog(@"UIGestureRecognizerStateEnded : %@",NSStringFromCGPoint(position));
+            
+//            NSLog(@"UIGestureRecognizerStateEnded : %@",NSStringFromCGRect(self.frame));
+            [self mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(@(self.frame.origin.x));
+                make.top.equalTo(@(self.frame.origin.y));
+                make.width.equalTo(@(self.frame.size.width));
+                make.height.equalTo(@(self.frame.size.height));
+            }];
+            
+            self.transform = CGAffineTransformIdentity;
+            [self setNeedsLayout];
+            [self layoutIfNeeded];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+//触发功能弹窗时，发送通知
+/// @param landSpace 页面是否需要横屏显示
+-(void)sendWindowsFuncNotification:(BOOL)landSpace
+{
+    if (!self.isWindowsPlay) {
+        return;
+    }
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:DWVODPLAYERRESUMEEVENTNOTIFICATION object:[NSNumber numberWithBool:landSpace]];
+}
+
+-(void)windowsCloseButtonAction
+{
+    [self saveNsUserDefaults];
+
+    [self removeFromSuperview];
+    [self closePlayer];
+    DWAPPDELEGATE.vodPlayerView = nil;
+    
+}
+
+-(void)windowsPlayOrPauseButtonAction
+{
+    if (self.windowsPlayOrPauseButton.selected) {
+        [self pause];
+    }else{
+        [self play];
+    }
+}
+
+-(void)windowsResumeButtonAction
+{
+    [self sendWindowsFuncNotification:NO];
+}
+
 #pragma mark - action
 //顶部
 -(void)backButtonAction
 {
-    if (!self.isFull) {
+    if (!self.isFull && !self.openWindowsPlay) {
         [self saveNsUserDefaults];
     }
     
@@ -1303,6 +1567,19 @@ static const CGFloat gifSeconds = 0.25;
         [self.pipVC stopPictureInPicture];
     }else{
         [self.pipVC startPictureInPicture];
+    }
+}
+
+-(void)windowsButtonAction
+{
+    //VR视频无法窗口播放
+    if (self.videoModel.vrmode == 1 || self.downloadModel.vrMode) {
+        [@"暂不支持VR视频窗口播放" showAlert];
+        return;
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(vodPlayerViewDidEnterWindowsModel:)]) {
+        [self.delegate vodPlayerViewDidEnterWindowsModel:self];
     }
 }
 
@@ -1486,6 +1763,27 @@ static const CGFloat gifSeconds = 0.25;
     
     //锁屏时，禁用拖拽手势
     self.pan.canResponse = !_isLock;
+}
+
+//截屏
+-(void)screenShotButtonAction
+{
+    if (!self.readyToPlay) {
+        return;
+    }
+    
+    UIImage * image = [self.playerView screenShot];
+    ALAssetsLibrary * library = [[ALAssetsLibrary alloc] init];
+    [library writeImageToSavedPhotosAlbum:image.CGImage metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
+        
+        if (error) {
+            [error.localizedDescription showAlert];
+            return;
+        }
+        
+        [@"截图已保存" showAlert];
+    }];
+
 }
 
 #pragma mark - 网络状态改变
@@ -1699,6 +1997,12 @@ static const CGFloat gifSeconds = 0.25;
     for (DWVideoQuestionModel * questionModel in self.questionArray) {
         
         if (questionModel.showTime <= (NSInteger)time && questionModel.isShow) {
+                        
+            if (_questionView) {
+                break;
+            }
+
+            [self sendWindowsFuncNotification:NO];
             
             [self destroyFuncTimer];
             
@@ -2102,6 +2406,8 @@ static const CGFloat gifSeconds = 0.25;
     
     if ((int)time >= visitor.appearTime && visitor.isShow) {
         
+        [self sendWindowsFuncNotification:NO];
+
         [self destroyFuncTimer];
         
         [self pause];//暂停
@@ -2169,6 +2475,9 @@ static const CGFloat gifSeconds = 0.25;
     __weak typeof(self) weakSelf = self;
     for (DWVideoExercisesModel * exercises in self.videoModel.exercises) {
         if ((NSInteger)time >= exercises.showTime && exercises.isShow) {
+
+            [self sendWindowsFuncNotification:YES];
+            
             [self pause];
             
             if (self.exercisesFrontScrubTime != -1) {
@@ -2179,7 +2488,8 @@ static const CGFloat gifSeconds = 0.25;
             }else{
                 UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
                 UIInterfaceOrientation interfaceOrientation = (UIInterfaceOrientation)orientation;
-                if (UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+
+                if (UIInterfaceOrientationIsPortrait(interfaceOrientation) || interfaceOrientation == UIInterfaceOrientationUnknown) {
                     [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationLandscapeLeft] forKey:@"orientation"];
                 }
                 
@@ -2453,6 +2763,13 @@ static const CGFloat gifSeconds = 0.25;
         [_delegate vodPlayerView:self DidNetworkMonitor:self.videoModel.videoId AndPlayUrl:self.playerView.qualityModel.playUrl];
         [self pause];
     }
+}
+
+-(void)playerSettingWindowsPlay
+{
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationPortrait] forKey:@"orientation"];
+
+    [self windowsButtonAction];
 }
 
 //字幕回调
@@ -2754,10 +3071,19 @@ static const CGFloat gifSeconds = 0.25;
         make.centerY.equalTo(self.backButton);
     }];
     
+    [self addSubview:self.windowsButton];
+    [_windowsButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(@(-(40 * (buttonCount + 1)) - 10));
+        make.width.and.height.equalTo(@30);
+        make.centerY.equalTo(self.backButton);
+    }];
+//    buttonCount++;
+    
     self.vrInteractiveButton.hidden = YES;
     [self.topFuncBgView addSubview:self.vrInteractiveButton];
     [_vrInteractiveButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(@(-(40 * (buttonCount + 1)) - 10));
+//        make.right.equalTo(@(-(40 * (buttonCount + 1)) - 10));
+        make.right.equalTo(@(-(40 * (buttonCount + 2)) - 10));
         make.width.and.height.equalTo(@30);
         make.centerY.equalTo(self.backButton);
     }];
@@ -2765,7 +3091,8 @@ static const CGFloat gifSeconds = 0.25;
     self.vrDisplayButton.hidden = YES;
     [self.topFuncBgView addSubview:self.vrDisplayButton];
     [_vrDisplayButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(@(-(40 * (buttonCount + 2)) - 10));
+//        make.right.equalTo(@(-(40 * (buttonCount + 2)) - 10));
+        make.right.equalTo(@(-(40 * (buttonCount + 3)) - 10));
         make.width.and.height.equalTo(@30);
         make.centerY.equalTo(self.backButton);
     }];
@@ -2868,7 +3195,7 @@ static const CGFloat gifSeconds = 0.25;
     [self addSubview:self.gifButton];
     [_gifButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(@(self.areaInsets.right));
-        make.centerY.equalTo(self);
+        make.centerY.equalTo(self).offset(24);
         make.width.and.height.equalTo(@30);
     }];
     
@@ -2876,6 +3203,13 @@ static const CGFloat gifSeconds = 0.25;
     [_disableGesButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(@(self.areaInsets.left));
         make.centerY.equalTo(self);
+        make.width.and.height.equalTo(@30);
+    }];
+    
+    [self addSubview:self.screenShotButton];
+    [self.screenShotButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(@(self.areaInsets.right));
+        make.centerY.equalTo(self).offset(-24);
         make.width.and.height.equalTo(@30);
     }];
 }
@@ -2973,7 +3307,7 @@ static const CGFloat gifSeconds = 0.25;
     self.config = [DWVRLibrary createConfig];
     
     [_config asVideo:self.playerView.player.currentItem];
-    
+
     UINavigationController * currentNC = (UINavigationController *)DWAPPDELEGATE.window.rootViewController;
     UIViewController * preVC = [currentNC.viewControllers objectAtIndex:currentNC.viewControllers.count - 1];
     [_config setContainer:preVC view:self.vrView];
@@ -3188,6 +3522,16 @@ static const CGFloat gifSeconds = 0.25;
     return _pipButton;
 }
 
+-(UIButton *)windowsButton
+{
+    if (!_windowsButton) {
+        _windowsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_windowsButton setBackgroundImage:[UIImage imageNamed:@"icon_windows.png"] forState:UIControlStateNormal];
+        [_windowsButton addTarget:self action:@selector(windowsButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _windowsButton;
+}
+
 //底部
 -(DWPlayerFuncBgView *)bottomFuncBgView
 {
@@ -3346,6 +3690,16 @@ static const CGFloat gifSeconds = 0.25;
         [_disableGesButton addTarget:self action:@selector(disableGesButtonAction) forControlEvents:UIControlEventTouchUpInside];
     }
     return _disableGesButton;
+}
+
+-(UIButton *)screenShotButton
+{
+    if (!_screenShotButton) {
+        _screenShotButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_screenShotButton setImage:[UIImage imageNamed:@"icon_screenshot.png"] forState:UIControlStateNormal];
+        [_screenShotButton addTarget:self action:@selector(screenShotButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _screenShotButton;
 }
 
 -(UIEdgeInsets)areaInsets
@@ -3593,6 +3947,59 @@ static const CGFloat gifSeconds = 0.25;
         _airPlayStatusLabel.text = @"AirPlay投屏中";
     }
     return _airPlayStatusLabel;
+}
+
+//窗口播放
+-(UIButton *)windowsCloseButton
+{
+    if (!_windowsCloseButton) {
+        _windowsCloseButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _windowsCloseButton.hidden = YES;
+        [_windowsCloseButton setBackgroundImage:[UIImage imageNamed:@"icon_windows_close.png"] forState:UIControlStateNormal];
+        [_windowsCloseButton addTarget:self action:@selector(windowsCloseButtonAction) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:_windowsCloseButton];
+        [_windowsCloseButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(@0);
+            make.top.equalTo(@0);
+            make.width.and.height.equalTo(@22);
+        }];
+    }
+    return _windowsCloseButton;
+}
+
+-(UIButton *)windowsPlayOrPauseButton
+{
+    if (!_windowsPlayOrPauseButton) {
+        _windowsPlayOrPauseButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _windowsPlayOrPauseButton.hidden = YES;
+        [_windowsPlayOrPauseButton setBackgroundImage:[UIImage imageNamed:@"icon_windows_play.png"] forState:UIControlStateNormal];
+        [_windowsPlayOrPauseButton setBackgroundImage:[UIImage imageNamed:@"icon_windows_pause.png"] forState:UIControlStateSelected];
+        [_windowsPlayOrPauseButton addTarget:self action:@selector(windowsPlayOrPauseButtonAction) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:_windowsPlayOrPauseButton];
+        [_windowsPlayOrPauseButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.mas_centerX).offset(-7.5);
+            make.bottom.equalTo(@0);
+            make.width.and.height.equalTo(@24);
+        }];
+    }
+    return _windowsPlayOrPauseButton;
+}
+
+-(UIButton *)windowsResumeButton
+{
+    if (!_windowsResumeButton) {
+        _windowsResumeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _windowsResumeButton.hidden = YES;
+        [_windowsResumeButton setBackgroundImage:[UIImage imageNamed:@"icon_windows_resume.png"] forState:UIControlStateNormal];
+        [_windowsResumeButton addTarget:self action:@selector(windowsResumeButtonAction) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:_windowsResumeButton];
+        [_windowsResumeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_centerX).offset(7.5);
+            make.bottom.equalTo(@0);
+            make.width.and.height.equalTo(@24);
+        }];
+    }
+    return _windowsResumeButton;
 }
 
 /*

@@ -46,7 +46,15 @@ typedef enum : NSUInteger {
     [self initUI];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationChangeNotification) name:UIDeviceOrientationDidChangeNotification object:nil];
-
+    
+    //判断是否小窗播放
+    if (DWAPPDELEGATE.vodPlayerView) {
+        if ([DWAPPDELEGATE.vodPlayerView.videoModel.videoId isEqualToString:self.vodModel.videoId]) {
+            //当前正在窗口播放的视频
+            return;
+        }
+    }
+    
     DWConfigurationManager * manager = [DWConfigurationManager sharedInstance];
     if (manager.isOpenAd) {
         //广告模式
@@ -226,7 +234,7 @@ typedef enum : NSUInteger {
 
 -(void)adShowPlay:(DWAdShouView*)adShowView DidScreenRotate:(BOOL)isFull
 {
-    
+
 }
 
 #pragma mark - DWVodPlayerViewDelegate
@@ -305,6 +313,14 @@ typedef enum : NSUInteger {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.navigationController popViewControllerAnimated:YES];
     });
+}
+
+//窗口模式播放
+-(void)vodPlayerViewDidEnterWindowsModel:(DWVodPlayerView *)playerView
+{
+    //如果开启了小窗，开小窗，没开启正常
+    [DWAPPDELEGATE.vodPlayerView enterWindowsModel];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - 投屏相关
@@ -510,12 +526,20 @@ typedef enum : NSUInteger {
     }
     self.playerViewSize = viewSize;
     
-    self.playerView = [[DWVodPlayerView alloc]init];
+    if (DWAPPDELEGATE.vodPlayerView) {
+        self.playerView = DWAPPDELEGATE.vodPlayerView;
+        //选集，要在退出小窗之前设置，否则选集列表会有显示问题
+        self.playerView.selectionList = self.vidoeList;
+        [self.playerView quitWindowsModel];
+    }else{
+        self.playerView = [[DWVodPlayerView alloc]init];
+        //选集
+        self.playerView.selectionList = self.vidoeList;
+    }
+    
     self.playerView.delegate = self;
-    //选集
-    self.playerView.selectionList = self.vidoeList;
     [self.view addSubview:self.playerView];
-    [_playerView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_playerView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.and.left.equalTo(@0);
         make.width.equalTo(@(self.playerViewSize.width));
         make.height.equalTo(@(self.playerViewSize.height));
@@ -559,7 +583,6 @@ typedef enum : NSUInteger {
         make.height.equalTo(@14);
     }];
     
-    
     self.bottomView = [[DWVodPlayBottomView alloc]init];
     self.bottomView.delegate = self;
     [self.view addSubview:self.bottomView];
@@ -568,6 +591,10 @@ typedef enum : NSUInteger {
         make.bottom.equalTo(@0);
         make.left.and.right.equalTo(@0);
     }];
+    
+    if (self.landScape) {
+        [self screenOrientationDidChange:YES];
+    }
 }
 
 -(BOOL)shouldAutorotate

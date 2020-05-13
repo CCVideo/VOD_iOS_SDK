@@ -5,6 +5,9 @@
 #import "DWOfflineModel.h"
 #import "MJExtension.h"
 #import <Photos/Photos.h>
+#import "DWVodPlayViewController.h"
+#import "DWLocalPlayViewController.h"
+#import "DWVodPlayerView.h"
 
 #define DWUploadItemPlistFilename @"uploadItems.plist"
 
@@ -51,6 +54,8 @@
     
     //根据自己项目原业务逻辑，自行斟酌调用即可。
     [self migrateOldDownloadTaskToNewVersion];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resumePlayVCAction:) name:DWVODPLAYERRESUMEEVENTNOTIFICATION object:nil];
         
     [self.window makeKeyAndVisible];
     
@@ -120,6 +125,24 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+-(void)resumePlayVCAction:(NSNotification *)noti
+{
+    UINavigationController * na = (UINavigationController *)self.window.rootViewController;
+    UIViewController * preVC = na.viewControllers.lastObject;
+    if (self.vodPlayerView.videoModel) {
+        //在线视频
+        DWVodPlayViewController * vodPlayVC = [[DWVodPlayViewController alloc]init];
+        vodPlayVC.vodModel = self.vodPlayerView.vodModel;
+        vodPlayVC.vidoeList = self.videoList;
+        vodPlayVC.landScape = [noti.object boolValue];
+        [preVC.navigationController pushViewController:vodPlayVC animated:YES];
+    }else{
+        //离线视频
+        DWLocalPlayViewController * localPlayVC = [[DWLocalPlayViewController alloc]init];
+        localPlayVC.downloadModel = self.vodPlayerView.downloadModel;
+        [preVC.navigationController pushViewController:localPlayVC animated:YES];
+    }
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

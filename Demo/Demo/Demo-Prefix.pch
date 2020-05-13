@@ -44,6 +44,8 @@
 #import "DWAppDelegate.h"
 #define DWAPPDELEGATE ((DWAppDelegate*)([[UIApplication sharedApplication] delegate]))
 
+#define DWVODPLAYERRESUMEEVENTNOTIFICATION    @"DWVodPlayerResumeventNotification"
+
 #import "Masonry.h"
 #import "DWTools.h"
 #import "DWSDK.h"
