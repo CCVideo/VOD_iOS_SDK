@@ -94,7 +94,7 @@
 {
     //请自行替换数据
     NSArray * videos = @[];
-
+    
     for (int i = 0; i < videos.count; i++) {
         DWVodModel * vodModel = [[DWVodModel alloc]init];
         vodModel.videoId = [videos objectAtIndex:i];
@@ -199,7 +199,7 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
+{    
     DWVodModel * vodModel = [self.videoList objectAtIndex:indexPath.row];
     DWVodPlayViewController * vodPlayVC = [[DWVodPlayViewController alloc]init];
     vodPlayVC.vodModel = vodModel;

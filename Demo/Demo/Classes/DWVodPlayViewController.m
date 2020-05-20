@@ -242,6 +242,7 @@ typedef enum : NSUInteger {
 -(void)vodPlayerView:(DWVodPlayerView *)playerView ReturnBackAction:(BOOL)isFull
 {
     if (!isFull) {
+        DWAPPDELEGATE.vodPlayerView = nil;
         [self.playerView closePlayer];
         [self.navigationController popViewControllerAnimated:YES];
     }else{
@@ -319,6 +320,7 @@ typedef enum : NSUInteger {
 -(void)vodPlayerViewDidEnterWindowsModel:(DWVodPlayerView *)playerView
 {
     //如果开启了小窗，开小窗，没开启正常
+    DWAPPDELEGATE.vodPlayerView = self.playerView;
     [DWAPPDELEGATE.vodPlayerView enterWindowsModel];
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -431,6 +433,7 @@ typedef enum : NSUInteger {
     bdUtility.verificationCode = [DWConfigurationManager sharedInstance].verification;
     //音频 + 视频数据，这里仅做示范，可根据自己项目业务逻辑来调整
     bdUtility.mediatype = @"0";
+    __weak typeof(self) weakSelf = self;
     bdUtility.finishBlock = ^(NSArray<DWVodVideoModel *> * _Nonnull playInfosArray) {
         
         if (playInfosArray.count == 0) {
@@ -438,53 +441,8 @@ typedef enum : NSUInteger {
             return;
         }
         
-        for (DWVodVideoModel * videoModel in playInfosArray) {
-
-            if (!videoModel) {
-                //某个视频数据获取失败
-                continue;
-            }
-            
-            if (videoModel.authorize && !videoModel.authorize.enable) {
-                //授权验证未通过，无法下载
-                continue;
-            }
-            
-            //这里根据自身业务逻辑进行调整， 默认全部下载首个媒体数据
-            DWVideoQualityModel * qualityModel = videoModel.videoQualities.firstObject;
-            if (!qualityModel) {
-                qualityModel = videoModel.radioQualities.firstObject;
-            }
-            
-            DWDownloadSessionManager * manager = [DWDownloadSessionManager manager];
-            //验证当前任务是否已经在下载队列中
-            if ([manager checkLocalResourceWithVideoId:videoModel.videoId WithQuality:qualityModel.quality]) {
-                continue;
-            }
-            
-            //获取视频图片地址，保存
-            NSString * imageUrl = @"icon_placeholder.png";
-            NSString * title = @"";
-            for (DWVodModel * vodModel in self.vidoeList) {
-                if ([vodModel.videoId isEqualToString:videoModel.videoId]) {
-                    imageUrl = vodModel.imageUrl;
-                    title = vodModel.title;
-                    break;
-                }
-            }
-            
-            DWDownloadModel * model = [DWDownloadSessionManager createDownloadModel:videoModel Quality:qualityModel.quality AndOthersInfo:@{@"imageUrl":imageUrl,@"title":title}];
-            
-            if (!model) {
-                [@"DownloadModel创建失败，请检查参数" showAlert];
-                continue;
-            }
-            
-            [manager startWithDownloadModel:model];
-            
-        }
+        [weakSelf startDownloadTask:playInfosArray];
         
-        [[NSString stringWithFormat:@"已开始下载%lu个视频",(unsigned long)playInfosArray.count] showAlert];
     };
     
     bdUtility.errorBlock = ^(NSError * _Nonnull error) {
@@ -492,6 +450,57 @@ typedef enum : NSUInteger {
     };
     [bdUtility start];
 
+}
+
+-(void)startDownloadTask:(NSArray<DWVodVideoModel *> *)playInfosArray
+{
+    for (DWVodVideoModel * videoModel in playInfosArray) {
+
+        if (!videoModel) {
+            //某个视频数据获取失败
+            continue;
+        }
+        
+        if (videoModel.authorize && !videoModel.authorize.enable) {
+            //授权验证未通过，无法下载
+            continue;
+        }
+        
+        //这里根据自身业务逻辑进行调整， 默认全部下载首个媒体数据
+        DWVideoQualityModel * qualityModel = videoModel.videoQualities.firstObject;
+        if (!qualityModel) {
+            qualityModel = videoModel.radioQualities.firstObject;
+        }
+        
+        DWDownloadSessionManager * manager = [DWDownloadSessionManager manager];
+        //验证当前任务是否已经在下载队列中
+        if ([manager checkLocalResourceWithVideoId:videoModel.videoId WithQuality:qualityModel.quality]) {
+            continue;
+        }
+        
+        //获取视频图片地址，保存
+        NSString * imageUrl = @"icon_placeholder.png";
+        NSString * title = @"";
+        for (DWVodModel * vodModel in self.vidoeList) {
+            if ([vodModel.videoId isEqualToString:videoModel.videoId]) {
+                imageUrl = vodModel.imageUrl;
+                title = vodModel.title;
+                break;
+            }
+        }
+        
+        DWDownloadModel * model = [DWDownloadSessionManager createDownloadModel:videoModel Quality:qualityModel.quality AndOthersInfo:@{@"imageUrl":imageUrl,@"title":title}];
+        
+        if (!model) {
+            [@"DownloadModel创建失败，请检查参数" showAlert];
+            continue;
+        }
+        
+        [manager startWithDownloadModel:model];
+        
+    }
+    
+    [[NSString stringWithFormat:@"已开始下载%lu个视频",(unsigned long)playInfosArray.count] showAlert];
 }
     
 -(void)vodPlayBottomViewCancelButtonAction

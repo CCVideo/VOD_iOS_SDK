@@ -42,7 +42,7 @@
 @property(nonatomic,strong)UIView * radioBgView;
 @property(nonatomic,strong)UIImageView * radioImageView;
 
-@property(nonatomic,assign)BOOL openWindowsPlay;//是否开启窗口播放功能
+//@property(nonatomic,assign)BOOL openWindowsPlay;//是否开启窗口播放功能
 @property(nonatomic,assign)BOOL isWindowsPlay;//当前是否在小窗模式
 
 @property(nonatomic,strong)UIPanGestureRecognizer * windowsPan;//窗口拖拽手势
@@ -208,7 +208,7 @@ static const CGFloat gifSeconds = 0.25;
         self.allowBackgroundPlay = NO;
         
         //是否开启小窗播放
-        self.openWindowsPlay = YES;
+//        self.openWindowsPlay = YES;
 
         self.isWindowsPlay = NO;
 
@@ -1023,15 +1023,36 @@ static const CGFloat gifSeconds = 0.25;
     
 }
 
--(void)setOpenWindowsPlay:(BOOL)openWindowsPlay
+-(void)startDownloadTask:(DWVodVideoModel *)vodVideo
 {
-    _openWindowsPlay = openWindowsPlay;
+    DWVideoQualityModel * qualitiyModel = self.playerView.qualityModel;
     
-    if (_openWindowsPlay) {
-        DWAPPDELEGATE.vodPlayerView = self;
-    }else{
-        DWAPPDELEGATE.vodPlayerView = nil;
+    DWDownloadSessionManager * manager = [DWDownloadSessionManager manager];
+    //验证当前任务是否已经在下载队列中
+    if ([manager checkLocalResourceWithVideoId:self.videoModel.videoId WithQuality:qualitiyModel.quality]) {
+        [@"当前任务已经在下载队列中" showAlert];
+        return;
     }
+    
+    NSString * imageUrl = nil;
+    NSString * title = @"";
+    if (self.vodModel) {
+        imageUrl = self.vodModel.imageUrl;
+        title = self.vodModel.title;
+    }else{
+        imageUrl = @"icon_placeholder.png";
+    }
+    
+    DWDownloadModel * model = [DWDownloadSessionManager createDownloadModel:vodVideo Quality:qualitiyModel.quality AndOthersInfo:@{@"imageUrl":imageUrl,@"title":title}];
+    
+    if (!model) {
+        [@"DownloadModel创建失败，请检查参数" showAlert];
+        return;
+    }
+    
+    [manager startWithDownloadModel:model];
+    
+    [[NSString stringWithFormat:@"开始下载：%@",vodVideo.title] showAlert];
 }
 
 #pragma mark - func Timer
@@ -1296,9 +1317,9 @@ static const CGFloat gifSeconds = 0.25;
 //进入窗口模式
 -(void)enterWindowsModel
 {
-    if (!self.openWindowsPlay) {
-        return;
-    }
+//    if (!self.openWindowsPlay) {
+//        return;
+//    }
     
     self.isWindowsPlay = YES;
     
@@ -1329,19 +1350,20 @@ static const CGFloat gifSeconds = 0.25;
     self.disableGesButton.hidden = YES;
     self.windowsButton.hidden = YES;
     self.screenShotButton.hidden = YES;
-    
+
     self.windowsCloseButton.hidden = NO;
     self.windowsPlayOrPauseButton.hidden = NO;
     self.windowsResumeButton.hidden = NO;
+
     
 }
 
 //退出窗口模式
 -(void)quitWindowsModel
 {
-    if (!self.openWindowsPlay) {
-        return;
-    }
+//    if (!self.openWindowsPlay) {
+//        return;
+//    }
     
     self.isWindowsPlay = NO;
 
@@ -1456,7 +1478,7 @@ static const CGFloat gifSeconds = 0.25;
 //顶部
 -(void)backButtonAction
 {
-    if (!self.isFull && !self.openWindowsPlay) {
+    if (!self.isFull) {
         [self saveNsUserDefaults];
     }
     
@@ -2676,6 +2698,8 @@ static const CGFloat gifSeconds = 0.25;
         return;
     }
     
+    __weak typeof(self) weakSelf = self;
+    
     //获取下载地址 hlsSupport传@"0"
     DWPlayInfo *playinfo = [[DWPlayInfo alloc] initWithUserId:[DWConfigurationManager sharedInstance].DWAccount_userId andVideoId:self.videoModel.videoId key:[DWConfigurationManager sharedInstance].DWAccount_apikey hlsSupport:@"0"];
     
@@ -2688,6 +2712,7 @@ static const CGFloat gifSeconds = 0.25;
     };
     
     playinfo.finishBlock = ^(DWVodVideoModel *vodVideo) {
+        
         if (!vodVideo) {
             [@"网络资源暂时不可用" showAlert];
             return;
@@ -2698,37 +2723,7 @@ static const CGFloat gifSeconds = 0.25;
             return;
         }
         
-        //这里根据自己业务逻辑进行调整，此处只是示例
-        
-        DWVideoQualityModel * qualitiyModel = self.playerView.qualityModel;
-        
-        DWDownloadSessionManager * manager = [DWDownloadSessionManager manager];
-        //验证当前任务是否已经在下载队列中
-        if ([manager checkLocalResourceWithVideoId:self.videoModel.videoId WithQuality:qualitiyModel.quality]) {
-            [@"当前任务已经在下载队列中" showAlert];
-            return;
-        }
-        
-        NSString * imageUrl = nil;
-        NSString * title = @"";
-        if (self.vodModel) {
-            imageUrl = self.vodModel.imageUrl;
-            title = self.vodModel.title;
-        }else{
-            imageUrl = @"icon_placeholder.png";
-        }
-        
-        DWDownloadModel * model = [DWDownloadSessionManager createDownloadModel:vodVideo Quality:qualitiyModel.quality AndOthersInfo:@{@"imageUrl":imageUrl,@"title":title}];
-        
-        if (!model) {
-            [@"DownloadModel创建失败，请检查参数" showAlert];
-            return;
-        }
-        
-        [manager startWithDownloadModel:model];
-        
-        [[NSString stringWithFormat:@"开始下载：%@",vodVideo.title] showAlert];
-        
+        [weakSelf startDownloadTask:vodVideo];
     };
     
     [playinfo start];

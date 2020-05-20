@@ -43,7 +43,6 @@
         }
     }
     [self.playerView playLocalVideo:self.downloadModel];
-    [self.playerView reLayoutWithScreenState:YES];
     
     /*
     //若需体验SDK自带皮肤的播放器，请将上面代码注释掉，使用下面的代码即可。
@@ -73,6 +72,7 @@
     self.navigationController.navigationBar.hidden = YES;
     
     [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationLandscapeLeft] forKey:@"orientation"];
+    [self.playerView reLayoutWithScreenState:YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -95,6 +95,7 @@
 #pragma mark - DWVodPlayerViewDelegate
 -(void)vodPlayerView:(DWVodPlayerView *)playerView ReturnBackAction:(BOOL)isFull
 {
+    DWAPPDELEGATE.vodPlayerView = nil;
     [self.playerView closePlayer];
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -102,7 +103,7 @@
 //窗口模式播放
 -(void)vodPlayerViewDidEnterWindowsModel:(DWVodPlayerView *)playerView
 {
-//    DWAPPDELEGATE.vodPlayerView.delegate = nil;
+    DWAPPDELEGATE.vodPlayerView = self.playerView;
     [DWAPPDELEGATE.vodPlayerView enterWindowsModel];
     
     [self.navigationController popViewControllerAnimated:YES];
