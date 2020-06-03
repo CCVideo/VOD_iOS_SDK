@@ -442,7 +442,6 @@ typedef enum : NSUInteger {
         }
         
         [weakSelf startDownloadTask:playInfosArray];
-        
     };
     
     bdUtility.errorBlock = ^(NSError * _Nonnull error) {

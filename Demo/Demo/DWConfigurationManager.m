@@ -27,7 +27,7 @@
         
         self.DWAccount_userId = @"391E6E3340A00767";
         self.DWAccount_apikey = @"T8WdOUuvFEiOsou1xjDr4U73v12M7iNa";
-        
+
         self.isOpenAd = NO;
     }
     return self;

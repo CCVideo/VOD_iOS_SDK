@@ -66,12 +66,20 @@
     if (!self.bufferView) {
         self.bufferView = [[DWPlayerSliderBufferView alloc]init];
         self.bufferView.backgroundColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:0.8];
+
         for (UIView * view in self.subviews) {
             if ([view isMemberOfClass:[UIView class]]) {
                 self.bufferView.frame = CGRectMake(0, view.frame.origin.y, 0, view.frame.size.height);
-                [self insertSubview:self.bufferView aboveSubview:view];
+                [self insertSubview:self.bufferView atIndex:1];
             }
         }
+    
+//        for (UIView * view in self.subviews) {
+//            if ([view isMemberOfClass:[UIView class]]) {
+//                self.bufferView.frame = CGRectMake(0, view.frame.origin.y, 0, view.frame.size.height);
+//                [self insertSubview:self.bufferView aboveSubview:view];
+//            }
+//        }
     }
 }
 

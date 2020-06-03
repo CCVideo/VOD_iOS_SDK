@@ -302,11 +302,11 @@ static const CGFloat gifSeconds = 0.25;
     self.isSwitchquality = NO;
     
     self.videoModel = videoModel;
-
+    
     [self.playerView playVodViedo:videoModel withCustomId:nil];
-    
+
     [self play];
-    
+        
     //处理视频清晰度数据
     [self dealQualityArray];
     
@@ -2277,6 +2277,8 @@ static const CGFloat gifSeconds = 0.25;
             if (error) {
                 //报错
                 [[NSString stringWithFormat:@"gif生成失败:%@",[error localizedDescription]] showAlert];
+                
+                [weakSelf gifCancelAction];
             }
             if (GifURL) {
                 //这里自己处理逻辑，看是否要保存本地之类的
@@ -2330,10 +2332,12 @@ static const CGFloat gifSeconds = 0.25;
         //获取点击时的时间
         [self.gifManager associationWithUrl:[self.playerView drmGIFURL] CurrentPlayer:self.playerView.player AndUseM3U8Method:NO];
         [self.gifManager startRecordingGif];
-        
+       
     }else{
         //第二次点击
         if (_clipTime > 3) {
+            [self.gifHud setHidden:NO];
+
             [self endRecordGif];
         }
     }
@@ -2400,8 +2404,6 @@ static const CGFloat gifSeconds = 0.25;
 
 -(void)endRecordGif
 {
-    [self.gifHud setHidden:NO];
-
     if (self.playerView.playing) {
         [self pause];
     }
@@ -2867,6 +2869,7 @@ static const CGFloat gifSeconds = 0.25;
     
     //同步视频总时间
     self.pan.duration = CMTimeGetSeconds(self.playerView.player.currentItem.duration);
+    
 }
 
 //播放完毕
