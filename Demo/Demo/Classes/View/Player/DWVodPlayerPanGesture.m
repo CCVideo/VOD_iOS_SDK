@@ -69,18 +69,17 @@
     if (!(interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight)) {
         return;
     }
-    
-    //这个用于判断落点是在左边还是右边，判断音量 or 亮度
-    CGPoint position = [self translationInView:self.view];
-    CGFloat absX = fabs(position.x);
-    CGFloat absY = fabs(position.y);
-    
+        
     switch (self.state) {
         case UIGestureRecognizerStateBegan:
             {
+                CGPoint position = [self velocityInView:self.view];
+                CGFloat absX = fabs(position.x);
+                CGFloat absY = fabs(position.y);
+                
                 self.location = [self locationInView:self.view];
                 self.lastProgress = self.progress;
-                
+
                 if (absX > absY) {
                     //左右滑动
                     if (position.x < 0) {
@@ -117,6 +116,8 @@
             break;
         case UIGestureRecognizerStateChanged:
             {
+                CGPoint position = [self translationInView:self.view];
+                
                 [self gestureChange:position];
             }
             break;

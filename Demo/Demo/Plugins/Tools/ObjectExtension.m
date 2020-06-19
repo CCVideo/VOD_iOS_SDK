@@ -38,6 +38,28 @@
     [hud hideAnimated:YES afterDelay:3];
 }
 
+//过滤emoji
+-(NSString *)filterEmoji
+{
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[^\\u0020-\\u007E\\u00A0-\\u00BE\\u2E80-\\uA4CF\\uF900-\\uFAFF\\uFE30-\\uFE4F\\uFF00-\\uFFEF\\u0080-\\u009F\\u2000-\\u201f\r\n]" options:NSRegularExpressionCaseInsensitive error:nil];
+    NSString * retString = [regex stringByReplacingMatchesInString:self
+                                                               options:0
+                                                             range:NSMakeRange(0, self.length)
+                                                          withTemplate:@""];
+    return retString;
+}
+
+//是否包含emoji
+-(BOOL)isContainsEmoji
+{
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[^\\u0020-\\u007E\\u00A0-\\u00BE\\u2E80-\\uA4CF\\uF900-\\uFAFF\\uFE30-\\uFE4F\\uFF00-\\uFFEF\\u0080-\\u009F\\u2000-\\u201f\r\n]" options:NSRegularExpressionCaseInsensitive error:nil];
+    NSArray * matches = [regex matchesInString:self options:0 range:NSMakeRange(0, self.length)];
+    if (matches.count >= 1) {
+        return YES;
+    }
+    return NO;
+}
+
 @end
 
 @implementation UIColor (ObjectExtension)

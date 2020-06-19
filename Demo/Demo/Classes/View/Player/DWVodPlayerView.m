@@ -28,8 +28,13 @@
 #import <AVKit/AVKit.h>
 #import "DWVodPlayerPanGesture.h"
 #import <AssetsLibrary/AssetsLibrary.h>
+//弹幕
+#import "OCBarrage.h"
+#import "DWBarrageBgView.h"
+#import "DWBarrageTextDescriptor.h"
+#import "DWBarrageTextCell.h"
 
-@interface DWVodPlayerView ()<DWVideoPlayerDelegate,DWPlayerSettingViewDelegate,DWGifRecordFinishViewDelegate,DWVisitorCollectViewDelegate,DWExercisesAlertViewDelegate,DWExercisesViewDelegate,AVPictureInPictureControllerDelegate,DWVodPlayerPanGestureDelegate>
+@interface DWVodPlayerView ()<DWVideoPlayerDelegate,DWPlayerSettingViewDelegate,DWGifRecordFinishViewDelegate,DWVisitorCollectViewDelegate,DWExercisesAlertViewDelegate,DWExercisesViewDelegate,AVPictureInPictureControllerDelegate,DWVodPlayerPanGestureDelegate,DWBarrageManagerDelegate,DWBarrageBgViewDelegate>
 
 @property(nonatomic,strong)UIView * maskView;//遮罩层
 
@@ -66,6 +71,8 @@
 @property(nonatomic,assign)BOOL isLock;//锁屏
 
 @property(nonatomic,strong)UITapGestureRecognizer * tap;//状态栏控制
+
+@property(nonatomic,assign)CGSize titleLabelSize;
 
 //top
 @property(nonatomic,strong)DWPlayerFuncBgView * topFuncBgView;
@@ -185,6 +192,16 @@
 @property(nonatomic,strong)HDMarqueeView * marqueeView;
 #endif
 
+//**************************** 弹幕 ****************************
+//弹幕数据
+@property(nonatomic,strong)NSArray<DWBarrageModel *> * barragesArray;
+//弹幕控制视图
+@property(nonatomic,strong)DWBarrageBgView * barrageBgView;
+//用于获取弹幕数据以及发送弹幕
+@property(nonatomic,strong)DWBarrageManager * barrageManager;
+//承载弹幕
+@property(nonatomic,strong)OCBarrageManager * barrage;
+
 @end
 
 @implementation DWVodPlayerView
@@ -192,26 +209,29 @@
 static CGFloat topFuncBgHeight = 39;
 static CGFloat bottomFuncBgHeight = 39;
 static const CGFloat gifSeconds = 0.25;
+static CGFloat barrageBgHeight = 40;
+
 
 -(instancetype)init
 {
     if (self == [super init]) {
         
         [UIApplication sharedApplication].idleTimerDisabled = YES;
-
+        
         self.isFull = NO;
         self.isShowMarkView = NO;
         self.isLock = NO;
         self.isScreening = NO;
         //是否允许后台播放
-//        self.allowBackgroundPlay = YES;
+        //        self.allowBackgroundPlay = YES;
         self.allowBackgroundPlay = NO;
+        self.titleLabelSize = CGSizeZero;
         
         //是否开启小窗播放
-//        self.openWindowsPlay = YES;
-
+        //        self.openWindowsPlay = YES;
+        
         self.isWindowsPlay = NO;
-
+        
         //是否开启画中画
         self.allowPictureInPicture = NO;
         
@@ -226,6 +246,8 @@ static const CGFloat gifSeconds = 0.25;
         [self initFuncGesture];
         [self initAirPlayView];
         [self initPlayerPanGesture];
+        //设置弹幕视图
+        [self initBarrageView];
         
         //初始化时，默认竖屏设置
         [self hideAndClearNotNecessaryView];
@@ -235,7 +257,7 @@ static const CGFloat gifSeconds = 0.25;
         self.reachability = [Reachability reachabilityForInternetConnection];
         [self.reachability startNotifier];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStateChange) name:kReachabilityChangedNotification object:nil];
-
+        
         //开启远程控制
         [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
         [self remoteControlEvent];
@@ -244,27 +266,27 @@ static const CGFloat gifSeconds = 0.25;
         //回到前台
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterForegroundNotification) name:UIApplicationWillEnterForegroundNotification object:nil];
         // app退到后台
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resignActiveNotification) name:UIApplicationWillResignActiveNotification object:nil];
+        //        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resignActiveNotification) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackgroundNotification) name:UIApplicationDidEnterBackgroundNotification object:nil];
         
         //airplay监听
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wirelessRouteActiveNotification:) name:MPVolumeViewWirelessRouteActiveDidChangeNotification object:nil];
         
-//        self.testLabel = [[UILabel alloc]init];
-//        self.testLabel.font = [UIFont systemFontOfSize:14];
-//        self.testLabel.textColor = [UIColor purpleColor];
-//        self.testLabel.textAlignment = NSTextAlignmentLeft;
-//        self.testLabel.numberOfLines = 0;
-//        [self addSubview:self.testLabel];
-//        [self.testLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.equalTo(@30);
-//            make.right.equalTo(@(-30));
-//            make.height.equalTo(@50);
-//            make.bottom.equalTo(self.bottomFuncBgView.mas_top).offset(-10);
-//        }];
-//
-//        self.testTimer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(testTimeAction) userInfo:nil repeats:YES];
-//        [[NSRunLoop mainRunLoop] addTimer:self.testTimer forMode:NSRunLoopCommonModes];
+        //        self.testLabel = [[UILabel alloc]init];
+        //        self.testLabel.font = [UIFont systemFontOfSize:14];
+        //        self.testLabel.textColor = [UIColor purpleColor];
+        //        self.testLabel.textAlignment = NSTextAlignmentLeft;
+        //        self.testLabel.numberOfLines = 0;
+        //        [self addSubview:self.testLabel];
+        //        [self.testLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        //            make.left.equalTo(@30);
+        //            make.right.equalTo(@(-30));
+        //            make.height.equalTo(@50);
+        //            make.bottom.equalTo(self.bottomFuncBgView.mas_top).offset(-10);
+        //        }];
+        //
+        //        self.testTimer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(testTimeAction) userInfo:nil repeats:YES];
+        //        [[NSRunLoop mainRunLoop] addTimer:self.testTimer forMode:NSRunLoopCommonModes];
     }
     return self;
 }
@@ -277,7 +299,7 @@ static const CGFloat gifSeconds = 0.25;
 -(void)dealloc
 {
     [UIApplication sharedApplication].idleTimerDisabled = NO;
-
+    
     //移除网络监听
     [self.reachability stopNotifier];
     self.reachability = nil;
@@ -285,14 +307,15 @@ static const CGFloat gifSeconds = 0.25;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPVolumeViewWirelessRouteActiveDidChangeNotification object:nil];
+        
     NSLog(@"DWVodPlayerView dealloc");
 }
 
 #pragma mark - public
 -(void)setVodVideo:(DWVodVideoModel *)videoModel
 {
-//    _hud = [MBProgressHUD showHUDAddedTo:self.maskView animated:YES];
-//    _hud.label.text = @"努力加载中，请稍后";
+    //    _hud = [MBProgressHUD showHUDAddedTo:self.maskView animated:YES];
+    //    _hud.label.text = @"努力加载中，请稍后";
     self.downloadModel = nil;
     
     [self showHudWithMessage:@"努力加载中，请稍后"];
@@ -304,11 +327,14 @@ static const CGFloat gifSeconds = 0.25;
     self.videoModel = videoModel;
     
     [self.playerView playVodViedo:videoModel withCustomId:nil];
-
+    
     [self play];
-        
+    
     //处理视频清晰度数据
     [self dealQualityArray];
+    
+    //设置videoId，关联弹幕
+    self.barrageManager.videoId = self.videoModel.videoId;
     
 #if __has_include(<HDMarqueeTool/HDMarqueeTool.h>)
     //开启跑马灯功能
@@ -325,6 +351,9 @@ static const CGFloat gifSeconds = 0.25;
     
     self.readyToPlay = NO;
     
+    //设置videoId，关联弹幕
+    self.barrageManager.videoId = self.downloadModel.videoId;
+    
     self.titleLabel.text = [downloadModel.othersInfo objectForKey:@"title"];
     [self.qualityButton setTitle:downloadModel.desp forState:UIControlStateNormal];
     
@@ -335,7 +364,7 @@ static const CGFloat gifSeconds = 0.25;
     }else{
         [self changePlayerMediaType:NO];
     }
-
+    
     [self.playerView playLocalVideo:downloadModel];
     [self play];
     
@@ -358,6 +387,8 @@ static const CGFloat gifSeconds = 0.25;
         [self.marqueeView startMarquee];
     }
 #endif
+    
+    [self.barrageBgView screenRotate:self.isFull];
 }
 
 -(void)play
@@ -392,14 +423,14 @@ static const CGFloat gifSeconds = 0.25;
         chooseModel.title = vodModel.title;
         [self.selectionArray addObject:chooseModel];
     }
-
+    
 }
 
 //关闭播放器
 -(void)closePlayer
 {
-//    [self.testTimer invalidate];
-//    self.testTimer = nil;
+    //    [self.testTimer invalidate];
+    //    self.testTimer = nil;
     
     [self destroyFuncTimer];
     
@@ -461,7 +492,7 @@ static const CGFloat gifSeconds = 0.25;
     if (videoModel.authorize) {
         [self dealAuthorizeData];
     }
-
+    
 }
 
 //更新约束和控件状态
@@ -474,10 +505,22 @@ static const CGFloat gifSeconds = 0.25;
     
     if (self.isFull) {
         
+        [_playerView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self);
+        }];
+        
+        [_radioBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self);
+        }];
+        
+        [_maskView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self);
+        }];
+        
         self.otherFuncButton.hidden = NO;
         self.speedButton.hidden = NO;
         self.qualityButton.hidden = !self.isVideo;
-
+        
         if (self.downloadModel) {
             self.chooseButton.hidden = YES;
             self.nextButton.hidden = YES;
@@ -500,8 +543,9 @@ static const CGFloat gifSeconds = 0.25;
             
             [_bottomFuncBgView mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.bottom.equalTo(@0);
-                make.height.equalTo(@(self.areaInsets.bottom + bottomFuncBgHeight));
+                make.height.equalTo(@(self.areaInsets.bottom + bottomFuncBgHeight + barrageBgHeight));
             }];
+
         }else{
             [_topFuncBgView mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(@(-(20 + topFuncBgHeight)));
@@ -509,16 +553,17 @@ static const CGFloat gifSeconds = 0.25;
             }];
             
             [_bottomFuncBgView mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.bottom.equalTo(@(self.areaInsets.bottom + bottomFuncBgHeight));
-                make.height.equalTo(@(self.areaInsets.bottom + bottomFuncBgHeight));
+                make.bottom.equalTo(@(self.areaInsets.bottom + bottomFuncBgHeight + barrageBgHeight));
+                make.height.equalTo(@(self.areaInsets.bottom + bottomFuncBgHeight + barrageBgHeight));
             }];
-        }
 
+        }
+        
         UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
         UIInterfaceOrientation interfaceOrientation = (UIInterfaceOrientation)orientation;
         
         if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
-
+            
             [_gifButton mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.right.equalTo(@(-self.areaInsets.right));
             }];
@@ -535,7 +580,7 @@ static const CGFloat gifSeconds = 0.25;
             
         }
         if (interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
-
+            
             [_gifButton mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.right.equalTo(@(-10));
             }];
@@ -551,15 +596,38 @@ static const CGFloat gifSeconds = 0.25;
             }];
             
         }
+
+        [self.currentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(@20);
+            make.top.equalTo(@((barrageBgHeight - self.titleLabelSize.height) / 2.0));
+            make.height.equalTo(@(self.titleLabelSize.height));
+            make.width.equalTo(@(self.titleLabelSize.width));
+        }];
+        
+        [self.totalLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(@(-20));
+            make.centerY.equalTo(self.currentLabel);
+            make.height.equalTo(@(self.titleLabelSize.height));
+            make.width.equalTo(@(self.titleLabelSize.width));
+        }];
+        
+        [self.slider mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.currentLabel.mas_right).offset(15);
+            make.right.equalTo(self.totalLabel.mas_left).offset(-15);
+            make.height.equalTo(@30);
+            make.centerY.equalTo(self.currentLabel);
+        }];
+        
+        [self.playOrPauseButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(@(barrageBgHeight + 4.5));
+            make.width.and.height.equalTo(@30);
+            make.left.equalTo(@10);
+        }];
         
         //本地模式 不显示选集按钮。页面控件做调整
         if (self.isVideo) {
             
             if (self.chooseButton.hidden) {
-                [_slider mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.right.equalTo(@(-(40 * 2) - 10 - 5));
-                }];
-                
                 [_speedButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.right.equalTo(@(-(40 * 1) - 10));
                 }];
@@ -568,10 +636,6 @@ static const CGFloat gifSeconds = 0.25;
                     make.right.equalTo(@(-(40 * 0) - 10));
                 }];
             }else{
-                [_slider mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.right.equalTo(@(-(40 * 3) - 10 - 5));
-                }];
-                
                 [_speedButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.right.equalTo(@(-(40 * 2) - 10));
                 }];
@@ -588,18 +652,10 @@ static const CGFloat gifSeconds = 0.25;
         }else{
             
             if (self.chooseButton.hidden) {
-                [_slider mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.right.equalTo(@(-(40 * 1) - 10 - 5));
-                }];
-                
                 [_speedButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.right.equalTo(@(-(40 * 0) - 10));
                 }];
             }else{
-                [_slider mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.right.equalTo(@(-(40 * 2) - 10 - 5));
-                }];
-                
                 [_speedButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.right.equalTo(@(-(40 * 1) - 10));
                 }];
@@ -623,6 +679,15 @@ static const CGFloat gifSeconds = 0.25;
             }];
         }
         
+        [self.barrageBgView removeFromSuperview];
+        [self.bottomFuncBgView addSubview:self.barrageBgView];
+        [self.barrageBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.nextButton.mas_right).offset(15);
+            make.centerY.equalTo(self.playOrPauseButton);
+            make.height.equalTo(@(barrageBgHeight));
+            make.right.equalTo(self.speedButton.mas_left).offset(-15);
+        }];
+        
         //VR
         //此种方法组合可以实现Motion下的正确方向
         if (self.videoModel.vrmode == 1 || self.downloadModel.vrMode) {
@@ -635,20 +700,40 @@ static const CGFloat gifSeconds = 0.25;
                 [self.vrLibrary switchInteractiveMode:DWModeInteractiveMotion];
             }
             [self.vrLibrary switchInteractiveMode:_interative];
-
+            
             [_vrInteractiveButton mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.right.equalTo(@(-(40 * buttonCount) - 10));
             }];
-
+            
             [_vrDisplayButton mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.right.equalTo(@(-(40 * (buttonCount + 1)) - 10));
             }];
         }
-    
+        
     }else{
+        
+        [_playerView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.and.top.equalTo(@0);
+            make.width.equalTo(self);
+            make.bottom.equalTo(@(-barrageBgHeight));
+        }];
+        
+        [_radioBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.and.top.equalTo(@0);
+            make.width.equalTo(self);
+            make.bottom.equalTo(@(-barrageBgHeight));
+        }];
+        
+        [_maskView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.and.top.equalTo(@0);
+            make.width.equalTo(self);
+            make.bottom.equalTo(@(-barrageBgHeight));
+        }];
+        
         self.mediaKindButton.hidden = NO;
         self.screeningButton.hidden = NO;
         self.windowsButton.hidden = NO;
+        self.lineLabel.hidden = NO;
         
         self.rotateScreenButton.hidden = NO;
         //回复锁屏状态
@@ -670,11 +755,12 @@ static const CGFloat gifSeconds = 0.25;
                 make.top.equalTo(@0);
                 make.height.equalTo(@(self.areaInsets.top + topFuncBgHeight));
             }];
-            
+
             [_bottomFuncBgView mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.bottom.equalTo(@0);
+                make.bottom.equalTo(@(-barrageBgHeight));
                 make.height.equalTo(@(bottomFuncBgHeight));
             }];
+
         }else{
             [_topFuncBgView mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(@(-(self.areaInsets.top + topFuncBgHeight)));
@@ -686,14 +772,56 @@ static const CGFloat gifSeconds = 0.25;
                 make.height.equalTo(@(bottomFuncBgHeight));
             }];
         }
-
+        
         [_nextButton mas_updateConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.playOrPauseButton.mas_right);
             make.width.equalTo(@0);
         }];
         
-        [_slider mas_updateConstraints:^(MASConstraintMaker *make) {
+        [self.playOrPauseButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+             make.top.equalTo(@(4.5));
+             make.width.and.height.equalTo(@30);
+             make.left.equalTo(@10);
+         }];
+        
+        [_currentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.nextButton.mas_right).offset(5);
+            make.centerY.equalTo(self.playOrPauseButton);
+            make.height.equalTo(@(self.titleLabelSize.height));
+            make.width.equalTo(@(self.titleLabelSize.width));
+        }];
+        [_lineLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.currentLabel.mas_right).offset(2.5);
+            make.centerY.equalTo(self.playOrPauseButton);
+            make.height.equalTo(@(self.lineLabel.frame.size.height));
+            make.width.equalTo(@(self.lineLabel.frame.size.width));
+        }];
+        [_totalLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.lineLabel.mas_right).offset(2.5);
+            make.centerY.equalTo(self.playOrPauseButton);
+            make.height.equalTo(@(self.titleLabelSize.height));
+            make.width.equalTo(@(self.titleLabelSize.width));
+        }];
+  
+        [_slider mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.totalLabel.mas_right).offset(5);
+            make.centerY.equalTo(self.playOrPauseButton);
+            make.height.equalTo(@30);
             make.right.equalTo(@(-45));
+        }];
+        [_rotateScreenButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(@(-5));
+            make.centerY.equalTo(self.playOrPauseButton);
+            make.width.equalTo(@30);
+            make.height.equalTo(@30);
+        }];
+
+        [self.barrageBgView removeFromSuperview];
+        [self insertSubview:self.barrageBgView aboveSubview:self.bottomFuncBgView];
+        [self.barrageBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(@0);
+            make.left.and.right.equalTo(@0);
+            make.height.equalTo(@(barrageBgHeight));
         }];
         
         if (self.videoModel.vrmode == 1 || self.downloadModel.vrMode) {
@@ -708,16 +836,16 @@ static const CGFloat gifSeconds = 0.25;
             [self.vrLibrary switchInteractiveMode:_interative];
             
             [_vrInteractiveButton mas_updateConstraints:^(MASConstraintMaker *make) {
-//                make.right.equalTo(@(-(40 * (buttonCount + 1)) - 10));
+                //                make.right.equalTo(@(-(40 * (buttonCount + 1)) - 10));
                 make.right.equalTo(@(-(40 * (buttonCount + 2)) - 10));
             }];
             
             [_vrDisplayButton mas_updateConstraints:^(MASConstraintMaker *make) {
-//                make.right.equalTo(@(-(40 * (buttonCount + 2)) - 10));
+                //                make.right.equalTo(@(-(40 * (buttonCount + 2)) - 10));
                 make.right.equalTo(@(-(40 * (buttonCount + 3)) - 10));
             }];
         }
-
+        
         [_screenShotButton mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(@10);
             make.centerY.equalTo(self);
@@ -729,9 +857,12 @@ static const CGFloat gifSeconds = 0.25;
     if (self.visitorCollectView) {
         [self.visitorCollectView screenRotate:self.isFull];
     }
-
+    
     [self setNeedsLayout];
     [self layoutIfNeeded];
+    
+    //修改弹幕视图frame
+    self.barrage.renderView.frame = self.playerView.bounds;
     
     //获取到真实位置后，重置进度条位置
     [self.slider resetSubViewFrame];
@@ -752,7 +883,8 @@ static const CGFloat gifSeconds = 0.25;
     self.qualityButton.hidden = YES;
     self.chooseButton.hidden = YES;
     self.rotateScreenButton.hidden = YES;
-
+    self.lineLabel.hidden = YES;
+    
     //left
     self.gifButton.hidden = YES;
     self.disableGesButton.hidden = YES;
@@ -864,7 +996,7 @@ static const CGFloat gifSeconds = 0.25;
             }];
         }
     }
- 
+    
 }
 
 //切换清晰度
@@ -915,12 +1047,12 @@ static const CGFloat gifSeconds = 0.25;
     self.switchTime = CMTimeGetSeconds([self.playerView.player currentTime]);
     
     [self pause];
-
-//    _hud = [MBProgressHUD showHUDAddedTo:self.maskView animated:YES];
-//    _hud.label.text = @"切换清晰度，请稍后";
+    
+    //    _hud = [MBProgressHUD showHUDAddedTo:self.maskView animated:YES];
+    //    _hud.label.text = @"切换清晰度，请稍后";
     [self showHudWithMessage:@"切换中..."];
     
-//    self.currentQualityModel = qualityModel;
+    //    self.currentQualityModel = qualityModel;
     
     [self.qualityButton setTitle:qualityModel.desp forState:UIControlStateNormal];
     [self.playerView switchQuality:qualityModel withCustomId:nil];
@@ -929,7 +1061,7 @@ static const CGFloat gifSeconds = 0.25;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self play];
     });
-//    [self play];
+    //    [self play];
 }
 
 -(void)showHudWithMessage:(NSString *)message
@@ -995,11 +1127,11 @@ static const CGFloat gifSeconds = 0.25;
     }
     
     //若不考虑旧版本的兼容性问题，这里直接获取即可
-//    if (self.videoModel) {
-//        playTime = [[userDefaults objectForKey:self.videoModel.videoId] floatValue];
-//    }else{
-//        playTime = [[userDefaults objectForKey:self.downloadModel.filePath] floatValue];
-//    }
+    //    if (self.videoModel) {
+    //        playTime = [[userDefaults objectForKey:self.videoModel.videoId] floatValue];
+    //    }else{
+    //        playTime = [[userDefaults objectForKey:self.downloadModel.filePath] floatValue];
+    //    }
     
     self.switchTime = playTime;
 }
@@ -1060,7 +1192,7 @@ static const CGFloat gifSeconds = 0.25;
 {
     self.tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(funcIsAppearTap)];
     [self addGestureRecognizer:self.tap];
-
+    
     [self createFuncTimer];
 }
 
@@ -1117,8 +1249,9 @@ static const CGFloat gifSeconds = 0.25;
 -(void)funcBgViewIsAppear:(BOOL)appear
 {
     CGFloat topHeight = self.isFull ? 20 + topFuncBgHeight : self.areaInsets.top + topFuncBgHeight;
-    CGFloat bottomHeight = self.isFull ? self.areaInsets.bottom + bottomFuncBgHeight : bottomFuncBgHeight;
-    
+
+    CGFloat bottomHeight = self.isFull ? self.areaInsets.bottom + bottomFuncBgHeight + barrageBgHeight : bottomFuncBgHeight;
+
     UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
     UIInterfaceOrientation interfaceOrientation = (UIInterfaceOrientation)orientation;
     
@@ -1147,7 +1280,7 @@ static const CGFloat gifSeconds = 0.25;
                 [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(@10);
                 }];
-            
+                
             }
             if (interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
                 [_gifButton mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -1157,11 +1290,11 @@ static const CGFloat gifSeconds = 0.25;
                 [_screenShotButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.right.equalTo(@(10 + 30));
                 }];
-
+                
                 [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(@(self.areaInsets.left));
                 }];
-         
+                
             }
         }else{
             if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
@@ -1177,7 +1310,7 @@ static const CGFloat gifSeconds = 0.25;
                 [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(@(-10 - 30));
                 }];
-            
+                
             }
             if (interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
                 
@@ -1192,7 +1325,7 @@ static const CGFloat gifSeconds = 0.25;
                 [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(@(-self.areaInsets.left - 30));
                 }];
-        
+                
             }
         }
     }else{
@@ -1210,10 +1343,17 @@ static const CGFloat gifSeconds = 0.25;
                 make.height.equalTo(@(topHeight));
             }];
             
-            [_bottomFuncBgView mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.bottom.equalTo(@0);
-                make.height.equalTo(@(bottomHeight));
-            }];
+            if (self.isFull) {
+                [_bottomFuncBgView mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.bottom.equalTo(@0);
+                    make.height.equalTo(@(bottomHeight));
+                }];
+            }else{
+                [_bottomFuncBgView mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.bottom.equalTo(@(-barrageBgHeight));
+                    make.height.equalTo(@(bottomHeight));
+                }];
+            }
             
             if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
                 
@@ -1224,7 +1364,7 @@ static const CGFloat gifSeconds = 0.25;
                 [_screenShotButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.right.equalTo(@(-self.areaInsets.right));
                 }];
-            
+                
                 [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(@10);
                 }];
@@ -1243,7 +1383,7 @@ static const CGFloat gifSeconds = 0.25;
                 [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(@(self.areaInsets.left));
                 }];
-
+                
             }
             
             if (self.isShowMarkView && self.isFull) {
@@ -1256,7 +1396,7 @@ static const CGFloat gifSeconds = 0.25;
             if (self.topFuncBgView.frame.origin.y == -self.topFuncBgView.frame.size.height) {
                 return;
             }
- 
+            
             [_topFuncBgView mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(@(-topHeight));
                 make.height.equalTo(@(topHeight));
@@ -1266,7 +1406,7 @@ static const CGFloat gifSeconds = 0.25;
                 make.bottom.equalTo(@(bottomHeight));
                 make.height.equalTo(@(bottomHeight));
             }];
-
+            
             if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
                 
                 if (!self.isGIF) {
@@ -1279,11 +1419,11 @@ static const CGFloat gifSeconds = 0.25;
                 [_screenShotButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.right.equalTo(@(ScreenWidth + self.areaInsets.right + 30));
                 }];
-         
+                
                 [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(@(-10 - 30));
                 }];
-      
+                
             }
             if (interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
                 
@@ -1300,7 +1440,7 @@ static const CGFloat gifSeconds = 0.25;
                 [_disableGesButton mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(@(-self.areaInsets.left - 30));
                 }];
-    
+                
             }
             
             [self showOrHiddenMarkView:YES];
@@ -1317,9 +1457,9 @@ static const CGFloat gifSeconds = 0.25;
 //进入窗口模式
 -(void)enterWindowsModel
 {
-//    if (!self.openWindowsPlay) {
-//        return;
-//    }
+    //    if (!self.openWindowsPlay) {
+    //        return;
+    //    }
     
     self.isWindowsPlay = YES;
     
@@ -1331,6 +1471,18 @@ static const CGFloat gifSeconds = 0.25;
         make.bottom.equalTo(@(-134 - self.areaInsets.bottom));
         make.width.equalTo(@200);
         make.height.equalTo(@(112.5));
+    }];
+
+    [_playerView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    
+    [_radioBgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    
+    [_maskView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
     }];
     
     //窗口模式拖拽手势
@@ -1350,23 +1502,26 @@ static const CGFloat gifSeconds = 0.25;
     self.disableGesButton.hidden = YES;
     self.windowsButton.hidden = YES;
     self.screenShotButton.hidden = YES;
-
+    //隐藏弹幕
+    [self.barrage stop];
+    self.barrageBgView.hidden = YES;
+    
     self.windowsCloseButton.hidden = NO;
     self.windowsPlayOrPauseButton.hidden = NO;
     self.windowsResumeButton.hidden = NO;
-
+    
     
 }
 
 //退出窗口模式
 -(void)quitWindowsModel
 {
-//    if (!self.openWindowsPlay) {
-//        return;
-//    }
+    //    if (!self.openWindowsPlay) {
+    //        return;
+    //    }
     
     self.isWindowsPlay = NO;
-
+    
     [DWAPPDELEGATE.vodPlayerView removeFromSuperview];
     
     [self removeGestureRecognizer:self.windowsPan];
@@ -1378,6 +1533,12 @@ static const CGFloat gifSeconds = 0.25;
     self.bottomFuncBgView.hidden = NO;
     self.windowsButton.hidden = NO;
     self.screenShotButton.hidden = NO;
+    if (self.barrageBgView.isOpen) {
+        [self.barrage start];
+    }else{
+        [self.barrage stop];
+    }
+    self.barrageBgView.hidden = NO;
     [self reLayoutWithScreenState:NO];
     
     self.windowsCloseButton.hidden = YES;
@@ -1391,7 +1552,7 @@ static const CGFloat gifSeconds = 0.25;
     //开启跑马灯功能
     [self initMarqueeView];
 #endif
-        
+    
 }
 
 //处理拖拽事件
@@ -1402,26 +1563,26 @@ static const CGFloat gifSeconds = 0.25;
     switch (self.windowsPan.state) {
         case UIGestureRecognizerStateBegan:
         {
-//            self.transform = CGAffineTransformScale(self.transform, 0, 0);
-//            NSLog(@"UIGestureRecognizerStateBegan : %@",NSStringFromCGPoint(position));
+            //            self.transform = CGAffineTransformScale(self.transform, 0, 0);
+            //            NSLog(@"UIGestureRecognizerStateBegan : %@",NSStringFromCGPoint(position));
         }
             break;
         case UIGestureRecognizerStateChanged:
         {
-//            NSLog(@"UIGestureRecognizerStateChanged : %@",NSStringFromCGPoint(position));
+            //            NSLog(@"UIGestureRecognizerStateChanged : %@",NSStringFromCGPoint(position));
             
             self.transform = CGAffineTransformMakeTranslation(position.x, position.y);
-//            CGAffineTransformTranslate(self.transform, position.x, position.y);
- 
-//            NSLog(@"UIGestureRecognizerStateChanged : %@",NSStringFromCGRect(self.frame));
+            //            CGAffineTransformTranslate(self.transform, position.x, position.y);
+            
+            //            NSLog(@"UIGestureRecognizerStateChanged : %@",NSStringFromCGRect(self.frame));
             
         }
             break;
         case UIGestureRecognizerStateEnded:
         {
-//            NSLog(@"UIGestureRecognizerStateEnded : %@",NSStringFromCGPoint(position));
+            //            NSLog(@"UIGestureRecognizerStateEnded : %@",NSStringFromCGPoint(position));
             
-//            NSLog(@"UIGestureRecognizerStateEnded : %@",NSStringFromCGRect(self.frame));
+            //            NSLog(@"UIGestureRecognizerStateEnded : %@",NSStringFromCGRect(self.frame));
             [self mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(@(self.frame.origin.x));
                 make.top.equalTo(@(self.frame.origin.y));
@@ -1446,14 +1607,14 @@ static const CGFloat gifSeconds = 0.25;
     if (!self.isWindowsPlay) {
         return;
     }
-
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:DWVODPLAYERRESUMEEVENTNOTIFICATION object:[NSNumber numberWithBool:landSpace]];
 }
 
 -(void)windowsCloseButtonAction
 {
     [self saveNsUserDefaults];
-
+    
     [self removeFromSuperview];
     [self closePlayer];
     DWAPPDELEGATE.vodPlayerView = nil;
@@ -1480,6 +1641,8 @@ static const CGFloat gifSeconds = 0.25;
 {
     if (!self.isFull) {
         [self saveNsUserDefaults];
+        
+        [self.barrageManager cancelRequest];
     }
     
     if ([_delegate respondsToSelector:@selector(vodPlayerView:ReturnBackAction:)]) {
@@ -1575,7 +1738,7 @@ static const CGFloat gifSeconds = 0.25;
      如果要启用画中画功能，请务必设置DWPlayerView对象下列方法值为YES，允许播放器进行后台播放。否则程序进入后台时，可能无法播放视频。
      - (void)setPlayInBackground:(BOOL)play;
      */
-  
+    
     if (![AVPictureInPictureController isPictureInPictureSupported]) {
         [@"设备不支持画中画功能" showAlert];
         return;
@@ -1617,7 +1780,7 @@ static const CGFloat gifSeconds = 0.25;
     if ([_delegate respondsToSelector:@selector(vodPlayerView:PlayStatus:)]) {
         [_delegate vodPlayerView:self PlayStatus:self.playerView.playing];
     }
-
+    
 }
 
 //下一集
@@ -1717,7 +1880,7 @@ static const CGFloat gifSeconds = 0.25;
         
         [self play];
     }];
-        
+    
 }
 
 //速率选择
@@ -1805,7 +1968,7 @@ static const CGFloat gifSeconds = 0.25;
         
         [@"截图已保存" showAlert];
     }];
-
+    
 }
 
 #pragma mark - 网络状态改变
@@ -1832,7 +1995,7 @@ static const CGFloat gifSeconds = 0.25;
                     [self play];
                 }
             }
-        
+            
             break;
         }
         case ReachableViaWWAN:{
@@ -1897,18 +2060,18 @@ static const CGFloat gifSeconds = 0.25;
     MPRemoteCommandCenter * commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
     commandCenter.playCommand.enabled = YES;
     [commandCenter.playCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
-//        if (!weakSelf.playerView.playing) {
-            [weakSelf play];
-//        }
+        //        if (!weakSelf.playerView.playing) {
+        [weakSelf play];
+        //        }
         return MPRemoteCommandHandlerStatusSuccess;
     }];
     
     
     commandCenter.pauseCommand.enabled = YES;
     [commandCenter.pauseCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
-//        if (weakSelf.playerView.playing) {
-            [weakSelf pause];
-//        }
+        //        if (weakSelf.playerView.playing) {
+        [weakSelf pause];
+        //        }
         return MPRemoteCommandHandlerStatusSuccess;
     }];
 }
@@ -2019,11 +2182,11 @@ static const CGFloat gifSeconds = 0.25;
     for (DWVideoQuestionModel * questionModel in self.questionArray) {
         
         if (questionModel.showTime <= (NSInteger)time && questionModel.isShow) {
-                        
+            
             if (_questionView) {
                 break;
             }
-
+            
             [self sendWindowsFuncNotification:NO];
             
             [self destroyFuncTimer];
@@ -2213,7 +2376,7 @@ static const CGFloat gifSeconds = 0.25;
 -(void)verificationCode:(float)time
 {
     NSNumber *number =[NSNumber numberWithFloat:time];
-
+    
     NSInteger freetime = self.videoModel.authorize.freetime;
     //说明不可完整观看
     if (!self.enable) {
@@ -2312,7 +2475,7 @@ static const CGFloat gifSeconds = 0.25;
         self.gifCancelBtn =[UIButton buttonWithType:UIButtonTypeCustom];
         [self.gifCancelBtn setTitle:@"取消" forState:UIControlStateNormal];
         self.gifCancelBtn.titleLabel.font =[UIFont systemFontOfSize:15];
-
+        
         self.gifCancelBtn.layer.cornerRadius =15;
         self.gifCancelBtn.layer.masksToBounds =YES;
         [self.gifCancelBtn addTarget:self action:@selector(gifCancelAction) forControlEvents:UIControlEventTouchUpInside];
@@ -2332,12 +2495,12 @@ static const CGFloat gifSeconds = 0.25;
         //获取点击时的时间
         [self.gifManager associationWithUrl:[self.playerView drmGIFURL] CurrentPlayer:self.playerView.player AndUseM3U8Method:NO];
         [self.gifManager startRecordingGif];
-       
+        
     }else{
         //第二次点击
         if (_clipTime > 3) {
             [self.gifHud setHidden:NO];
-
+            
             [self endRecordGif];
         }
     }
@@ -2415,7 +2578,7 @@ static const CGFloat gifSeconds = 0.25;
 -(void)GifRecordFinishEndShow:(DWGifRecordFinishView *)recordFinishView
 {
     [self play];
-
+    
     [recordFinishView removeFromSuperview];
 }
 
@@ -2425,13 +2588,13 @@ static const CGFloat gifSeconds = 0.25;
     if (!self.videoModel.visitor) {
         return;
     }
-
+    
     DWVideoVisitorModel * visitor = self.videoModel.visitor;
     
     if ((int)time >= visitor.appearTime && visitor.isShow) {
         
         [self sendWindowsFuncNotification:NO];
-
+        
         [self destroyFuncTimer];
         
         [self pause];//暂停
@@ -2499,7 +2662,7 @@ static const CGFloat gifSeconds = 0.25;
     __weak typeof(self) weakSelf = self;
     for (DWVideoExercisesModel * exercises in self.videoModel.exercises) {
         if ((NSInteger)time >= exercises.showTime && exercises.isShow) {
-
+            
             [self sendWindowsFuncNotification:YES];
             
             [self pause];
@@ -2512,7 +2675,7 @@ static const CGFloat gifSeconds = 0.25;
             }else{
                 UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
                 UIInterfaceOrientation interfaceOrientation = (UIInterfaceOrientation)orientation;
-
+                
                 if (UIInterfaceOrientationIsPortrait(interfaceOrientation) || interfaceOrientation == UIInterfaceOrientationUnknown) {
                     [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationLandscapeLeft] forKey:@"orientation"];
                 }
@@ -2547,7 +2710,7 @@ static const CGFloat gifSeconds = 0.25;
     UIInterfaceOrientation interfaceOrientation = (UIInterfaceOrientation)orientation;
     
     [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationLandscapeLeft] forKey:@"orientation"];
-
+    
     DWVideoExercisesModel * exercisesModel = nil;
     for (DWVideoExercisesModel * exercises in self.videoModel.exercises) {
         if (exercises.isShow) {
@@ -2561,7 +2724,7 @@ static const CGFloat gifSeconds = 0.25;
     exercisesView.delegate = self;
     [exercisesView show];
     self.exercisesView = exercisesView;
-        
+    
     [self.exercisesAlertView dismiss];
     self.exercisesAlertView = nil;
 }
@@ -2600,11 +2763,11 @@ static const CGFloat gifSeconds = 0.25;
 -(void)exercisesViewFinishResumePlay:(DWVideoExercisesModel *)exercisesModel
 {
     exercisesModel.isShow = NO;
-
+    
     if (![self haveUnansweredExercises:self.exercisesFrontScrubTime AndLastTime:self.exercisesView.lastScrubTime]) {
         self.exercisesFrontScrubTime = -1;
     }
-
+    
     [self.playerView scrub:self.exercisesView.lastScrubTime];
     
     [self.exercisesView dismiss];
@@ -2636,6 +2799,108 @@ static const CGFloat gifSeconds = 0.25;
     return ret;
 }
 
+#pragma mark--弹幕------
+//DWBarrageManagerDelegate
+//收到弹幕响应回调
+-(void)getBarrageManager:(DWBarrageManager *)barrageManager BarrageList:(NSArray <DWBarrageModel *> *)barrageList WithError:(NSError *)error
+{
+//    NSLog(@"接收弹幕getBarrageManager list:%@ error:%@",barrageList,error);
+    
+    if (error) {
+        return;
+    }
+    
+    self.barragesArray = barrageList;
+}
+
+//发送弹幕回调
+-(void)sendBarrageManager:(DWBarrageManager *)barrageManager BarrageModel:(DWBarrageModel *)sendBarrageModel WithError:(NSError *)error
+{
+//    NSLog(@"发送弹幕sendBarrageManager error:%@",error);
+    if (error) {
+        //error存在，证明弹幕发送失败
+        [NSString stringWithFormat:@"发送失败 %@",error.localizedDescription];
+        return;
+    }
+    
+    [self.barrageBgView clearTextField];
+    
+    //加载自己发送的弹幕
+    [self setBarrageWithModel:sendBarrageModel Send:YES];
+}
+
+//DWBarrageBgViewDelegate
+-(void)barrageBgViewSendWithContent:(NSString *)content Fc:(NSString *)fc
+{
+    if (!self.readyToPlay) {
+        [@"正在加载视频，请稍后" showAlert];
+        return;
+    }
+    
+    //发送弹幕
+    //初始化弹幕模型
+    DWBarrageModel * barrageModel = [[DWBarrageModel alloc]initWithContent:content Fc:fc Pt:(NSInteger)(self.currentPlayDuration * 1000)];
+    //调用方法，发送弹幕
+    [self.barrageManager sendBarrageWithBarrageModel:barrageModel];
+    
+}
+
+/// 开始编辑弹幕
+-(void)barrageBgViewBeginEdit
+{
+    if (self.isFull) {
+        [self pause];
+    }
+}
+
+/// 显示区域变动
+-(void)barrageBgViewAreaChange:(CGFloat)area
+{
+    self.barrage.renderView.frame = CGRectMake(0, 0, self.playerView.frame.size.width, self.playerView.frame.size.height * area);
+}
+
+///关闭/开启弹幕
+-(void)barrageBgViewOpen:(BOOL)isOpen
+{
+    if (isOpen) {
+        [self.barrage start];
+    }else{
+        [self.barrage stop];
+    }
+}
+
+//加载弹幕
+-(void)addNewBarrageWithTime:(float)time
+{
+    NSInteger loadTime = (NSInteger)time;
+    
+    __weak typeof(self) weakSelf = self;
+    [self.barragesArray enumerateObjectsUsingBlock:^(DWBarrageModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSInteger barrageTime = obj.pt / 1000;
+        if (barrageTime == loadTime) {
+            [weakSelf setBarrageWithModel:obj Send:NO];
+        }
+    }];
+}
+
+-(void)setBarrageWithModel:(DWBarrageModel *)barrageModel Send:(BOOL)isSend
+{
+    //加载弹幕
+    DWBarrageTextDescriptor *textDescriptor = [[DWBarrageTextDescriptor alloc] init];
+    textDescriptor.positionPriority = OCBarragePositionLow;
+    textDescriptor.strokeColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+    textDescriptor.strokeWidth = -1;
+    textDescriptor.isSend = isSend;
+    textDescriptor.barrageCellClass = [DWBarrageTextCell class];
+    
+    NSMutableAttributedString * attr = [[NSMutableAttributedString alloc]initWithString:barrageModel.content attributes:@{NSFontAttributeName : self.barrageBgView.barrageFont, NSForegroundColorAttributeName : [DWTools colorWithHexString:barrageModel.fc alpha:self.barrageBgView.barrageAlpha]}];
+    textDescriptor.attributedText = attr;
+    textDescriptor.animationDuration = self.barrageBgView.barrageSpeed;
+    
+    [self.barrage renderBarrageDescriptor:textDescriptor];
+}
+
+
 #pragma mark - DWPlayerSettingViewDelegate
 -(void)playerSettingViewStyle:(DWVodSettingStyle)style AndSelectIndex:(NSInteger)selectIndex
 {
@@ -2665,7 +2930,7 @@ static const CGFloat gifSeconds = 0.25;
                 break;
             }
         }
-
+        
         DWVideoQualityModel * qualityModel = [self.videoModel.videoQualities objectAtIndex:selectIndex];
         [self switchQuality:qualityModel];
     }
@@ -2765,7 +3030,7 @@ static const CGFloat gifSeconds = 0.25;
 -(void)playerSettingWindowsPlay
 {
     [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationPortrait] forKey:@"orientation"];
-
+    
     [self windowsButtonAction];
 }
 
@@ -2834,7 +3099,7 @@ static const CGFloat gifSeconds = 0.25;
 - (void)videoPlayerIsReadyToPlayVideo:(DWPlayerView *)playerView
 {
     self.readyToPlay = YES;
-
+    
     [self hideHudWithMessage:nil];
     
     if (self.videoModel.vrmode == 1 || self.downloadModel.vrMode) {
@@ -2863,7 +3128,7 @@ static const CGFloat gifSeconds = 0.25;
             }
         }
     }
-
+    
     //读取原先的播放时间 用oldTimeScrub方法
     [self.playerView oldTimeScrub:self.switchTime];
     
@@ -2898,7 +3163,7 @@ static const CGFloat gifSeconds = 0.25;
     }
     
     self.currentPlayDuration = time;
-
+    
     //授权验证功能
     [self verificationCode:time];
     
@@ -2917,7 +3182,7 @@ static const CGFloat gifSeconds = 0.25;
     [self showExercisesAlertView:time];
     
     self.exercisesLastScrubTime = time;
-  
+    
     //拖拽时，禁止刷新进度信息
     if (self.isSlidering) {
         return;
@@ -2933,6 +3198,11 @@ static const CGFloat gifSeconds = 0.25;
         //同步进度
         self.pan.progress = self.slider.value;
     }
+    
+    //SDK关联当前播放时间
+    [self.barrageManager associationWithTimeDidChange:time];
+    //弹幕加载
+    [self addNewBarrageWithTime:time];
 }
 
 //duration 当前缓冲的长度
@@ -2941,17 +3211,17 @@ static const CGFloat gifSeconds = 0.25;
     CGFloat durSec = CMTimeGetSeconds(self.playerView.player.currentItem.duration);
     self.slider.bufferValue = duration / durSec;
     
-//    NSLog(@"当前缓冲的长度 %f  百分比 %f",duration,duration / durSec);
+    //    NSLog(@"当前缓冲的长度 %f  百分比 %f",duration,duration / durSec);
 }
 
 //没数据 即播放卡顿
 - (void)videoPlayerPlaybackBufferEmpty:(DWPlayerView *)playerView
 {
-//    _hud = [MBProgressHUD showHUDAddedTo:self.maskView animated:YES];
-//    _hud.label.text = @"播放卡顿，请稍后";
+    //    _hud = [MBProgressHUD showHUDAddedTo:self.maskView animated:YES];
+    //    _hud.label.text = @"播放卡顿，请稍后";
     [self showHudWithMessage:@"播放卡顿，请稍后"];
     
-//    NSLog(@"videoPlayerPlaybackBufferEmpty rate:%lf",playerView.player.rate);
+    //    NSLog(@"videoPlayerPlaybackBufferEmpty rate:%lf",playerView.player.rate);
 }
 
 //有数据 能够继续播放
@@ -2971,7 +3241,7 @@ static const CGFloat gifSeconds = 0.25;
     if (self.playerView.player.rate == 0 && self.playOrPauseButton.selected) {
         self.playOrPauseButton.selected = NO;
     }
-
+    
 }
 
 //加载失败
@@ -3020,7 +3290,7 @@ static const CGFloat gifSeconds = 0.25;
         make.top.equalTo(@0);
         make.height.equalTo(@(self.areaInsets.top + topFuncBgHeight));
     }];
-   
+    
     [self.topFuncBgView addSubview:self.backButton];
     [_backButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(@10);
@@ -3075,12 +3345,12 @@ static const CGFloat gifSeconds = 0.25;
         make.width.and.height.equalTo(@30);
         make.centerY.equalTo(self.backButton);
     }];
-//    buttonCount++;
+    //    buttonCount++;
     
     self.vrInteractiveButton.hidden = YES;
     [self.topFuncBgView addSubview:self.vrInteractiveButton];
     [_vrInteractiveButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.right.equalTo(@(-(40 * (buttonCount + 1)) - 10));
+        //        make.right.equalTo(@(-(40 * (buttonCount + 1)) - 10));
         make.right.equalTo(@(-(40 * (buttonCount + 2)) - 10));
         make.width.and.height.equalTo(@30);
         make.centerY.equalTo(self.backButton);
@@ -3089,12 +3359,12 @@ static const CGFloat gifSeconds = 0.25;
     self.vrDisplayButton.hidden = YES;
     [self.topFuncBgView addSubview:self.vrDisplayButton];
     [_vrDisplayButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.right.equalTo(@(-(40 * (buttonCount + 2)) - 10));
+        //        make.right.equalTo(@(-(40 * (buttonCount + 2)) - 10));
         make.right.equalTo(@(-(40 * (buttonCount + 3)) - 10));
         make.width.and.height.equalTo(@30);
         make.centerY.equalTo(self.backButton);
     }];
-
+    
 }
 
 //底部控件
@@ -3102,11 +3372,11 @@ static const CGFloat gifSeconds = 0.25;
 {
     [self addSubview:self.bottomFuncBgView];
     [_bottomFuncBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(@0);
+        make.bottom.equalTo(@(-barrageBgHeight));
         make.left.and.right.equalTo(@0);
         make.height.equalTo(@(bottomFuncBgHeight));
     }];
-    
+
     [self.bottomFuncBgView addSubview:self.playOrPauseButton];
     [_playOrPauseButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(@(4.5));
@@ -3126,8 +3396,8 @@ static const CGFloat gifSeconds = 0.25;
     [_currentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.nextButton.mas_right).offset(5);
         make.centerY.equalTo(self.playOrPauseButton);
-        make.height.equalTo(@(self.currentLabel.frame.size.height));
-        make.width.equalTo(@(self.currentLabel.frame.size.width));
+        make.height.equalTo(@(self.titleLabelSize.height));
+        make.width.equalTo(@(self.titleLabelSize.width));
     }];
     
     [self.bottomFuncBgView addSubview:self.lineLabel];
@@ -3142,8 +3412,8 @@ static const CGFloat gifSeconds = 0.25;
     [_totalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.lineLabel.mas_right).offset(2.5);
         make.centerY.equalTo(self.playOrPauseButton);
-        make.height.equalTo(@(self.totalLabel.frame.size.height));
-        make.width.equalTo(@(self.totalLabel.frame.size.width));
+        make.height.equalTo(@(self.titleLabelSize.height));
+        make.width.equalTo(@(self.titleLabelSize.width));
     }];
     
     [self.bottomFuncBgView addSubview:self.slider];
@@ -3218,17 +3488,20 @@ static const CGFloat gifSeconds = 0.25;
     self.playerView = [[DWPlayerView alloc]init];
     self.playerView.timeOutLoad = 30;
     self.playerView.timeOutBuffer = 30;
-//    self.playerView.loadStyle = DWPlayerViewLoadStyleImmediately;
+    //    self.playerView.loadStyle = DWPlayerViewLoadStyleImmediately;
     self.playerView.forwardBufferDuration = 30;
     self.playerView.delegate = self;
     [self.playerView setPlayInBackground:self.allowBackgroundPlay];
     [self.playerView setPictureInPicture:self.allowPictureInPicture];
     
     //是否开启防录屏
-//    self.playerView.videoProtect = YES;
+    //    self.playerView.videoProtect = YES;
     [self insertSubview:self.playerView atIndex:0];
+
     [_playerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
+        make.left.and.top.equalTo(@0);
+        make.width.equalTo(self);
+        make.bottom.equalTo(@(-barrageBgHeight));
     }];
 }
 
@@ -3237,9 +3510,15 @@ static const CGFloat gifSeconds = 0.25;
 {
     [self insertSubview:self.radioBgView atIndex:0];
     self.radioBgView.hidden = YES;
+
     [_radioBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
+        make.left.and.top.equalTo(@0);
+        make.width.equalTo(self);
+        make.bottom.equalTo(@(-barrageBgHeight));
     }];
+//    [_radioBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.edges.equalTo(self);
+//    }];
     
     [self.radioBgView addSubview:self.radioImageView];
     [_radioImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -3270,10 +3549,11 @@ static const CGFloat gifSeconds = 0.25;
             self.vrView = nil;
         }
         [self insertSubview:self.vrView atIndex:0];
+
         [_vrView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self);
         }];
-
+        
         self.playerView.hidden = YES;
         
     }else{
@@ -3305,7 +3585,7 @@ static const CGFloat gifSeconds = 0.25;
     self.config = [DWVRLibrary createConfig];
     
     [_config asVideo:self.playerView.player.currentItem];
-
+    
     UINavigationController * currentNC = (UINavigationController *)DWAPPDELEGATE.window.rootViewController;
     UIViewController * preVC = [currentNC.viewControllers objectAtIndex:currentNC.viewControllers.count - 1];
     [_config setContainer:preVC view:self.vrView];
@@ -3376,7 +3656,7 @@ static const CGFloat gifSeconds = 0.25;
         
         self.marqueeView.text = text;
         self.marqueeView.textAttributed = @{NSFontAttributeName:textFont,NSForegroundColorAttributeName:textColor};
-            
+        
         CGSize textSize = [self.marqueeView.text calculateRectWithSize:CGSizeMake(ScreenWidth, ScreenHeight) Font:textFont WithLineSpace:0];
         width = textSize.width;
         height = textSize.height;
@@ -3400,7 +3680,7 @@ static const CGFloat gifSeconds = 0.25;
         CGFloat duration = [[actionDict objectForKey:@"duration"] floatValue];
         NSDictionary * startDict = [actionDict objectForKey:@"start"];
         NSDictionary * endDict = [actionDict objectForKey:@"end"];
-
+        
         HDMarqueeAction * marqueeAction = [[HDMarqueeAction alloc]init];
         marqueeAction.duration = duration / 1000.0;
         marqueeAction.startPostion.alpha = [[startDict objectForKey:@"alpha"] floatValue];
@@ -3411,19 +3691,40 @@ static const CGFloat gifSeconds = 0.25;
         [actions addObject:marqueeAction];
     }
     
-//    NSLog(@"marqueeView actions : %@",actions);
+    //    NSLog(@"marqueeView actions : %@",actions);
     
     self.marqueeView.actions = actions;
-//    [self.playerView insertSubview:self.marqueeView atIndex:0];
+    //    [self.playerView insertSubview:self.marqueeView atIndex:0];
     [self.playerView addSubview:self.marqueeView];
-        
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.marqueeView startMarquee];
     });
     
-//    [self.marqueeView startMarquee];
+    //    [self.marqueeView startMarquee];
 }
 #endif
+
+//设置弹幕视图
+-(void)initBarrageView
+{
+    [self insertSubview:self.barrageBgView aboveSubview:self.bottomFuncBgView];
+    [self.barrageBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(@0);
+        make.left.and.right.equalTo(@0);
+        make.height.equalTo(@(barrageBgHeight));
+    }];
+    
+    self.barrage = [[OCBarrageManager alloc] init];
+    [self insertSubview:self.barrage.renderView aboveSubview:self.playerView];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.barrage.renderView.frame = self.playerView.bounds;
+    });
+    //    self.barrageManager.renderView.center = self.view.center;
+    self.barrage.renderView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    
+    [self.barrage start];
+}
 
 #pragma mark - lazyLoad
 //顶部
@@ -3570,7 +3871,8 @@ static const CGFloat gifSeconds = 0.25;
         _currentLabel.text = @"000:00";
         _currentLabel.textAlignment = NSTextAlignmentCenter;
         [_currentLabel sizeToFit];
-        _currentLabel.frame = CGRectMake(0, 0, _currentLabel.frame.size.width, _currentLabel.frame.size.height);
+//        _currentLabel.frame = CGRectMake(0, 0, _currentLabel.frame.size.width, _currentLabel.frame.size.height);
+        self.titleLabelSize = _currentLabel.frame.size;
     }
     return _currentLabel;
 }
@@ -3598,7 +3900,7 @@ static const CGFloat gifSeconds = 0.25;
         _totalLabel.textAlignment = NSTextAlignmentCenter;
         _totalLabel.text = @"000:00";
         [_totalLabel sizeToFit];
-        _totalLabel.frame = CGRectMake(0, 0, _totalLabel.frame.size.width, _totalLabel.frame.size.height);
+//        _totalLabel.frame = CGRectMake(0, 0, _totalLabel.frame.size.width, _totalLabel.frame.size.height);
     }
     return _totalLabel;
 }
@@ -3794,28 +4096,11 @@ static const CGFloat gifSeconds = 0.25;
 -(CGFloat)sliderWidth
 {
     CGFloat w = MAX(ScreenWidth, ScreenHeight);
-//    -(40 * 3) - 10 - 5
-    CGFloat rightWidth = 0;
-    if (self.isVideo) {
-        if (self.chooseButton.hidden) {
-            rightWidth = (40 * 2);
-        }else{
-            rightWidth = (40 * 3);
-        }
+    if (self.isFull) {
+        return w - (20 + self.titleLabelSize.width + 15) * 2;
     }else{
-        if (self.chooseButton.hidden) {
-            rightWidth = (40 * 1);
-        }else{
-            rightWidth = (40 * 2);
-        }
+        return w - 10 - 30 - 5 - self.titleLabelSize.width - 2.5 - self.lineLabel.frame.size.width - 2.5 - self.titleLabelSize.width - 5 - 40 - 10 - 5;
     }
-    
-    CGFloat nextButtonWidth = 0;
-    if (!self.nextButton.hidden) {
-        nextButtonWidth = 30 + 5;
-    }
-    
-    return w - 10 - 30 - nextButtonWidth - 5 - self.currentLabel.frame.size.width - 2.5 - self.lineLabel.frame.size.width - 2.5 - self.totalLabel.frame.size.width - 5 - rightWidth - 10 - 5;
 
 }
 
@@ -4000,12 +4285,30 @@ static const CGFloat gifSeconds = 0.25;
     return _windowsResumeButton;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+-(DWBarrageManager *)barrageManager
+{
+    if (!_barrageManager) {
+        _barrageManager = [[DWBarrageManager alloc]init];
+        _barrageManager.delegate = self;
+    }
+    return _barrageManager;;
 }
-*/
+
+-(DWBarrageBgView *)barrageBgView
+{
+    if (!_barrageBgView) {
+        _barrageBgView = [[DWBarrageBgView alloc]init];
+        _barrageBgView.delegate = self;
+    }
+    return _barrageBgView;
+}
+
+/*
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect {
+ // Drawing code
+ }
+ */
 
 @end

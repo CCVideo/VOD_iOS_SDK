@@ -16,6 +16,12 @@
 //计算文本大小
 -(CGSize)calculateRectWithSize:(CGSize)size Font:(UIFont *)font WithLineSpace:(CGFloat)lineSpace;
 
+//过滤emoji
+-(NSString *)filterEmoji;
+
+//是否包含emoji
+-(BOOL)isContainsEmoji;
+
 @end
 
 @interface UIColor (ObjectExtension)

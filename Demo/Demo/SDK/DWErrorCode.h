@@ -35,6 +35,9 @@ typedef NS_ENUM(NSUInteger, DWSDK_SERVICE_ERROR) {
     ERROR_AFINFO_DATA            = 1305 , //数据查询异常
     ERROR_AFINFO_ANALYSIS        = 1306 , //广告数据解析失败
     
+    ERROR_BARRAGE_PARAMS         = 1400 , //弹幕参数错误
+    ERROR_BARRAGE_ANALYSIS       = 1401 , //弹幕数据解析失败
+    
     ERROR_PLAYER_CREATE          = 2000 , //播放器创建失败
     ERROR_VIDEO_PLAYERROR        = 2001 , //播放失败
     ERROR_QUALITY_NOTEXIST       = 2002 , //未查找到清晰度

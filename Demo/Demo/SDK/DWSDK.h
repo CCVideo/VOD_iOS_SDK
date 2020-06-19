@@ -25,6 +25,10 @@
 #import "DWVodVideoModel.h"
 #import "DWVodAdInfoModel.h"
 
+//弹幕
+#import "DWBarrageManager.h"
+#import "DWBarrageModel.h"
+
 //版本号
-#define SDK_VERSION @"4.5.2"
+#define SDK_VERSION @"4.6.0"
 
