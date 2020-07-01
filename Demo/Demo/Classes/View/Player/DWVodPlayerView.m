@@ -74,6 +74,8 @@
 
 @property(nonatomic,assign)CGSize titleLabelSize;
 
+@property(nonatomic,assign)BOOL playRepeat;//是否进行过重试
+
 //top
 @property(nonatomic,strong)DWPlayerFuncBgView * topFuncBgView;
 @property(nonatomic,strong)UIButton * backButton;//返回按钮
@@ -223,9 +225,11 @@ static CGFloat barrageBgHeight = 40;
         self.isLock = NO;
         self.isScreening = NO;
         //是否允许后台播放
-        //        self.allowBackgroundPlay = YES;
+//        self.allowBackgroundPlay = YES;
         self.allowBackgroundPlay = NO;
         self.titleLabelSize = CGSizeZero;
+        
+        self.playRepeat = NO;
         
         //是否开启小窗播放
         //        self.openWindowsPlay = YES;
@@ -325,6 +329,8 @@ static CGFloat barrageBgHeight = 40;
     self.isSwitchquality = NO;
     
     self.videoModel = videoModel;
+    
+    self.playRepeat = NO;
     
     [self.playerView playVodViedo:videoModel withCustomId:nil];
     
@@ -460,6 +466,24 @@ static CGFloat barrageBgHeight = 40;
 -(NSString *)videoTitle
 {
     return self.titleLabel.text;
+}
+
+-(void)playFailureRepeat
+{
+    if (self.videoModel && !self.playRepeat) {
+        //在线媒体，且未进行过重试
+        if (self.playerView.qualityModel) {
+            [self showHudWithMessage:@"努力加载中，请稍后"];
+            [self.playerView switchQuality:self.playerView.qualityModel withCustomId:nil];
+            [self play];
+        }
+            
+        self.playRepeat = YES;
+    }else{
+        [@"播放失败，请重试" showAlert];
+        
+        [self hideHudWithMessage:nil];
+    }
 }
 
 #pragma mark - function
@@ -1009,6 +1033,8 @@ static CGFloat barrageBgHeight = 40;
     }
     
     self.readyToPlay = NO;
+    
+    self.playRepeat = NO;
     
     //如果VR视图存在，需要重新创建
     if (self.vrView) {
@@ -3252,15 +3278,20 @@ static CGFloat barrageBgHeight = 40;
         return;
     }
     
-    [[NSString stringWithFormat:@"%@",error.localizedDescription] showAlert];
+    //播放失败，延迟3秒进行重试
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(playFailureRepeat) object:nil];
+
+    [self performSelector:@selector(playFailureRepeat) withObject:self afterDelay:3];
     
-    [self hideHudWithMessage:nil];
+//    [[NSString stringWithFormat:@"%@",error.localizedDescription] showAlert];
+    
+//    [self hideHudWithMessage:nil];
 }
 
 //加载超时/scrub超时
 - (void)videoPlayer:(DWPlayerView *)playerView receivedTimeOut:(DWPlayerViewTimeOut )timeOut
 {
-    [@"加载超时，请稍后" showAlert];
+//    [@"加载超时，请稍后" showAlert];
 }
 
 //AVPlayerLayer对象变动时回调

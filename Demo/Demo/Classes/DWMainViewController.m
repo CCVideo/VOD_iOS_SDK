@@ -49,7 +49,6 @@
   
 //    [self reloadLoaclData];
     [self reloadNetworkData];
-
 }
 
 -(void)reloadNetworkData

@@ -30,5 +30,5 @@
 #import "DWBarrageModel.h"
 
 //版本号
-#define SDK_VERSION @"4.6.0"
+#define SDK_VERSION @"4.6.1"
 
