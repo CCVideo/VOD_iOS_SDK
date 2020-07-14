@@ -16,7 +16,6 @@
 #import "DWFeedBackView.h"
 #import "DWSubtitleView.h"
 #import "DWMessageView.h"
-#import "Reachability.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "DWGIFManager.h"
 #import "DWToastView.h"
@@ -123,7 +122,7 @@
 @property(nonatomic,assign)CGFloat systemSound;//系统音量
 @property(nonatomic,strong)UISlider * volumeViewSlider;
 
-@property(nonatomic,strong)Reachability * reachability; //网络状态监听
+@property(nonatomic,strong)HDReachability * reachability; //网络状态监听
 
 @property(nonatomic,strong)DWVodPlayerPanGesture * pan;//亮度,音量，快进快退调节
 
@@ -190,9 +189,7 @@
 //@property(nonatomic,strong)NSTimer * testTimer;
 
 //**************************** marquee ****************************
-#if __has_include(<HDMarqueeTool/HDMarqueeTool.h>)
 @property(nonatomic,strong)HDMarqueeView * marqueeView;
-#endif
 
 //**************************** 弹幕 ****************************
 //弹幕数据
@@ -258,9 +255,9 @@ static CGFloat barrageBgHeight = 40;
         [self reLayoutWithScreenState:self.isFull];
         
         //增加网络状态监听
-        self.reachability = [Reachability reachabilityForInternetConnection];
+        self.reachability = [HDReachability reachabilityForInternetConnection];
         [self.reachability startNotifier];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStateChange) name:kReachabilityChangedNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStateChange) name:kHDReachabilityChangedNotification object:nil];
         
         //开启远程控制
         [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
@@ -307,7 +304,7 @@ static CGFloat barrageBgHeight = 40;
     //移除网络监听
     [self.reachability stopNotifier];
     self.reachability = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kHDReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPVolumeViewWirelessRouteActiveDidChangeNotification object:nil];
@@ -342,10 +339,8 @@ static CGFloat barrageBgHeight = 40;
     //设置videoId，关联弹幕
     self.barrageManager.videoId = self.videoModel.videoId;
     
-#if __has_include(<HDMarqueeTool/HDMarqueeTool.h>)
     //开启跑马灯功能
     [self initMarqueeView];
-#endif
 }
 
 -(void)playLocalVideo:(DWDownloadModel *)downloadModel
@@ -374,10 +369,8 @@ static CGFloat barrageBgHeight = 40;
     [self.playerView playLocalVideo:downloadModel];
     [self play];
     
-#if __has_include(<HDMarqueeTool/HDMarqueeTool.h>)
     //开启跑马灯功能
     [self initMarqueeView];
-#endif
 }
 
 -(void)reLayoutWithScreenState:(BOOL)isFull
@@ -388,11 +381,9 @@ static CGFloat barrageBgHeight = 40;
     
     [self updateConstraintsAndHidden];
     
-#if __has_include(<HDMarqueeTool/HDMarqueeTool.h>)
     if (self.marqueeView) {
         [self.marqueeView startMarquee];
     }
-#endif
     
     [self.barrageBgView screenRotate:self.isFull];
 }
@@ -1574,11 +1565,8 @@ static CGFloat barrageBgHeight = 40;
     //处理选集数据
     [self dealChooseArray];
     
-#if __has_include(<HDMarqueeTool/HDMarqueeTool.h>)
     //开启跑马灯功能
     [self initMarqueeView];
-#endif
-    
 }
 
 //处理拖拽事件
@@ -2000,16 +1988,16 @@ static CGFloat barrageBgHeight = 40;
 #pragma mark - 网络状态改变
 -(void)networkStateChange
 {
-    NetworkStatus status = [self.reachability currentReachabilityStatus];
+    HDNetworkStatus status = [self.reachability currentReachabilityStatus];
     switch (status) {
-        case NotReachable:{
+        case HDNotReachable:{
             if (self.videoModel) {
                 [@"暂无网络" showAlert];
             }
             break;
         }
             
-        case ReachableViaWiFi:{
+        case HDReachableViaWiFi:{
             [@"切换到wi-fi网络" showAlert];
             if (self.videoModel) {
                 //切换到wifi  继续播放
@@ -2024,7 +2012,7 @@ static CGFloat barrageBgHeight = 40;
             
             break;
         }
-        case ReachableViaWWAN:{
+        case HDReachableViaWWAN:{
             [@"切换到4g网络，暂停播放" showAlert];
             
             if (self.videoModel) {
@@ -3646,7 +3634,6 @@ static CGFloat barrageBgHeight = 40;
     self.pan.vodPanDelegate = self;
 }
 
-#if __has_include(<HDMarqueeTool/HDMarqueeTool.h>)
 -(void)initMarqueeView
 {
     if (self.marqueeView) {
@@ -3734,7 +3721,6 @@ static CGFloat barrageBgHeight = 40;
     
     //    [self.marqueeView startMarquee];
 }
-#endif
 
 //设置弹幕视图
 -(void)initBarrageView

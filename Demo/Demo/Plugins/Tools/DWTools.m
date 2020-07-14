@@ -485,5 +485,4 @@
     return ssid;
 }
 
-
 @end

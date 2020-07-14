@@ -74,7 +74,10 @@ typedef enum : NSUInteger {
     playInfo.timeoutSeconds = 30;
     //音频 + 视频数据，这里仅做示范，可根据自己项目业务逻辑来调整
     playInfo.mediatype = @"0";
+    //开启授权验证功能传入
     playInfo.verificationCode = [DWConfigurationManager sharedInstance].verification;
+    //客户端用户id，选填
+//    playInfo.roleId = @"";
     playInfo.finishBlock = ^(DWVodVideoModel *vodVideo) {
         NSLog(@"%@",vodVideo);
         //下载时，保存图片，名字等数据

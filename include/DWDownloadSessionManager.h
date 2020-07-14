@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "DWDownloadModel.h"
+
+#import <HDBaseUtils/HDURLSessionManager.h>
+
 @class DWVodVideoModel;
 
 // 下载代理
@@ -67,11 +70,6 @@
  @return DWDownloadSessionManager对象
  */
 +(DWDownloadSessionManager *)manager;
-
-/**
- 配置后台session
- */
--(void)configureBackroundSession;
 
 /**
  * 初始化DWDownloadModel

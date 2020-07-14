@@ -14,4 +14,5 @@
 //视频列表。窗口播放时，跳转视频播放页面需要
 @property(nonatomic,strong)NSArray * videoList;
 
+
 @end

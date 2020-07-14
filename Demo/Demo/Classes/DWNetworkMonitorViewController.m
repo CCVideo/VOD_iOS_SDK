@@ -8,7 +8,6 @@
 
 #import "DWNetworkMonitorViewController.h"
 #import "DWNetworkMonitor.h"
-#import "Reachability.h"
 #import "MBProgressHUD.h"
 
 @interface DWNetworkMonitorViewController ()
@@ -29,7 +28,7 @@
 @property(nonatomic,strong) NSString * vid;
 //开始网络测试 等等等 状态描述
 @property(nonatomic,strong) NSString * networkDescription;
-@property(nonatomic,strong) Reachability * reachability;
+@property(nonatomic,strong) HDReachability * reachability;
 @property(nonatomic,strong) NSString * networkStatus;
 @property(nonatomic,strong) NSString * localIP;
 //@property(nonatomic,strong) NSString * city;
@@ -47,20 +46,20 @@
     if (self == [super init]) {
                 
         //增加网络状态监听
-        self.reachability = [Reachability reachabilityForInternetConnection];
+        self.reachability = [HDReachability reachabilityForInternetConnection];
         [self.reachability startNotifier];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStateChange) name:kReachabilityChangedNotification object:nil];
-        NetworkStatus status = [_reachability currentReachabilityStatus];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStateChange) name:kHDReachabilityChangedNotification object:nil];
+        HDNetworkStatus status = [_reachability currentReachabilityStatus];
         switch (status) {
-            case NotReachable:{
+            case HDNotReachable:{
                 self.networkStatus = @"未知";
             }
                 break;
-            case ReachableViaWiFi:{
+            case HDReachableViaWiFi:{
                 self.networkStatus = @"WIFI";
             }
                 break;
-            case ReachableViaWWAN:{
+            case HDReachableViaWWAN:{
                 self.networkStatus = @"流量";
             }
                 break;
@@ -99,7 +98,7 @@
     
     [self.reachability stopNotifier];
     self.reachability = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kHDReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     
@@ -297,17 +296,17 @@
 -(void)networkStateChange
 {
     NSString * oldStatus = self.networkStatus;
-    NetworkStatus status = [_reachability currentReachabilityStatus];
+    HDNetworkStatus status = [_reachability currentReachabilityStatus];
     switch (status) {
-        case NotReachable:{
+        case HDNotReachable:{
             self.networkStatus = @"未知";
         }
             break;
-        case ReachableViaWiFi:{
+        case HDReachableViaWiFi:{
             self.networkStatus = @"WIFI";
         }
             break;
-        case ReachableViaWWAN:{
+        case HDReachableViaWWAN:{
             self.networkStatus = @"流量";
         }
             break;

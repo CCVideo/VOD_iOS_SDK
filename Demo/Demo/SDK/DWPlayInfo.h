@@ -15,6 +15,9 @@ typedef void (^DWPlayInfoFinishBlock)(DWVodVideoModel * vodVideo);
 //授权验证码
 @property (nonatomic,copy)NSString *verificationCode;
 
+//客户端用户id，选填
+@property(nonatomic,strong)NSString * roleId;
+
 //请求失败回调
 @property (copy, nonatomic)DWErrorBlock errorBlock;
 

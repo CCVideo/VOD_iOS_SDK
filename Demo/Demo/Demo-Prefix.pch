@@ -56,6 +56,5 @@
 #import "DWConfigurationManager.h"
 #import "UIImageView+WebCache.h"
 
-#if __has_include(<HDMarqueeTool/HDMarqueeTool.h>)
-#import <HDMarqueeTool/HDMarqueeTool.h>
-#endif
+#import <HDBaseUtils/HDBaseUtils.h>
+

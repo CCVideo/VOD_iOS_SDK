@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "DWUploadModel.h"
 
+#import <HDBaseUtils/HDURLSessionManager.h>
+
 @protocol DWUploadSessionManagerDelegate <NSObject>
 
 @optional

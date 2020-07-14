@@ -5,7 +5,6 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #include <AssetsLibrary/AssetsLibrary.h>
 #import "DWUploadSessionManager.h"
-#import "Reachability.h"
 
 static NSString *const uploadsArray =@"uploadsArray";
 
@@ -22,7 +21,7 @@ static NSString *const uploadsArray =@"uploadsArray";
 
 @property(nonatomic,strong)NSArray * uploadList;
 
-@property(nonatomic,strong)Reachability * reachability; //网络状态监听
+@property(nonatomic,strong)HDReachability * reachability; //网络状态监听
 
 @end
 
@@ -45,9 +44,9 @@ static NSString *const uploadsArray =@"uploadsArray";
     [self setUploadingList];
 
     //增加网络状态监听
-    self.reachability = [Reachability reachabilityForInternetConnection];
+    self.reachability = [HDReachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStateChange) name:kReachabilityChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStateChange) name:kHDReachabilityChangedNotification object:nil];
 }
 
 -(void)setUploadingList
@@ -114,7 +113,7 @@ static NSString *const uploadsArray =@"uploadsArray";
 -(void)dealloc
 {
     [self.reachability stopNotifier];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kHDReachabilityChangedNotification object:nil];
     NSLog(@"DWUploadViewController dealloc");
 }
 
@@ -199,18 +198,18 @@ static NSString *const uploadsArray =@"uploadsArray";
 
 -(void)networkStateChange
 {
-    NetworkStatus status = [self.reachability currentReachabilityStatus];
+    HDNetworkStatus status = [self.reachability currentReachabilityStatus];
     switch (status) {
-        case NotReachable:{
+        case HDNotReachable:{
             //暂无网络
             [self suspendOrResumeUploadWithNetwork:NO];
             break;
         }
-        case ReachableViaWiFi:{
+        case HDReachableViaWiFi:{
             [self suspendOrResumeUploadWithNetwork:YES];
             break;
         }
-        case ReachableViaWWAN:{
+        case HDReachableViaWWAN:{
             [self suspendOrResumeUploadWithNetwork:YES];
             break;
         }

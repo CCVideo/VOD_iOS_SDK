@@ -12,6 +12,7 @@
 #import "DWVodPlayViewController.h"
 #import "DWDownloadManagerViewController.h"
 #import "DWUploadViewController.h"
+#import "DWVodPlayerSkinViewController.h"
 
 #define VIDEOINFOURL     @"https://p.bokecc.com/demo/videoinfo.json"
 
@@ -93,7 +94,7 @@
 -(void)reloadLoaclData
 {
     //请自行替换数据
-    NSArray * videos = @[];
+    NSArray * videos =  @[];
     
     for (int i = 0; i < videos.count; i++) {
         DWVodModel * vodModel = [[DWVodModel alloc]init];

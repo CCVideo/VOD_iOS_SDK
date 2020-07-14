@@ -28,16 +28,6 @@
     return CGSizeMake(ceil(returnSize.width), ceil(returnSize.height));
 }
 
--(void)showAlert
-{
-    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:DWAPPDELEGATE.window animated:YES];
-    hud.mode = MBProgressHUDModeText;
-    hud.label.text = self;
-    hud.margin = 10.f;
-    hud.removeFromSuperViewOnHide = YES;
-    [hud hideAnimated:YES afterDelay:3];
-}
-
 //过滤emoji
 -(NSString *)filterEmoji
 {
@@ -58,6 +48,16 @@
         return YES;
     }
     return NO;
+}
+
+-(void)showAlert
+{
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:DWAPPDELEGATE.window animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    hud.label.text = self;
+    hud.margin = 10.f;
+    hud.removeFromSuperViewOnHide = YES;
+    [hud hideAnimated:YES afterDelay:3];
 }
 
 @end

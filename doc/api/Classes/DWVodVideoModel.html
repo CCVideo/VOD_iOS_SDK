@@ -64,6 +64,8 @@
 		
 		<option value="//api/name/authorize">authorize</option>
 		
+		<option value="//api/name/bdIsReport">bdIsReport</option>
+		
 		<option value="//api/name/defaultSubtitle">defaultSubtitle</option>
 		
 		<option value="//api/name/defaultquality">defaultquality</option>
@@ -74,11 +76,21 @@
 		
 		<option value="//api/name/isRealTime">isRealTime</option>
 		
+		<option value="//api/name/isSparReport">isSparReport</option>
+		
 		<option value="//api/name/questions">questions</option>
 		
 		<option value="//api/name/radioQualities">radioQualities</option>
 		
+		<option value="//api/name/responseFinishTime">responseFinishTime</option>
+		
+		<option value="//api/name/responseTime">responseTime</option>
+		
+		<option value="//api/name/retry">retry</option>
+		
 		<option value="//api/name/shareurl">shareurl</option>
+		
+		<option value="//api/name/startTime">startTime</option>
 		
 		<option value="//api/name/status">status</option>
 		
@@ -152,7 +164,7 @@
 						
 
 						
-						
+						<h2 class="task-title">Other Methods</h2>
 
 						<div class="task-list">
 							<div class="section-method">
@@ -984,6 +996,98 @@
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/responseTime" title="responseTime"></a>
+	<h3 class="method-title"><code><a href="#//api/name/responseTime">&nbsp;&nbsp;responseTime</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>playinfo接口开始响应时间</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSDate *responseTime</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>playinfo接口开始响应时间</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWVodVideoModel.m</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/startTime" title="startTime"></a>
+	<h3 class="method-title"><code><a href="#//api/name/startTime">&nbsp;&nbsp;startTime</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>playinfo类启动时间</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSDate *startTime</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>playinfo类启动时间</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWVodVideoModel.m</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/CCUserId" title="CCUserId"></a>
 	<h3 class="method-title"><code><a href="#//api/name/CCUserId">&nbsp;&nbsp;CCUserId</a></code>
 </h3>
@@ -1216,6 +1320,198 @@
 </div>
 						</div>
 						
+
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/bdIsReport" title="bdIsReport"></a>
+	<h3 class="method-title"><code><a href="#//api/name/bdIsReport">&nbsp;&nbsp;bdIsReport</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>大数据统计是否已经上报，仅针对play动作</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL bdIsReport</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>大数据统计是否已经上报，仅针对play动作</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayInfo.m</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/responseFinishTime" title="responseFinishTime"></a>
+	<h3 class="method-title"><code><a href="#//api/name/responseFinishTime">&nbsp;&nbsp;responseFinishTime</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>playinfo接口完成时间，用于计算et</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSDate *responseFinishTime</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>playinfo接口完成时间，用于计算et</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayInfo.m</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/retry" title="retry"></a>
+	<h3 class="method-title"><code><a href="#//api/name/retry">&nbsp;&nbsp;retry</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>playinfo接口重试次数</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSInteger retry</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>playinfo接口重试次数</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayInfo.m</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isSparReport" title="isSparReport"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isSparReport">&nbsp;&nbsp;isSparReport</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>用于判断是否是从主线路切换备用线路</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL isSparReport</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>用于判断是否是从主线路切换备用线路</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWVodVideoModel.m</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
 					</div>
 					
 					
@@ -1228,7 +1524,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2019 com.bokecc. All rights reserved. Updated: 2019-07-02</p>
+						<p class="copyright">Copyright &copy; 2020 com.bokecc. All rights reserved. Updated: 2020-07-14</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

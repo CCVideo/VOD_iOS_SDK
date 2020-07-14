@@ -66,7 +66,13 @@
 		
 		<option value="//api/name/muted">muted</option>
 		
+		<option value="//api/name/pausedTimes">pausedTimes</option>
+		
+		<option value="//api/name/playedTimes">playedTimes</option>
+		
 		<option value="//api/name/player">player</option>
+		
+		<option value="//api/name/playerLayer">playerLayer</option>
 		
 		<option value="//api/name/playing">playing</option>
 		
@@ -75,6 +81,8 @@
 		<option value="//api/name/timeOutLoad">timeOutLoad</option>
 		
 		<option value="//api/name/videoModel">videoModel</option>
+		
+		<option value="//api/name/videoProtect">videoProtect</option>
 		
 		<option value="//api/name/writeURL">writeURL</option>
 		
@@ -136,9 +144,13 @@
 		
 		<option value="//api/name/resetPlayer">- resetPlayer</option>
 		
+		<option value="//api/name/screenShot">- screenShot</option>
+		
 		<option value="//api/name/scrub:">- scrub:</option>
 		
 		<option value="//api/name/scrubPrecise:CompletionHandler:">- scrubPrecise:CompletionHandler:</option>
+		
+		<option value="//api/name/setPictureInPicture:">- setPictureInPicture:</option>
 		
 		<option value="//api/name/setPlayInBackground:">- setPlayInBackground:</option>
 		
@@ -234,57 +246,6 @@
 				<p>初始化播放对象</p>
 
 <p>@param frame</p>
-			</div>
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">DWPlayerView.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/init" title="init"></a>
-	<h3 class="method-title"><code><a href="#//api/name/init">&ndash;&nbsp;init</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>初始化播放对象</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (instancetype)init</code></div>
-
-		    
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>DWPlayerView</p>
-			</div>
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>初始化播放对象</p>
 			</div>
 			
 
@@ -582,7 +543,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>设置是否允许后台播放，目前只支持音频后台播放</p>
+				<p>设置是否允许后台播放</p>
 			</div>
 			
 		    
@@ -611,7 +572,65 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>设置是否允许后台播放，目前只支持音频后台播放</p>
+				<p>设置是否允许后台播放</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayerView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setPictureInPicture:" title="setPictureInPicture:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setPictureInPicture:">&ndash;&nbsp;setPictureInPicture:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>设置是否画中画模式</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)setPictureInPicture:(BOOL)<em>openPIP</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>play</code></th>
+						<td><p>是否画中画模式</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>设置是否画中画模式</p>
 			</div>
 			
 
@@ -1496,6 +1515,52 @@
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/screenShot" title="screenShot"></a>
+	<h3 class="method-title"><code><a href="#//api/name/screenShot">&ndash;&nbsp;screenShot</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>获取当前播放器截图</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (UIImage *)screenShot</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>获取当前播放器截图</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayerView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/reportQuestionWithVideoId:questionId:answerId:status:" title="reportQuestionWithVideoId:questionId:answerId:status:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/reportQuestionWithVideoId:questionId:answerId:status:">&ndash;&nbsp;reportQuestionWithVideoId:questionId:answerId:status:</a></code>
 </h3>
@@ -2031,6 +2096,52 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/playerLayer" title="playerLayer"></a>
+	<h3 class="method-title"><code><a href="#//api/name/playerLayer">&nbsp;&nbsp;playerLayer</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>播放图层</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) AVPlayerLayer *playerLayer</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>播放图层</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayerView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/delegate" title="delegate"></a>
 	<h3 class="method-title"><code><a href="#//api/name/delegate">&nbsp;&nbsp;delegate</a></code>
 </h3>
@@ -2353,6 +2464,54 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/videoProtect" title="videoProtect"></a>
+	<h3 class="method-title"><code><a href="#//api/name/videoProtect">&nbsp;&nbsp;videoProtect</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>是否开启防录屏模式，默认为NO。
+注意：此属性仅针对iOS11以上系统生效。</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL videoProtect</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>是否开启防录屏模式，默认为NO。
+注意：此属性仅针对iOS11以上系统生效。</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayerView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/forwardBufferDuration" title="forwardBufferDuration"></a>
 	<h3 class="method-title"><code><a href="#//api/name/forwardBufferDuration">&nbsp;&nbsp;forwardBufferDuration</a></code>
 </h3>
@@ -2430,6 +2589,149 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
 				<p>是否是备用线路</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayerView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/playedTimes" title="playedTimes"></a>
+	<h3 class="method-title"><code><a href="#//api/name/playedTimes">&nbsp;&nbsp;playedTimes</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>当前播放时长</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readonly) NSTimeInterval playedTimes</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>当前播放时长</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayerView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/pausedTimes" title="pausedTimes"></a>
+	<h3 class="method-title"><code><a href="#//api/name/pausedTimes">&nbsp;&nbsp;pausedTimes</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>当前暂停时长</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readonly) NSTimeInterval pausedTimes</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>当前暂停时长</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayerView.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/init" title="init"></a>
+	<h3 class="method-title"><code><a href="#//api/name/init">&ndash;&nbsp;init</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>初始化播放对象</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)init</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>DWPlayerView</p>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>初始化播放对象</p>
 			</div>
 			
 
@@ -2558,7 +2860,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2019 com.bokecc. All rights reserved. Updated: 2019-07-02</p>
+						<p class="copyright">Copyright &copy; 2020 com.bokecc. All rights reserved. Updated: 2020-07-14</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

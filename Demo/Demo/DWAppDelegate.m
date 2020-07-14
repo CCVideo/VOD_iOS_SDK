@@ -20,6 +20,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [DWLog setIsDebugHttpLog:YES];
+
     
     //设置AVAudioSession
     NSError *categoryError = nil;
@@ -37,7 +38,6 @@
     }
 
     //后台下载设置
-    [[DWDownloadSessionManager manager] configureBackroundSession];
     //设置最大下载并发数，默认不设置
 //    [DWDownloadSessionManager manager].maxDownloadCount = 2;
 //    [DWDownloadSessionManager manager].isBatchDownload = NO;

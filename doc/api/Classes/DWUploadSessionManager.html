@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>DWUploadSessionManager Class Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">bokecc </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">com.bokecc</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/delegate">delegate</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/manager">+ manager</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/deleteWithUploadModel:">- deleteWithUploadModel:</option>
+		
+		<option value="//api/name/insertWaterMarkWithUploadModel:Text:Corner:OffsetX:OffsetY:FontFamily:FontSize:FontColor:FontAlpha:">- insertWaterMarkWithUploadModel:Text:Corner:OffsetX:OffsetY:FontFamily:FontSize:FontColor:FontAlpha:</option>
+		
+		<option value="//api/name/moveToLocalWithVideoPath:">- moveToLocalWithVideoPath:</option>
+		
+		<option value="//api/name/resumeWithUploadModel:">- resumeWithUploadModel:</option>
+		
+		<option value="//api/name/setUploadSession:CompletionHandler:">- setUploadSession:CompletionHandler:</option>
+		
+		<option value="//api/name/startWithUploadModel:">- startWithUploadModel:</option>
+		
+		<option value="//api/name/suspendWithUploadModel:">- suspendWithUploadModel:</option>
+		
+		<option value="//api/name/uploadModelList">- uploadModelList</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">DWUploadSessionManager Class Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>DWUploadSessionManager.h<br />DWUploadSessionManager.m</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						<h2 class="task-title">Other Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/manager" title="manager"></a>
+	<h3 class="method-title"><code><a href="#//api/name/manager">+&nbsp;manager</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>初始化DWUploadSessionManager</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (DWUploadSessionManager *)manager</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>DWUploadSessionManager对象</p>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>初始化DWUploadSessionManager</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWUploadSessionManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/insertWaterMarkWithUploadModel:Text:Corner:OffsetX:OffsetY:FontFamily:FontSize:FontColor:FontAlpha:" title="insertWaterMarkWithUploadModel:Text:Corner:OffsetX:OffsetY:FontFamily:FontSize:FontColor:FontAlpha:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/insertWaterMarkWithUploadModel:Text:Corner:OffsetX:OffsetY:FontFamily:FontSize:FontColor:FontAlpha:">&ndash;&nbsp;insertWaterMarkWithUploadModel:Text:Corner:OffsetX:OffsetY:FontFamily:FontSize:FontColor:FontAlpha:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>添加视频水印，请在调用startWithUploadModel:方法前设置，否则不生效。</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)insertWaterMarkWithUploadModel:(DWUploadModel *)<em>uploadModel</em> Text:(NSString *)<em>text</em> Corner:(NSNumber *)<em>corner</em> OffsetX:(NSNumber *)<em>offsetX</em> OffsetY:(NSNumber *)<em>offsetY</em> FontFamily:(NSNumber *)<em>fontFamily</em> FontSize:(NSNumber *)<em>fontSize</em> FontColor:(NSString *)<em>fontColor</em> FontAlpha:(NSNumber *)<em>fontAlpha</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>uploadModel</code></th>
+						<td><p>DWUploadModel对象</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>text</code></th>
+						<td><p>水印文字内容, 1-50个字符，数字、字母、汉字，不填写则文字水印不生效</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>corner</code></th>
+						<td><p>水印位置0,左上 1右上 2左下 3右下，默认3，非必填</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>offsetX</code></th>
+						<td><p>X轴偏移像素值，要求大于0，默认值5,超出视频大小按默认值，非必填</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>offsetY</code></th>
+						<td><p>Y轴偏移像素值，要求大于0，默认值5,超出视频大小按默认值，非必填</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fontFamily</code></th>
+						<td><p>字体类型：0,微软雅黑 1宋体 2黑体，默认0，非必填</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fontSize</code></th>
+						<td><p>字体大小，[0-100]，默认12</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fontColor</code></th>
+						<td><p>16进制字体颜色，如#FFFFFF，不能写#号，默认灰色D3D3D3，非必填</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fontAlpha</code></th>
+						<td><p>透明度，[0-100],默认100，100为不透明，非必填</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>是否设置成功。YES 设置成功，NO 设置失败，参数不合法</p>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>添加视频水印，请在调用startWithUploadModel:方法前设置，否则不生效。</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWUploadSessionManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/startWithUploadModel:" title="startWithUploadModel:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/startWithUploadModel:">&ndash;&nbsp;startWithUploadModel:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>开始上传任务</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)startWithUploadModel:(DWUploadModel *)<em>uploadModel</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>uploadModel</code></th>
+						<td><p>DWUploadModel对象</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>开始上传任务</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWUploadSessionManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/suspendWithUploadModel:" title="suspendWithUploadModel:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/suspendWithUploadModel:">&ndash;&nbsp;suspendWithUploadModel:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>暂停上传任务</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)suspendWithUploadModel:(DWUploadModel *)<em>uploadModel</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>uploadModel</code></th>
+						<td><p>DWUploadModel对象</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>暂停上传任务</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWUploadSessionManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/resumeWithUploadModel:" title="resumeWithUploadModel:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/resumeWithUploadModel:">&ndash;&nbsp;resumeWithUploadModel:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>继续上传任务</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)resumeWithUploadModel:(DWUploadModel *)<em>uploadModel</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>uploadModel</code></th>
+						<td><p>DWUploadModel对象</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>继续上传任务</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWUploadSessionManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/deleteWithUploadModel:" title="deleteWithUploadModel:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/deleteWithUploadModel:">&ndash;&nbsp;deleteWithUploadModel:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>删除上传任务</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)deleteWithUploadModel:(DWUploadModel *)<em>uploadModel</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>uploadModel</code></th>
+						<td><p>DWUploadModel对象</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>删除上传任务</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWUploadSessionManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/moveToLocalWithVideoPath:" title="moveToLocalWithVideoPath:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/moveToLocalWithVideoPath:">&ndash;&nbsp;moveToLocalWithVideoPath:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>保存视频文件，以供上传使用</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSString *)moveToLocalWithVideoPath:(NSString *)<em>videoPath</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>videoPath</code></th>
+						<td><p>视频文件路径</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>本地文件路径</p>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>保存视频文件，以供上传使用</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWUploadSessionManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setUploadSession:CompletionHandler:" title="setUploadSession:CompletionHandler:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setUploadSession:CompletionHandler:">&ndash;&nbsp;setUploadSession:CompletionHandler:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>获取appdelegate，handleEventsForBackgroundURLSession事件回调</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)setUploadSession:(NSString *)<em>identifier</em> CompletionHandler:(void ( ^ ) ( ))<em>completionHandler</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>identifier</code></th>
+						<td><p>identifier</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completionHandler</code></th>
+						<td><p>completionHandler</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>获取appdelegate，handleEventsForBackgroundURLSession事件回调</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWUploadSessionManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/uploadModelList" title="uploadModelList"></a>
+	<h3 class="method-title"><code><a href="#//api/name/uploadModelList">&ndash;&nbsp;uploadModelList</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>上传数据列表</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSArray&lt;DWUploadModel*&gt; *)uploadModelList</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>上传数据列表</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWUploadSessionManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						
+						<h2 class="task-title">Other Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/delegate" title="delegate"></a>
+	<h3 class="method-title"><code><a href="#//api/name/delegate">&nbsp;&nbsp;delegate</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>代理</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, weak) id&lt;DWUploadSessionManagerDelegate&gt; delegate</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>代理</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWUploadSessionManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2020 com.bokecc. All rights reserved. Updated: 2020-07-14</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>
