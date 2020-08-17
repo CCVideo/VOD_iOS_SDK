@@ -8,9 +8,6 @@
 
 #import "DWScreeningListViewController.h"
 #import "DWScreeningTableViewCell.h"
-#import "DWUPnPSearch.h"
-#import "DWUPnPDevice.h"
-#import "DWUPnPRenderer.h"
 #import <AVKit/AVKit.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <CoreLocation/CoreLocation.h>

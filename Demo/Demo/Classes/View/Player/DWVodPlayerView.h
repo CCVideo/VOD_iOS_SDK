@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DWPlayerView.h"
 @class DWVodPlayerView;
 
 NS_ASSUME_NONNULL_BEGIN

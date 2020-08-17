@@ -230,11 +230,23 @@
 
 		    
 			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>frame</code></th>
+						<td><p>视图frame</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
 
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>DWPlayerView</p>
+				<p>DWPlayerView对象</p>
 			</div>
 			
 
@@ -243,9 +255,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>初始化播放对象</p>
-
-<p>@param frame</p>
+				<p>@method</p><p>初始化播放对象</p>
 			</div>
 			
 
@@ -274,7 +284,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>单例</p>
+				<p>初始化播放对象</p>
 			</div>
 			
 		    
@@ -287,7 +297,7 @@
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>单例对象</p>
+				<p>DWPlayerView对象</p>
 			</div>
 			
 
@@ -296,7 +306,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>单例</p>
+				<p>@method</p><p>以单例的形式，初始化播放对象</p>
 			</div>
 			
 
@@ -325,7 +335,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>播放网络视频 , 播放默认清晰度，对于在线媒体，必须要执行此方法，否则会导致数据统计缺失</p>
+				<p>播放网络视频</p>
 			</div>
 			
 		    
@@ -340,12 +350,12 @@
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>videoModel</code></th>
-						<td><p>视频model</p></td>
+						<td><p>在线视频model</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>customId</code></th>
-						<td><p>用户自定义参数  有自定义统计参数需求／流量统计的客户必须传值，没有此需求的客户请传nil</p></td>
+						<td><p>用户自定义参数，有自定义统计参数需求／流量统计的客户必须传值，没有此需求的客户请传nil</p></td>
 					</tr>
 				
 				</table>
@@ -359,7 +369,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>播放网络视频 , 播放默认清晰度，对于在线媒体，必须要执行此方法，否则会导致数据统计缺失</p>
+				<p>@method</p><p>播放默认清晰度，对于在线媒体，必须要执行此方法，否则会导致数据统计缺失</p>
 			</div>
 			
 
@@ -454,7 +464,7 @@
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>customId</code></th>
-						<td><p>用户自定义参数  有自定义统计参数需求／流量统计的客户必须传值，没有此需求的客户请传nil</p></td>
+						<td><p>用户自定义参数，有自定义统计参数需求／流量统计的客户必须传值，没有此需求的客户请传nil</p></td>
 					</tr>
 				
 				</table>
@@ -468,7 +478,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>切换清晰度方法</p>
+				<p>@method</p><p>切换清晰度方法</p>
 			</div>
 			
 
@@ -497,7 +507,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>切换备用线路 切换当前清晰度下的备用线路</p>
+				<p>切换备用线路</p>
 			</div>
 			
 		    
@@ -514,7 +524,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>切换备用线路 切换当前清晰度下的备用线路</p>
+				<p>@method</p><p>切换当前清晰度下的备用线路</p>
 			</div>
 			
 
@@ -543,7 +553,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>设置是否允许后台播放</p>
+				<p>后台播放功能</p>
 			</div>
 			
 		    
@@ -572,7 +582,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>设置是否允许后台播放</p>
+				<p>@method</p><p>开启/关闭后台播放功能</p>
 			</div>
 			
 
@@ -601,7 +611,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>设置是否画中画模式</p>
+				<p>画中画功能</p>
 			</div>
 			
 		    
@@ -615,8 +625,8 @@
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>play</code></th>
-						<td><p>是否画中画模式</p></td>
+						<th scope="row" class="argument-name"><code>openPIP</code></th>
+						<td><p>是否开启画中画功能</p></td>
 					</tr>
 				
 				</table>
@@ -630,7 +640,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>设置是否画中画模式</p>
+				<p>@method</p><p>开启/关闭画中画功能</p>
 			</div>
 			
 
@@ -674,7 +684,7 @@
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>rate</code></th>
-						<td><p>速率</p></td>
+						<td><p>倍速速率</p></td>
 					</tr>
 				
 				</table>
@@ -688,7 +698,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>切换倍速</p>
+				<p>@method</p><p>切换倍速</p>
 			</div>
 			
 
@@ -734,7 +744,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>重复播放当前媒体</p>
+				<p>@method</p><p>重复播放当前媒体</p>
 			</div>
 			
 
@@ -778,11 +788,6 @@
 			
 
 			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>当前正在播放的媒体清晰度model，非在线视频返回nil。注意，在调用playVodViedo:withCustomId:方法后才可获取到此属性</p>
-			</div>
-			
 
 			
 
@@ -809,7 +814,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>返回当前播放的离线model，在线视频返回nil。注意，在调用playLocalVideo:方法后才可获取到此属性。</p>
+				<p>返回当前播放的离线model，在线视频返回nil。注意，在调用playLocalVideo:方法后才可获取到此属性</p>
 			</div>
 			
 		    
@@ -823,11 +828,6 @@
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>返回当前播放的离线model，在线视频返回nil。注意，在调用playLocalVideo:方法后才可获取到此属性。</p>
-			</div>
 			
 
 			
@@ -872,7 +872,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>播放</p>
+				<p>@method</p><p>播放当前媒体资源</p>
 			</div>
 			
 
@@ -918,7 +918,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>暂停</p>
+				<p>@method</p><p>暂停当前媒体资源</p>
 			</div>
 			
 
@@ -947,7 +947,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>拖到XX秒播放视频，在AVPlayerItemStatusReadyToPlay即状态处于可播放后 才会有效果</p>
+				<p>拖到XX秒播放视频</p>
 			</div>
 			
 		    
@@ -976,7 +976,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>拖到XX秒播放视频，在AVPlayerItemStatusReadyToPlay即状态处于可播放后 才会有效果</p>
+				<p>@method</p><p>在AVPlayerItemStatusReadyToPlay即状态处于可播放后，拖拽生效</p>
 			</div>
 			
 
@@ -1005,7 +1005,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>精确拖拽到XX秒播放视频，在AVPlayerItemStatusReadyToPlay即状态处于可播放后 才会有效果</p>
+				<p>拖到XX秒播放视频</p>
 			</div>
 			
 		    
@@ -1039,7 +1039,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>精确拖拽到XX秒播放视频，在AVPlayerItemStatusReadyToPlay即状态处于可播放后 才会有效果</p>
+				<p>@method</p><p>在AVPlayerItemStatusReadyToPlay即状态处于可播放后，拖拽生效</p>
 			</div>
 			
 
@@ -1068,7 +1068,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>记录播放位置的方法(只为记忆播放功能使用 其它地方请调用scrub / scrubPrecise方法)，在AVPlayerItemStatusReadyToPlay即状态处于可播放后 才会有效果</p>
+				<p>记录播放位置的方法</p>
 			</div>
 			
 		    
@@ -1097,7 +1097,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>记录播放位置的方法(只为记忆播放功能使用 其它地方请调用scrub / scrubPrecise方法)，在AVPlayerItemStatusReadyToPlay即状态处于可播放后 才会有效果</p>
+				<p>@method</p><p>只为记忆播放功能使用，其它地方请调用scrub / scrubPrecise方法，在AVPlayerItemStatusReadyToPlay即状态处于可播放后 才会有效果</p>
 			</div>
 			
 
@@ -1155,7 +1155,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>设置音量</p>
+				<p>@method</p><p>设置音量</p>
 			</div>
 			
 
@@ -1201,7 +1201,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>加大音量</p>
+				<p>@method</p><p>加大音量</p>
 			</div>
 			
 
@@ -1247,7 +1247,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>减小音量</p>
+				<p>@method</p><p>减小音量</p>
 			</div>
 			
 
@@ -1293,7 +1293,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>关闭|释放播放资源</p>
+				<p>@method</p><p>关闭|释放播放资源</p>
 			</div>
 			
 
@@ -1322,10 +1322,19 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>停止视频播放统计 播放页面关闭时务必调用removeTimer方法
-注意：播放页面关闭时 如需释放资源 调用方式如下{
-                                          [playerView removeTimer];
-                                          [playerView resetPlayer];</p>
+				<ul>
+<li>@method</li>
+<li>@abstract 停止视频播放统计</li>
+<li>@discussion 播放页面关闭时务必调用removeTimer方法 注意：播放页面关闭时 如需释放资源 调用方式如下{
+                                       [playerView removeTimer];
+                                       [playerView resetPlayer];
+                                     }
+              如无需释放播放资源 调用方式如下{
+                                       [playerView removeTimer];
+                                       [playerView pause];
+                                     }</li>
+</ul>
+
 			</div>
 			
 		    
@@ -1342,19 +1351,19 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>停止视频播放统计 播放页面关闭时务必调用removeTimer方法
-注意：播放页面关闭时 如需释放资源 调用方式如下{
-                                          [playerView removeTimer];
-                                          [playerView resetPlayer];</p>
+				<ul>
+<li>@method</li>
+<li>@abstract 停止视频播放统计</li>
+<li>@discussion 播放页面关闭时务必调用removeTimer方法 注意：播放页面关闭时 如需释放资源 调用方式如下{
+                                       [playerView removeTimer];
+                                       [playerView resetPlayer];
+                                     }
+              如无需释放播放资源 调用方式如下{
+                                       [playerView removeTimer];
+                                       [playerView pause];
+                                     }</li>
+</ul>
 
-<pre><code>                                    }
-
-             如无需释放播放资源 调用方式如下{
-                                        [playerView removeTimer];
-                                        [playerView pause];
-</code></pre>
-
-<p>}</p>
 			</div>
 			
 
@@ -1383,7 +1392,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>支持AirPlay外部播放 默认支持</p>
+				<p>支持AirPlay外部播放</p>
 			</div>
 			
 		    
@@ -1400,7 +1409,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>支持AirPlay外部播放 默认支持</p>
+				<p>@method</p><p>默认支持</p>
 			</div>
 			
 
@@ -1446,7 +1455,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>不支持AirPlay外部播放</p>
+				<p>@method</p><p>不支持AirPlay外部播放</p>
 			</div>
 			
 
@@ -1488,7 +1497,7 @@
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>BOOL</p>
+				<p>检测结果</p>
 			</div>
 			
 
@@ -1497,7 +1506,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>检测是否支持支持AirPlay外部播放</p>
+				<p>@method</p><p>检测是否支持支持AirPlay外部播放</p>
 			</div>
 			
 
@@ -1526,7 +1535,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>获取当前播放器截图</p>
+				<p>播放器截图</p>
 			</div>
 			
 		    
@@ -1537,13 +1546,18 @@
 			
 
 			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>图片对象</p>
+			</div>
+			
 
 			
 
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>获取当前播放器截图</p>
+				<p>@method</p><p>获取播放器在当前时间点的截图</p>
 			</div>
 			
 
@@ -1572,7 +1586,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>问答统计 有此需求的客户调用 一个问题只发送一次</p>
+				<p>问答统计</p>
 			</div>
 			
 		    
@@ -1597,8 +1611,7 @@
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>answerId</code></th>
-						<td><p>用户选择的选项ID，以逗号分隔多个选项ID。
-如1345是单选 2067,3092,4789是多选</p></td>
+						<td><p>用户选择的选项ID，以逗号分隔多个选项ID，如1345是单选 2067,3092,4789是多选</p></td>
 					</tr>
 				
 					<tr>
@@ -1617,7 +1630,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>问答统计 有此需求的客户调用 一个问题只发送一次</p>
+				<p>@method</p><p>有此需求的客户调用，一个问题只发送一次</p>
 			</div>
 			
 
@@ -1646,7 +1659,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>访客信息统计上报 有此需求的客户调用</p>
+				<p>访客信息统计上报</p>
 			</div>
 			
 		    
@@ -1661,22 +1674,22 @@
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>visitorId</code></th>
-						<td><p>访客信息收集器ID  必填</p></td>
+						<td><p>访客信息收集器ID，必填</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>videoId</code></th>
-						<td><p>视频ID 必填</p></td>
+						<td><p>视频ID，必填</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>userId</code></th>
-						<td><p>CC账号ID  必填</p></td>
+						<td><p>CC账号ID，必填</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>message</code></th>
-						<td><p>上报信息 必填 具体格式详见demo</p></td>
+						<td><p>上报信息，必填，具体格式详见demo</p></td>
 					</tr>
 				
 				</table>
@@ -1690,7 +1703,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>访客信息统计上报 有此需求的客户调用</p>
+				<p>@method</p><p>有此需求的客户调用</p>
 			</div>
 			
 
@@ -1719,7 +1732,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>课堂练习统计上报 有此需求的客户调用</p>
+				<p>课堂练习统计上报</p>
 			</div>
 			
 		    
@@ -1734,22 +1747,22 @@
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>exercisesId</code></th>
-						<td><p>课堂练习ID 必填</p></td>
+						<td><p>课堂练习ID，必填</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>videoId</code></th>
-						<td><p>视频ID 必填</p></td>
+						<td><p>视频ID，必填</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>userId</code></th>
-						<td><p>CC账号ID  必填</p></td>
+						<td><p>CC账号ID，必填</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>questionMes</code></th>
-						<td><p>上报信息 必填 具体格式详见demo</p></td>
+						<td><p>上报信息，必填，具体格式详见demo</p></td>
 					</tr>
 				
 					<tr>
@@ -1768,7 +1781,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>课堂练习统计上报 有此需求的客户调用</p>
+				<p>@method</p><p>有此需求的客户调用</p>
 			</div>
 			
 
@@ -1819,7 +1832,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>获取可播放的持续时间</p>
+				<p>@method</p><p>获取可播放的持续时间</p>
 			</div>
 			
 
@@ -1848,10 +1861,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>AVPlayerLayer的videoGravity属性设置
-AVLayerVideoGravityResize,       // 非均匀模式。两个维度完全填充至整个视图区域
-AVLayerVideoGravityResizeAspect,  // 等比例填充，直到一个维度到达区域边界
-AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个视图区域，其中一个维度的部分区域会被裁剪</p>
+				<p>视频填充模式，默认AVLayerVideoGravityResizeAspect</p>
 			</div>
 			
 		    
@@ -1865,14 +1875,6 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>AVPlayerLayer的videoGravity属性设置
-AVLayerVideoGravityResize,       // 非均匀模式。两个维度完全填充至整个视图区域
-AVLayerVideoGravityResizeAspect,  // 等比例填充，直到一个维度到达区域边界
-AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个视图区域，其中一个维度的部分区域会被裁剪</p>
-			</div>
 			
 
 			
@@ -1900,7 +1902,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			
 			<div class="method-subsection brief-description">
-				<p>获取当前player播放的URL 可用于截图</p>
+				<p>获取当前player播放的URL</p>
 			</div>
 			
 		    
@@ -1922,7 +1924,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>获取当前player播放的URL 可用于截图</p>
+				<p>@method</p><p>可用于截图</p>
 			</div>
 			
 
@@ -1951,7 +1953,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			
 			<div class="method-subsection brief-description">
-				<p>获取用来做GIF功能的URL 加密调用</p>
+				<p>获取用来做GIF功能的URL</p>
 			</div>
 			
 		    
@@ -1964,7 +1966,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>URL</p>
+				<p>当前播放URL</p>
 			</div>
 			
 
@@ -1973,7 +1975,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>获取用来做GIF功能的URL 加密调用</p>
+				<p>@method</p><p>加密调用</p>
 			</div>
 			
 
@@ -2002,7 +2004,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			
 			<div class="method-subsection brief-description">
-				<p>获取用来做GIF功能的URL 非加密调用</p>
+				<p>获取用来做GIF功能的URL</p>
 			</div>
 			
 		    
@@ -2015,7 +2017,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>URL</p>
+				<p>当前播放URL</p>
 			</div>
 			
 
@@ -2024,7 +2026,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>获取用来做GIF功能的URL 非加密调用</p>
+				<p>@method</p><p>非加密调用</p>
 			</div>
 			
 
@@ -2076,11 +2078,6 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 
 			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>播放属性</p>
-			</div>
-			
 
 			
 
@@ -2121,11 +2118,6 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>播放图层</p>
-			</div>
 			
 
 			
@@ -2168,11 +2160,6 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 
 			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>代理</p>
-			</div>
-			
 
 			
 
@@ -2199,7 +2186,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			
 			<div class="method-subsection brief-description">
-				<p>//是否正在播放</p>
+				<p>当前播放状态</p>
 			</div>
 			
 		    
@@ -2213,11 +2200,6 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>//是否正在播放</p>
-			</div>
 			
 
 			
@@ -2245,7 +2227,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			
 			<div class="method-subsection brief-description">
-				<p>是否循环播放 默认为NO</p>
+				<p>是否循环播放，默认为NO</p>
 			</div>
 			
 		    
@@ -2259,11 +2241,6 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>是否循环播放 默认为NO</p>
-			</div>
 			
 
 			
@@ -2291,7 +2268,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			
 			<div class="method-subsection brief-description">
-				<p>是否静音 默认为NO</p>
+				<p>是否静音，默认为NO</p>
 			</div>
 			
 		    
@@ -2305,11 +2282,6 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>是否静音 默认为NO</p>
-			</div>
 			
 
 			
@@ -2337,7 +2309,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			
 			<div class="method-subsection brief-description">
-				<p>视频加载超时时间 默认30s</p>
+				<p>视频加载超时时间，默认30s</p>
 			</div>
 			
 		    
@@ -2351,11 +2323,6 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>视频加载超时时间 默认30s</p>
-			</div>
 			
 
 			
@@ -2383,7 +2350,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			
 			<div class="method-subsection brief-description">
-				<p>缓存超时时间 默认30s</p>
+				<p>缓存超时时间，默认30s</p>
 			</div>
 			
 		    
@@ -2397,11 +2364,6 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>缓存超时时间 默认30s</p>
-			</div>
 			
 
 			
@@ -2444,11 +2406,6 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 
 			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>缓冲模式 默认DWPlayerViewLoadStyleDefault</p>
-			</div>
-			
 
 			
 
@@ -2475,8 +2432,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			
 			<div class="method-subsection brief-description">
-				<p>是否开启防录屏模式，默认为NO。
-注意：此属性仅针对iOS11以上系统生效。</p>
+				<p>是否开启防录屏模式，默认为NO。仅对iOS11以上系统生效</p>
 			</div>
 			
 		    
@@ -2490,12 +2446,6 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>是否开启防录屏模式，默认为NO。
-注意：此属性仅针对iOS11以上系统生效。</p>
-			</div>
 			
 
 			
@@ -2523,8 +2473,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			
 			<div class="method-subsection brief-description">
-				<p>期待缓冲时长 默认 0，建议取值1 ~ 50 。
-注意：此属性仅针对iOS10以上系统， m3u8格式视频有效。</p>
+				<p>期待缓冲时长，默认0，建议取值1 ~ 50。仅对iOS10以上系统，m3u8格式视频有效</p>
 			</div>
 			
 		    
@@ -2538,12 +2487,6 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>期待缓冲时长 默认 0，建议取值1 ~ 50 。
-注意：此属性仅针对iOS10以上系统， m3u8格式视频有效。</p>
-			</div>
 			
 
 			
@@ -2586,11 +2529,6 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 
 			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>是否是备用线路</p>
-			</div>
-			
 
 			
 
@@ -2631,11 +2569,6 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>当前播放时长</p>
-			</div>
 			
 
 			
@@ -2678,11 +2611,6 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 
 			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>当前暂停时长</p>
-			</div>
-			
 
 			
 
@@ -2722,7 +2650,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>DWPlayerView</p>
+				<p>DWPlayerView对象</p>
 			</div>
 			
 
@@ -2731,7 +2659,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>初始化播放对象</p>
+				<p>@method</p><p>初始化播放对象</p>
 			</div>
 			
 
@@ -2860,7 +2788,7 @@ AVLayerVideoGravityResizeAspectFill, // 等比例填充，直到填充满整个�
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2020 com.bokecc. All rights reserved. Updated: 2020-07-14</p>
+						<p class="copyright">Copyright &copy; 2020 com.bokecc. All rights reserved. Updated: 2020-08-17</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

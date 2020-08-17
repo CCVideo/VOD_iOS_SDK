@@ -48,7 +48,8 @@
 
 #import "Masonry.h"
 #import "DWTools.h"
-#import "DWSDK.h"
+#import <CCVodSDK/CCVodSDK.h>
+
 #import "SDInternalMacros.h"
 #import "MBProgressHUD.h"
 #import "ObjectExtension.h"

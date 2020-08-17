@@ -1,8 +1,5 @@
 #import <UIKit/UIKit.h>
 
-#import "DWSDK.h"
-
-//#import "DWVodPlayerView.h"
 @class DWVodPlayerView;
 
 @interface DWAppDelegate : UIResponder <UIApplicationDelegate>

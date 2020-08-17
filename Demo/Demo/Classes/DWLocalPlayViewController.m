@@ -8,7 +8,6 @@
 
 #import "DWLocalPlayViewController.h"
 #import "DWVodPlayerView.h"
-#import "DWPlayerSkinView.h"
 
 @interface DWLocalPlayViewController ()<DWVodPlayerViewDelegate,DWPlayerSkinViewDelegate>
 

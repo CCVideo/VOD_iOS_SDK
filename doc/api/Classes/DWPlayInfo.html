@@ -52,6 +52,22 @@
 
 	
 	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/errorBlock">errorBlock</option>
+		
+		<option value="//api/name/finishBlock">finishBlock</option>
+		
+		<option value="//api/name/mediatype">mediatype</option>
+		
+		<option value="//api/name/roleId">roleId</option>
+		
+		<option value="//api/name/timeoutSeconds">timeoutSeconds</option>
+		
+		<option value="//api/name/verificationCode">verificationCode</option>
+		
+	</optgroup>
+	
 
 	
 
@@ -104,7 +120,7 @@
 						
 
 						
-						
+						<h2 class="task-title">Other Methods</h2>
 
 						<div class="task-list">
 							<div class="section-method">
@@ -138,11 +154,6 @@
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>videoId</code></th>
-						<td><p>视频id</p></td>
-					</tr>
-				
-					<tr>
 						<th scope="row" class="argument-name"><code>key</code></th>
 						<td><p>账号<a href="#//api/name/key">key</a></p></td>
 					</tr>
@@ -152,13 +163,18 @@
 			
 
 			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>DWPlayInfo对象</p>
+			</div>
+			
 
 			
 
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>初始化方法</p>
+				<p>@method</p><p>初始化方法</p>
 			</div>
 			
 
@@ -225,13 +241,18 @@
 			
 
 			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>操作结果</p>
+			</div>
+			
 
 			
 
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>初始化方法</p>
+				<p>@method</p><p>初始化方法</p>
 			</div>
 			
 
@@ -277,7 +298,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>开始获取视频数据</p>
+				<p>@method</p><p>开始获取视频数据</p>
 			</div>
 			
 
@@ -306,7 +327,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>取消获取视频数据，取消之后，不会调用errorBlock或finishBlock。</p>
+				<p>取消获取视频数据</p>
 			</div>
 			
 		    
@@ -314,6 +335,18 @@
 			<div class="method-subsection method-declaration"><code>- (void)cancel</code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>time</code></th>
+						<td><p>当前播放时间</p></td>
+					</tr>
+				
+				</table>
+			</div>
 			
 
 			
@@ -323,8 +356,262 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>取消获取视频数据，取消之后，不会调用errorBlock或finishBlock。</p>
+				<p>@method</p><p>取消之后，不会调用errorBlock或<a href="#//api/name/finishBlock">finishBlock</a></p>
 			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayInfo.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						
+						<h2 class="task-title">Other Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/timeoutSeconds" title="timeoutSeconds"></a>
+	<h3 class="method-title"><code><a href="#//api/name/timeoutSeconds">&nbsp;&nbsp;timeoutSeconds</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>请求超时时间，默认10s</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (assign, nonatomic) NSTimeInterval timeoutSeconds</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayInfo.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/mediatype" title="mediatype"></a>
+	<h3 class="method-title"><code><a href="#//api/name/mediatype">&nbsp;&nbsp;mediatype</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>1为视频 2为音频 0为视频+音频，若不传该参数默认为视频</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *mediatype</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayInfo.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/verificationCode" title="verificationCode"></a>
+	<h3 class="method-title"><code><a href="#//api/name/verificationCode">&nbsp;&nbsp;verificationCode</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>授权验证码</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *verificationCode</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayInfo.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/roleId" title="roleId"></a>
+	<h3 class="method-title"><code><a href="#//api/name/roleId">&nbsp;&nbsp;roleId</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>客户端用户id，选填</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *roleId</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayInfo.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/errorBlock" title="errorBlock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/errorBlock">&nbsp;&nbsp;errorBlock</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>请求失败回调</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (copy, nonatomic) DWErrorBlock errorBlock</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWPlayInfo.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/finishBlock" title="finishBlock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/finishBlock">&nbsp;&nbsp;finishBlock</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>请求完成回调</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (copy, nonatomic) DWPlayInfoFinishBlock finishBlock</code></div>
+
+		    
+			
+
+			
+
+			
+
 			
 
 			
@@ -355,7 +642,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2020 com.bokecc. All rights reserved. Updated: 2020-07-14</p>
+						<p class="copyright">Copyright &copy; 2020 com.bokecc. All rights reserved. Updated: 2020-08-17</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -4,7 +4,6 @@
 #import "MJExtension.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #include <AssetsLibrary/AssetsLibrary.h>
-#import "DWUploadSessionManager.h"
 
 static NSString *const uploadsArray =@"uploadsArray";
 

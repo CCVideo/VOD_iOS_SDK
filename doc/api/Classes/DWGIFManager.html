@@ -58,6 +58,10 @@
 		
 		<option value="//api/name/completeBlock">completeBlock</option>
 		
+		<option value="//api/name/gifSize">gifSize</option>
+		
+		<option value="//api/name/interceptBlock">interceptBlock</option>
+		
 		<option value="//api/name/isRecording">isRecording</option>
 		
 		<option value="//api/name/loopCount">loopCount</option>
@@ -150,10 +154,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<ul>
-<li>制作完成GIF回调</li>
-</ul>
-
+				<p>制作完成GIF回调</p>
 			</div>
 			
 		    
@@ -167,14 +168,6 @@
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<ul>
-<li>制作完成GIF回调</li>
-</ul>
-
-			</div>
 			
 
 			
@@ -202,10 +195,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<ul>
-<li>生成GIF质量</li>
-</ul>
-
+				<p>生成GIF质量</p>
 			</div>
 			
 		    
@@ -219,14 +209,6 @@
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<ul>
-<li>生成GIF质量</li>
-</ul>
-
-			</div>
 			
 
 			
@@ -254,10 +236,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<ul>
-<li>GIF播放的次数  0无限循环</li>
-</ul>
-
+				<p>GIF播放的次数，0无限循环</p>
 			</div>
 			
 		    
@@ -271,14 +250,6 @@
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<ul>
-<li>GIF播放的次数  0无限循环</li>
-</ul>
-
-			</div>
 			
 
 			
@@ -306,10 +277,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<ul>
-<li>是否正在录制gif</li>
-</ul>
-
+				<p>是否正在录制gif</p>
 			</div>
 			
 		    
@@ -323,14 +291,6 @@
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<ul>
-<li>是否正在录制gif</li>
-</ul>
-
-			</div>
 			
 
 			
@@ -358,10 +318,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<ul>
-<li>关联播放器，startRecordingGif录制开始前调用     !!!在每次startRecordingGif前，都要调用此方法</li>
-</ul>
-
+				<p>关联播放器</p>
 			</div>
 			
 		    
@@ -369,6 +326,28 @@
 			<div class="method-subsection method-declaration"><code>- (void)associationWithUrl:(NSURL *)<em>playUrl</em> CurrentPlayer:(AVPlayer *)<em>currentPlayer</em> AndUseM3U8Method:(BOOL)<em>m3u8Method</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>playUrl</code></th>
+						<td><p>播放路径</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>currentPlayer</code></th>
+						<td><p>当前播放<a href="#//api/name/player">player</a></p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>m3u8Method</code></th>
+						<td><p>为YES，会强制使用m3u8视频格式截取GIF方式，一般设置为NO即可</p></td>
+					</tr>
+				
+				</table>
+			</div>
 			
 
 			
@@ -378,13 +357,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<ul>
-<li><p>关联播放器，startRecordingGif录制开始前调用     !!!在每次startRecordingGif前，都要调用此方法</p></li>
-<li><p>@param <a href="#//api/name/playUrl">playUrl</a>                 播放路径</p></li>
-<li>@param currentPlayer           当前播放<a href="#//api/name/player">player</a></li>
-<li>@param m3u8Method              为YES，会强制使用m3u8视频格式截取GIF方式，一般设置为NO即可</li>
-</ul>
-
+				<p>@method</p><p>在startRecordingGif录制开始前调用，每次startRecordingGif前，都要调用此方法</p>
 			</div>
 			
 
@@ -413,10 +386,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<ul>
-<li>开始录制gif</li>
-</ul>
-
+				<p>开始录制gif</p>
 			</div>
 			
 		    
@@ -433,10 +403,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<ul>
-<li>开始录制gif</li>
-</ul>
-
+				<p>@method</p><p>开始录制gif</p>
 			</div>
 			
 
@@ -465,10 +432,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<ul>
-<li>结束录制gif                如果视频播放完成，内部会自动调用此方法，完成GIF回调</li>
-</ul>
-
+				<p>结束录制gif</p>
 			</div>
 			
 		    
@@ -485,10 +449,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<ul>
-<li>结束录制gif                如果视频播放完成，内部会自动调用此方法，完成GIF回调</li>
-</ul>
-
+				<p>@method</p><p>如果视频播放完成，内部会自动调用此方法，完成GIF回调</p>
 			</div>
 			
 
@@ -517,10 +478,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<ul>
-<li>取消录制gif</li>
-</ul>
-
+				<p>取消录制gif</p>
 			</div>
 			
 		    
@@ -537,11 +495,90 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<ul>
-<li>取消录制gif</li>
-</ul>
-
+				<p>@method</p><p>取消录制gif</p>
 			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWGIFManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/gifSize" title="gifSize"></a>
+	<h3 class="method-title"><code><a href="#//api/name/gifSize">&nbsp;&nbsp;gifSize</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>GIF图片的分辨率，默认GIFSizeMedium</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) GIFSize gifSize</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWGIFManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/interceptBlock" title="interceptBlock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/interceptBlock">&nbsp;&nbsp;interceptBlock</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>完成回调</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) InterceptBlock interceptBlock</code></div>
+
+		    
+			
+
+			
+
+			
+
 			
 
 			
@@ -569,7 +606,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>视频的URL</p>
+				<p>设置GIF参数</p>
 			</div>
 			
 		    
@@ -616,6 +653,11 @@
 			
 
 			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>@method</p><p>设置GIF参数</p>
+			</div>
+			
 
 			
 
@@ -642,7 +684,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>URL字符串</p>
+				<p>查询视频时长</p>
 			</div>
 			
 		    
@@ -667,12 +709,17 @@
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>返回视频时长</p>
+				<p>视频时长</p>
 			</div>
 			
 
 			
 
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>@method</p><p>查询视频时长</p>
+			</div>
 			
 
 			
@@ -749,7 +796,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>生成GIF图片</p>
+				<p>@method</p><p>生成GIF图片</p>
 			</div>
 			
 
@@ -798,7 +845,7 @@
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>frameCount</code></th>
-						<td><p>视频的总时长乘以固定数值 如：视频总时长*4</p></td>
+						<td><p>视频的总时长乘以固定数值，如：视频总时长*4</p></td>
 					</tr>
 				
 					<tr>
@@ -832,7 +879,7 @@
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>生成GIF图片</p>
+				<p>@method</p><p>生成GIF图片</p>
 			</div>
 			
 
@@ -864,7 +911,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2020 com.bokecc. All rights reserved. Updated: 2020-07-14</p>
+						<p class="copyright">Copyright &copy; 2020 com.bokecc. All rights reserved. Updated: 2020-08-17</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

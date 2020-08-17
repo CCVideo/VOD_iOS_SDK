@@ -88,6 +88,8 @@
 		
 		<option value="//api/name/userId">userId</option>
 		
+		<option value="//api/name/videoId">videoId</option>
+		
 		<option value="//api/name/vrMode">vrMode</option>
 		
 	</optgroup>
@@ -172,11 +174,6 @@
 			
 
 			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>下载地址</p>
-			</div>
-			
 
 			
 
@@ -203,7 +200,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>文件名 默认nil 则为下载URL中的文件名</p>
+				<p>文件名</p>
 			</div>
 			
 		    
@@ -217,11 +214,6 @@
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>文件名 默认nil 则为下载URL中的文件名</p>
-			</div>
 			
 
 			
@@ -264,11 +256,6 @@
 			
 
 			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>存储路径</p>
-			</div>
-			
 
 			
 
@@ -310,11 +297,6 @@
 			
 
 			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>下载状态</p>
-			</div>
-			
 
 			
 
@@ -341,7 +323,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>文件类型 1 视频 2 音频</p>
+				<p>文件类型，1 视频 2 音频</p>
 			</div>
 			
 		    
@@ -355,11 +337,6 @@
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>文件类型 1 视频 2 音频</p>
-			</div>
 			
 
 			
@@ -402,11 +379,6 @@
 			
 
 			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>文件后缀名</p>
-			</div>
-			
 
 			
 
@@ -447,11 +419,6 @@
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>清晰度</p>
-			</div>
 			
 
 			
@@ -494,11 +461,6 @@
 			
 
 			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>清晰度描述</p>
-			</div>
-			
 
 			
 
@@ -540,11 +502,6 @@
 			
 
 			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>VR视频</p>
-			</div>
-			
 
 			
 
@@ -571,7 +528,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>URL失效后的断点续传需要设置这个数据</p>
+				<p>resumeData</p>
 			</div>
 			
 		    
@@ -585,11 +542,6 @@
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>URL失效后的断点续传需要设置这个数据</p>
-			</div>
 			
 
 			
@@ -632,10 +584,46 @@
 			
 
 			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>userId</p>
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">DWDownloadModel.h</code></p>
 			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/videoId" title="videoId"></a>
+	<h3 class="method-title"><code><a href="#//api/name/videoId">&nbsp;&nbsp;videoId</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>视频id</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSString *videoId</code></div>
+
+		    
+			
+
+			
+
+			
+
 			
 
 			
@@ -678,11 +666,6 @@
 			
 
 			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>跑马灯数据</p>
-			</div>
-			
 
 			
 
@@ -709,7 +692,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>自定义字段 根据自己需求适当添加，比如添加媒体图片，标题等</p>
+				<p>自定义字段，根据自己需求适当添加，比如添加媒体图片，标题等</p>
 			</div>
 			
 		    
@@ -723,11 +706,6 @@
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>自定义字段 根据自己需求适当添加，比如添加媒体图片，标题等</p>
-			</div>
 			
 
 			
@@ -755,7 +733,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>非点播业务不需要关注此值  解压状态 0 未解压  1 解压中 2 解压完成 3 解压失败</p>
+				<p>解压状态，非点播业务不需要关注此值。0 未解压，1 解压中，2 解压完成，3 解压失败</p>
 			</div>
 			
 		    
@@ -769,11 +747,6 @@
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>非点播业务不需要关注此值  解压状态 0 未解压  1 解压中 2 解压完成 3 解压失败</p>
-			</div>
 			
 
 			
@@ -816,11 +789,6 @@
 			
 
 			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>下载进度</p>
-			</div>
-			
 
 			
 
@@ -861,11 +829,6 @@
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>下载进度更新block</p>
-			</div>
 			
 
 			
@@ -908,11 +871,6 @@
 			
 
 			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>下载状态更新block</p>
-			</div>
-			
 
 			
 
@@ -942,7 +900,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2020 com.bokecc. All rights reserved. Updated: 2020-07-14</p>
+						<p class="copyright">Copyright &copy; 2020 com.bokecc. All rights reserved. Updated: 2020-08-17</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

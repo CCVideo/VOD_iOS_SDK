@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DWVRLibrary.h"
 
 @interface CustomDirectorFactory : NSObject<DW360DirectorFactory>
 

@@ -17,7 +17,6 @@
 #import "DWSubtitleView.h"
 #import "DWMessageView.h"
 #import <MediaPlayer/MediaPlayer.h>
-#import "DWGIFManager.h"
 #import "DWToastView.h"
 #import "CustomDirectorFactory.h"
 #import "DWGifRecordFinishView.h"
@@ -3261,11 +3260,6 @@ static CGFloat barrageBgHeight = 40;
 //加载失败
 - (void)videoPlayer:(DWPlayerView *)playerView didFailWithError:(NSError *)error
 {
-    if (self.videoModel && !self.playerView.isSpar) {
-        [self switchSparLine];
-        return;
-    }
-    
     //播放失败，延迟3秒进行重试
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(playFailureRepeat) object:nil];
 

@@ -1,5 +1,4 @@
 #import <UIKit/UIKit.h>
-#import "DWUploadModel.h"
 
 @interface DWUploadTableViewCell : UITableViewCell
 

@@ -1,0 +1,6 @@
+framework module CCVodSDK {
+  umbrella header "CCVodSDK.h"
+
+  export *
+  module * { export * }
+}

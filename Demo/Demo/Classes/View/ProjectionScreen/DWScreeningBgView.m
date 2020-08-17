@@ -8,9 +8,6 @@
 
 #import "DWScreeningBgView.h"
 #import "DWPlayerFuncBgView.h"
-#import "DWUPnPRenderer.h"
-#import "DWUPnPResponseDelegate.h"
-#import "DWUPnPSubscription.h"
 
 @interface DWScreeningBgView () <DWUPnPResponseDelegate,DWUPnPSubscriptionDelegate>
 

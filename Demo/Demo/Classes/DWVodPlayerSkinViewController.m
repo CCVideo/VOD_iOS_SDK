@@ -7,7 +7,6 @@
 //
 
 #import "DWVodPlayerSkinViewController.h"
-#import "DWPlayerSkinView.h"
 
 @interface DWVodPlayerSkinViewController ()<DWPlayerSkinViewDelegate>
 
