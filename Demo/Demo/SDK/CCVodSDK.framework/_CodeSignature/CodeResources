@@ -6,7 +6,7 @@
 	<dict>
 		<key>CCVodSDK.h</key>
 		<data>
-		QAD39LZ7YijrpurRoLqXh1H5jkw=
+		qIUh2FvP+CuD1N83m+Mx1UwEK7k=
 		</data>
 		<key>DWResource.bundle/Info.plist</key>
 		<data>
@@ -166,7 +166,7 @@
 		</data>
 		<key>Headers/CCVodSDK.h</key>
 		<data>
-		QAD39LZ7YijrpurRoLqXh1H5jkw=
+		qIUh2FvP+CuD1N83m+Mx1UwEK7k=
 		</data>
 		<key>Headers/DW360Director.h</key>
 		<data>
@@ -234,7 +234,7 @@
 		</data>
 		<key>Headers/DWPlayerView.h</key>
 		<data>
-		PM9nlp2wBveTOc4kQxV0qcFxm2U=
+		qbKP/X195zFIwKloEyPnQ8YtxYw=
 		</data>
 		<key>Headers/DWUPnPAVPositionInfo.h</key>
 		<data>
@@ -294,7 +294,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		SXb4FPsrgQ7ZRWSwgtkWSdv5i74=
+		FijEI+jq8dMRBJuTNGSEtKZknBA=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -336,11 +336,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			QAD39LZ7YijrpurRoLqXh1H5jkw=
+			qIUh2FvP+CuD1N83m+Mx1UwEK7k=
 			</data>
 			<key>hash2</key>
 			<data>
-			FnwScUSCbkwgf7ngpwE2YEhdZfZjHLnmZBCQ6Rse8fU=
+			Ee9hMAN0a2/KzLW5Av3ID4wDZxRc8SGNOXEnFyJrqqs=
 			</data>
 		</dict>
 		<key>DWResource.bundle/Info.plist</key>
@@ -776,11 +776,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			QAD39LZ7YijrpurRoLqXh1H5jkw=
+			qIUh2FvP+CuD1N83m+Mx1UwEK7k=
 			</data>
 			<key>hash2</key>
 			<data>
-			FnwScUSCbkwgf7ngpwE2YEhdZfZjHLnmZBCQ6Rse8fU=
+			Ee9hMAN0a2/KzLW5Av3ID4wDZxRc8SGNOXEnFyJrqqs=
 			</data>
 		</dict>
 		<key>Headers/DW360Director.h</key>
@@ -963,11 +963,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			PM9nlp2wBveTOc4kQxV0qcFxm2U=
+			qbKP/X195zFIwKloEyPnQ8YtxYw=
 			</data>
 			<key>hash2</key>
 			<data>
-			I6WXesRuXEM4a+j7pDxmb2NpHC+nkqzsZwG56ftD1Zc=
+			X12Ycs/JXGAKvGMpsjSceyf/rZ3i3fkQw2KSJmQyGtE=
 			</data>
 		</dict>
 		<key>Headers/DWUPnPAVPositionInfo.h</key>

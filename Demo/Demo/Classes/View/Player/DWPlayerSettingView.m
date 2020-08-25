@@ -78,7 +78,7 @@ static NSInteger setSectionListTableHeight = 60;
     [self.listTableView reloadData];
 }
 
--(void)setTotalMediaType:(BOOL)isVideo SizeList:(NSArray *)sizeList SubtitleList:(NSArray *)subTitleList DefaultLight:(CGFloat)light AndDefaultSound:(CGFloat)sound
+-(void)setTotalMediaType:(BOOL)isVideo SizeList:(NSArray *)sizeList SubtitleList:(NSArray *)subTitleList DefaultLight:(CGFloat)light DefaultSound:(CGFloat)sound AndDeafultImpact:(BOOL)impact
 {
     if (self.style != DWVodSettingStyleTotal) {
         return;
@@ -86,6 +86,10 @@ static NSInteger setSectionListTableHeight = 60;
     
     DWSettingFuncButton * mediaTypeButton = (DWSettingFuncButton *)[self.bgScrollView viewWithTag:102];
     mediaTypeButton.selected = isVideo;
+    
+    //动感开关
+    DWSettingFuncButton * impactButton = (DWSettingFuncButton *)[self.bgScrollView viewWithTag:105];
+    impactButton.selected = impact;
     
     self.sizeArray = sizeList;
     CGFloat buttonWidth = self.bgView.frame.size.width / 4.0;
@@ -206,6 +210,14 @@ static NSInteger setSectionListTableHeight = 60;
         //窗口播放
         if ([_delegate respondsToSelector:@selector(playerSettingWindowsPlay)]) {
             [_delegate playerSettingWindowsPlay];
+        }
+    }
+
+    if (button.tag == 105) {
+        //动感开关，默认开启
+        button.selected = !button.selected;
+        if ([_delegate respondsToSelector:@selector(playerSettingViewImpactSelect:)]) {
+            [_delegate playerSettingViewImpactSelect:button.selected];
         }
     }
 }
@@ -363,14 +375,24 @@ static NSInteger setSectionListTableHeight = 60;
         self.bgScrollView.frame = CGRectMake(0, 0, self.bgView.frame.size.width, self.bgView.frame.size.height);
         [self.bgView addSubview:self.bgScrollView];
 
-        NSArray * titles = @[@"下载",@"投屏",@"视频播放",@"网络检测",@"小窗播放"];
-        NSArray * images = @[@"icon_setting_dwonload.png",@"icon_screen_horizontal.png",@"icon_setting_video.png",@"icon_setting_network.png",@"icon_windows_full.png"];
+//        IS_PAD
+        NSArray * titles = nil;
+        NSArray * images = nil;
+        if (IS_PAD) {
+            titles = @[@"下载",@"投屏",@"视频播放",@"网络检测",@"小窗播放"];
+            images = @[@"icon_setting_dwonload.png",@"icon_screen_horizontal.png",@"icon_setting_video.png",@"icon_setting_network.png",@"icon_windows_full.png"];
+        }else{
+            titles = @[@"下载",@"投屏",@"视频播放",@"网络检测",@"小窗播放",@"动感开关"];
+            images = @[@"icon_setting_dwonload.png",@"icon_screen_horizontal.png",@"icon_setting_video.png",@"icon_setting_network.png",@"icon_windows_full.png",@"icon_setting_inpact_normal.png"];
+        }
 
         CGFloat buttonWidth = 48.0;
         CGFloat space = 18;
-        
-        UIScrollView * scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.bgView.frame.size.width, 46)];
+  
+        UIScrollView * scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 20, self.bgView.frame.size.width, 46)];
         scrollView.contentSize = CGSizeMake(buttonWidth * titles.count + space * (titles.count - 1) + 20, CGRectGetHeight(scrollView.frame));
+        scrollView.showsVerticalScrollIndicator = NO;
+        scrollView.showsHorizontalScrollIndicator = NO;
         [self.bgScrollView addSubview:scrollView];
          
         for (int i = 0; i < titles.count; i++) {
@@ -383,6 +405,12 @@ static NSInteger setSectionListTableHeight = 60;
                 [button setTitle:@"音频播放" forState:UIControlStateSelected];
                 [button setImage:[UIImage imageNamed:@"icon_setting_radio.png"] forState:UIControlStateSelected];
             }
+            if (i == 5) {
+                [button setImage:[UIImage imageNamed:@"icon_setting_inpact_select.png"] forState:UIControlStateSelected];
+                //默认开启
+                button.selected = YES;
+            }
+            
             button.titleLabel.textAlignment = NSTextAlignmentCenter;
             button.titleLabel.font = TitleFont(12);
             [button setTitleColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.7] forState:UIControlStateNormal];

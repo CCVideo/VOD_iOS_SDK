@@ -41,6 +41,12 @@
 //    [DWDownloadSessionManager manager].maxDownloadCount = 2;
 //    [DWDownloadSessionManager manager].isBatchDownload = NO;
     
+    //动感视频默认设置
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"allowImpact"]) {
+        [[NSUserDefaults standardUserDefaults] setValue:@YES forKey:@"allowImpact"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     

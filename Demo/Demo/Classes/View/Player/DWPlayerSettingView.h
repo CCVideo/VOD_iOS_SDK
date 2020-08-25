@@ -41,6 +41,8 @@ typedef NS_ENUM(NSInteger, DWVodSettingStyle) {
 -(void)playerSettingViewSoundChange:(CGFloat)changeValue;
 //窗口播放
 -(void)playerSettingWindowsPlay;
+//动感开关
+-(void)playerSettingViewImpactSelect:(BOOL)isSelect;
 
 @end
 
@@ -57,7 +59,7 @@ typedef NS_ENUM(NSInteger, DWVodSettingStyle) {
 -(void)setTableList:(NSArray *)listArray;
 
 //设置total数据
--(void)setTotalMediaType:(BOOL)isVideo SizeList:(NSArray *)sizeList SubtitleList:(NSArray *)subTitleList DefaultLight:(CGFloat)light AndDefaultSound:(CGFloat)sound;
+-(void)setTotalMediaType:(BOOL)isVideo SizeList:(NSArray *)sizeList SubtitleList:(NSArray *)subTitleList DefaultLight:(CGFloat)light DefaultSound:(CGFloat)sound AndDeafultImpact:(BOOL)impact;
 
 -(void)show;
 

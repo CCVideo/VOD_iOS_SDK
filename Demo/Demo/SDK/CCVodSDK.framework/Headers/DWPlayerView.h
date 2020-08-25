@@ -340,6 +340,13 @@ typedef NS_ENUM(NSUInteger, DWPlayerViewLoadStyle) {
  */
 -(void)removeTimer;
 
+/*!
+ * @method
+ * @abstract 触发一次震动
+ * @discussion 触发一次震动
+ */
+-(void)shockFeedback;
+
 //AirPlay技术 外部播放设置
 /*!
  * @method

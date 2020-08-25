@@ -31,6 +31,7 @@
 #import "DWBarrageBgView.h"
 #import "DWBarrageTextDescriptor.h"
 #import "DWBarrageTextCell.h"
+#import "DWImpactRemindView.h"
 
 @interface DWVodPlayerView ()<DWVideoPlayerDelegate,DWPlayerSettingViewDelegate,DWGifRecordFinishViewDelegate,DWVisitorCollectViewDelegate,DWExercisesAlertViewDelegate,DWExercisesViewDelegate,AVPictureInPictureControllerDelegate,DWVodPlayerPanGestureDelegate,DWBarrageManagerDelegate,DWBarrageBgViewDelegate>
 
@@ -60,6 +61,9 @@
 @property(nonatomic,assign)BOOL allowBackgroundPlay;
 //是否开启画中画，仅对pad有效
 @property(nonatomic,assign)BOOL allowPictureInPicture;
+
+//是否开启动感视频，默认YES
+@property(nonatomic,assign)BOOL allowImpact;
 
 @property(nonatomic,assign)UIEdgeInsets areaInsets;
 @property(nonatomic,assign)BOOL isFull;
@@ -200,6 +204,9 @@
 //承载弹幕
 @property(nonatomic,strong)OCBarrageManager * barrage;
 
+//**************************** 动感视频 ****************************
+@property(nonatomic,strong)DWImpactRemindView * impactRemindView;
+
 @end
 
 @implementation DWVodPlayerView
@@ -234,6 +241,8 @@ static CGFloat barrageBgHeight = 40;
         
         //是否开启画中画
         self.allowPictureInPicture = NO;
+        
+        self.allowImpact = [[[NSUserDefaults standardUserDefaults] objectForKey:@"allowImpact"] boolValue];
         
         self.backgroundColor = [UIColor blackColor];
         
@@ -317,6 +326,8 @@ static CGFloat barrageBgHeight = 40;
     //    _hud = [MBProgressHUD showHUDAddedTo:self.maskView animated:YES];
     //    _hud.label.text = @"努力加载中，请稍后";
     self.downloadModel = nil;
+    
+    [self clearVideoMark];
     
     [self showHudWithMessage:@"努力加载中，请稍后"];
     
@@ -1739,7 +1750,9 @@ static CGFloat barrageBgHeight = 40;
 {
     self.settingView = [[DWPlayerSettingView alloc]initWithStyle:DWVodSettingStyleTotal];
     self.settingView.delegate = self;
-    [self.settingView setTotalMediaType:self.isVideo SizeList:self.sizeArray SubtitleList:self.subTitleArray DefaultLight:self.screenLight AndDefaultSound:self.systemSound];
+
+    [self.settingView setTotalMediaType:self.isVideo SizeList:self.sizeArray SubtitleList:self.subTitleArray DefaultLight:self.screenLight DefaultSound:self.systemSound AndDeafultImpact:self.allowImpact];
+
     [self.settingView show];
 }
 
@@ -2096,7 +2109,7 @@ static CGFloat barrageBgHeight = 40;
 {
     //!!!demo中，只有横屏会显示打点，这里frame只是示例，自己项目根据业务需求做调整
     if (self.isFull && self.isVideo) {
-        
+
         [videomarks enumerateObjectsUsingBlock:^(DWVideoMarkModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             CGFloat duration = CMTimeGetSeconds([self.playerView.player.currentItem duration]);
             CGFloat sliderWidth = self.sliderWidth;
@@ -2187,6 +2200,16 @@ static CGFloat barrageBgHeight = 40;
     //视频总时长
     CGFloat duration = CMTimeGetSeconds([self.playerView.player.currentItem duration]);
     [self showVideoMarkCurrentValue:tapValue videoDuration:duration];
+}
+
+//清理打点数据
+-(void)clearVideoMark
+{
+    self.videomarkArray = nil;
+    for (UIButton * markButton in self.markButtonArray) {
+        [markButton removeFromSuperview];
+    }
+    [self.markButtonArray removeAllObjects];
 }
 
 #pragma mark - 视频问答功能
@@ -2913,6 +2936,37 @@ static CGFloat barrageBgHeight = 40;
     [self.barrage renderBarrageDescriptor:textDescriptor];
 }
 
+#pragma mark - 动感视频
+//触发震动，提示文字
+-(void)showImpactView:(CGFloat)time
+{
+    if (IS_PAD) {
+        return;
+    }
+    
+    if (!self.allowImpact) {
+        return;
+    }
+    
+    if (!self.videoModel) {
+        return;
+    }
+    
+    if (!self.impactRemindView) {
+        return;
+    }
+    
+    //判断是否有视频打点，触发震动及提示文字
+    for (DWVideoMarkModel * videoMarkModel in self.videomarkArray) {
+        if (videoMarkModel.marktime == (NSInteger)time) {
+            //触发提示文字
+            [self.impactRemindView show];
+            //触发震动反馈效果
+            [self.playerView shockFeedback];
+            break;
+        }
+    }
+}
 
 #pragma mark - DWPlayerSettingViewDelegate
 -(void)playerSettingViewStyle:(DWVodSettingStyle)style AndSelectIndex:(NSInteger)selectIndex
@@ -3107,6 +3161,15 @@ static CGFloat barrageBgHeight = 40;
     self.systemSound = changeValue;
 }
 
+//动感开关
+-(void)playerSettingViewImpactSelect:(BOOL)isSelect
+{
+    self.allowImpact = isSelect;
+    
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:self.allowImpact] forKey:@"allowImpact"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 #pragma mark - DWVideoPlayerDelegate
 // 可播放
 - (void)videoPlayerIsReadyToPlayVideo:(DWPlayerView *)playerView
@@ -3193,6 +3256,9 @@ static CGFloat barrageBgHeight = 40;
     
     //课堂练习
     [self showExercisesAlertView:time];
+    
+    //动感视频
+    [self showImpactView:time];
     
     self.exercisesLastScrubTime = time;
     
@@ -4312,6 +4378,22 @@ static CGFloat barrageBgHeight = 40;
         _barrageBgView.delegate = self;
     }
     return _barrageBgView;
+}
+
+-(DWImpactRemindView *)impactRemindView
+{
+    if (!_impactRemindView) {
+        _impactRemindView = [[DWImpactRemindView alloc]init];
+        [self.playerView addSubview:_impactRemindView];
+        [_impactRemindView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.playerView);
+            make.bottom.equalTo(@(-75));
+            make.width.equalTo(@134);
+            make.height.equalTo(@39);
+        }];
+    }
+    
+    return _impactRemindView;
 }
 
 /*
