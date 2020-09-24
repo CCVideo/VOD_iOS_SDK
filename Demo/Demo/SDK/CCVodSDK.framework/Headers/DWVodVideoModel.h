@@ -128,12 +128,12 @@
 @property(nonatomic, strong, readonly)NSDate * startTime;
 
 /**
- *  @brief cc账号id
+ *  @brief 获得场景视频账号id
  */
 @property(nonatomic, strong, readonly)NSString * CCUserId;
 
 /**
- *  @brief cc账号key
+ *  @brief 获得场景视频账号key
  */
 @property(nonatomic, strong, readonly)NSString * CCApiKey;
 

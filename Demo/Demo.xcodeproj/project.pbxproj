@@ -107,8 +107,6 @@
 		043D4E6B22D5C91D00FCDCBE /* icon_sound_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 043D4E6522D5C91D00FCDCBE /* icon_sound_add@2x.png */; };
 		043D4E6C22D5C91D00FCDCBE /* icon_sound_sub@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 043D4E6622D5C91D00FCDCBE /* icon_sound_sub@3x.png */; };
 		04665AC22296494700918348 /* DWVisitorCollectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04665AC12296494700918348 /* DWVisitorCollectView.m */; };
-		04764E3624E50D900016DE9A /* CCVodSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04764E3524E50D900016DE9A /* CCVodSDK.framework */; };
-		04764E3824E50D900016DE9A /* HDBaseUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04764E3724E50D900016DE9A /* HDBaseUtils.framework */; };
 		047CE82622B8DBD500D87AAF /* DWExercisesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 047CE82022B8DBD400D87AAF /* DWExercisesView.m */; };
 		047CE82722B8DBD500D87AAF /* DWExercisesFinishView.m in Sources */ = {isa = PBXBuildFile; fileRef = 047CE82122B8DBD400D87AAF /* DWExercisesFinishView.m */; };
 		047CE82822B8DBD500D87AAF /* DWExercisesAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 047CE82222B8DBD400D87AAF /* DWExercisesAlertView.m */; };
@@ -403,8 +401,13 @@
 		B57CC7BE18E2E575001A1696 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57CC7BD18E2E575001A1696 /* CoreLocation.framework */; };
 		B57CC7C018E2E581001A1696 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57CC7BF18E2E581001A1696 /* AVFoundation.framework */; };
 		B88562A41DED1AC8008D1763 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B88562A31DED1AC8008D1763 /* SystemConfiguration.framework */; };
-		DD7345AD24F36C8700866368 /* CCVodSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD7345AB24F36C8700866368 /* CCVodSDK.framework */; };
-		DD7345AE24F36C8700866368 /* HDBaseUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD7345AC24F36C8700866368 /* HDBaseUtils.framework */; };
+		DD3C6C74251C378500AE4039 /* CCVodSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD3C6C72251C378500AE4039 /* CCVodSDK.framework */; };
+		DD3C6C76251C382800AE4039 /* HDBaseUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD3C6C73251C378500AE4039 /* HDBaseUtils.framework */; };
+		DD3C6C77251C382800AE4039 /* HDBaseUtils.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DD3C6C73251C378500AE4039 /* HDBaseUtils.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DD54280A250B55AB0097614C /* icon_ad_mute_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD542806250B55AA0097614C /* icon_ad_mute_select@2x.png */; };
+		DD54280B250B55AB0097614C /* icon_ad_mute@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD542807250B55AB0097614C /* icon_ad_mute@3x.png */; };
+		DD54280C250B55AB0097614C /* icon_ad_mute@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD542808250B55AB0097614C /* icon_ad_mute@2x.png */; };
+		DD54280D250B55AB0097614C /* icon_ad_mute_select@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD542809250B55AB0097614C /* icon_ad_mute_select@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -414,6 +417,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				DD3C6C77251C382800AE4039 /* HDBaseUtils.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -593,8 +597,6 @@
 		044C66A122D46DAE0032396F /* Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Demo.entitlements; sourceTree = "<group>"; };
 		04665AC02296494700918348 /* DWVisitorCollectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWVisitorCollectView.h; sourceTree = "<group>"; };
 		04665AC12296494700918348 /* DWVisitorCollectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWVisitorCollectView.m; sourceTree = "<group>"; };
-		04764E3524E50D900016DE9A /* CCVodSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CCVodSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		04764E3724E50D900016DE9A /* HDBaseUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HDBaseUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		047CE81E22B8DBD400D87AAF /* DWExercisesAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWExercisesAlertView.h; sourceTree = "<group>"; };
 		047CE81F22B8DBD400D87AAF /* DWExercisesQuestionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWExercisesQuestionView.h; sourceTree = "<group>"; };
 		047CE82022B8DBD400D87AAF /* DWExercisesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWExercisesView.m; sourceTree = "<group>"; };
@@ -979,8 +981,12 @@
 		B57CC7BD18E2E575001A1696 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		B57CC7BF18E2E581001A1696 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		B88562A31DED1AC8008D1763 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		DD7345AB24F36C8700866368 /* CCVodSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CCVodSDK.framework; sourceTree = "<group>"; };
-		DD7345AC24F36C8700866368 /* HDBaseUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HDBaseUtils.framework; sourceTree = "<group>"; };
+		DD3C6C72251C378500AE4039 /* CCVodSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CCVodSDK.framework; sourceTree = "<group>"; };
+		DD3C6C73251C378500AE4039 /* HDBaseUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HDBaseUtils.framework; sourceTree = "<group>"; };
+		DD542806250B55AA0097614C /* icon_ad_mute_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_ad_mute_select@2x.png"; sourceTree = "<group>"; };
+		DD542807250B55AB0097614C /* icon_ad_mute@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_ad_mute@3x.png"; sourceTree = "<group>"; };
+		DD542808250B55AB0097614C /* icon_ad_mute@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_ad_mute@2x.png"; sourceTree = "<group>"; };
+		DD542809250B55AB0097614C /* icon_ad_mute_select@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_ad_mute_select@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -988,17 +994,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04764E3624E50D900016DE9A /* CCVodSDK.framework in Frameworks */,
-				04764E3824E50D900016DE9A /* HDBaseUtils.framework in Frameworks */,
+				DD3C6C76251C382800AE4039 /* HDBaseUtils.framework in Frameworks */,
 				048AD12822CDCE83008C8911 /* libxml2.tbd in Frameworks */,
 				043441FF225EF2BB003F7EC1 /* CoreServices.framework in Frameworks */,
 				352CBDD91FD6980C00D24715 /* AudioToolbox.framework in Frameworks */,
 				352CBDD71FD697E800D24715 /* MediaPlayer.framework in Frameworks */,
-				DD7345AE24F36C8700866368 /* HDBaseUtils.framework in Frameworks */,
 				B88562A41DED1AC8008D1763 /* SystemConfiguration.framework in Frameworks */,
 				B57CC7C018E2E581001A1696 /* AVFoundation.framework in Frameworks */,
 				B57CC7BE18E2E575001A1696 /* CoreLocation.framework in Frameworks */,
-				DD7345AD24F36C8700866368 /* CCVodSDK.framework in Frameworks */,
+				DD3C6C74251C378500AE4039 /* CCVodSDK.framework in Frameworks */,
 				B57CC7BC18E2E569001A1696 /* CoreMedia.framework in Frameworks */,
 				B547EC4C18E033FB00BC980C /* CoreGraphics.framework in Frameworks */,
 				B547EC4E18E033FB00BC980C /* UIKit.framework in Frameworks */,
@@ -1431,6 +1435,10 @@
 		049FEF82225EEEA200D944C5 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				DD542806250B55AA0097614C /* icon_ad_mute_select@2x.png */,
+				DD542809250B55AB0097614C /* icon_ad_mute_select@3x.png */,
+				DD542808250B55AB0097614C /* icon_ad_mute@2x.png */,
+				DD542807250B55AB0097614C /* icon_ad_mute@3x.png */,
 				04B0CBE224EA66BC004222DC /* icon_setting_inpact_normal@2x.png */,
 				04B0CBE124EA66BC004222DC /* icon_setting_inpact_normal@3x.png */,
 				04B0CBE024EA66BB004222DC /* icon_setting_inpact_select@2x.png */,
@@ -1806,8 +1814,6 @@
 		B547EC4818E033FB00BC980C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				04764E3524E50D900016DE9A /* CCVodSDK.framework */,
-				04764E3724E50D900016DE9A /* HDBaseUtils.framework */,
 				048AD12722CDCE83008C8911 /* libxml2.tbd */,
 				043441FE225EF2BB003F7EC1 /* CoreServices.framework */,
 				352CBDD81FD697FA00D24715 /* AudioToolbox.framework */,
@@ -1827,7 +1833,7 @@
 			isa = PBXGroup;
 			children = (
 				044C66A122D46DAE0032396F /* Demo.entitlements */,
-				DD7345AA24F36C8700866368 /* SDK */,
+				DD3C6C71251C378500AE4039 /* SDK */,
 				0434420D225F0EDD003F7EC1 /* Classes */,
 				B547EC5818E033FB00BC980C /* DWAppDelegate.h */,
 				B547EC5918E033FB00BC980C /* DWAppDelegate.m */,
@@ -1854,11 +1860,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		DD7345AA24F36C8700866368 /* SDK */ = {
+		DD3C6C71251C378500AE4039 /* SDK */ = {
 			isa = PBXGroup;
 			children = (
-				DD7345AB24F36C8700866368 /* CCVodSDK.framework */,
-				DD7345AC24F36C8700866368 /* HDBaseUtils.framework */,
+				DD3C6C72251C378500AE4039 /* CCVodSDK.framework */,
+				DD3C6C73251C378500AE4039 /* HDBaseUtils.framework */,
 			);
 			path = SDK;
 			sourceTree = "<group>";
@@ -1874,6 +1880,7 @@
 				B547EC4318E033FB00BC980C /* Frameworks */,
 				B547EC4418E033FB00BC980C /* Resources */,
 				046FF38A2468F48100AB4A98 /* Embed Frameworks */,
+				DD3C6BC72519D90000AE4039 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1947,6 +1954,7 @@
 				04AB4A2422B1F22A00BB9BF9 /* icon_exercises_answer_b_select@2x.png in Resources */,
 				04FFA9FA22647C84008C2713 /* icon_play_gif_disable@3x.png in Resources */,
 				04B7A667226B0EF000951983 /* icon_question_wrong@3x.png in Resources */,
+				DD54280B250B55AB0097614C /* icon_ad_mute@3x.png in Resources */,
 				0491DCFD24B5604300DF40C7 /* icon_barrage_color_white_normal@3x.png in Resources */,
 				04FFA9E222647579008C2713 /* icon_play_full@3x.png in Resources */,
 				04DF5D4B2265D6540060B43B /* icon_radio_bg@3x.png in Resources */,
@@ -1976,6 +1984,7 @@
 				04FFA9E022647579008C2713 /* icon_play_radio@3x.png in Resources */,
 				04EB65DC226D9B6200FAB532 /* icon_setting_light_low@2x.png in Resources */,
 				04EB65DB226D9B6200FAB532 /* icon_setting_light_high@2x.png in Resources */,
+				DD54280D250B55AB0097614C /* icon_ad_mute_select@3x.png in Resources */,
 				04344223225F133C003F7EC1 /* icon_upload@3x.png in Resources */,
 				04AB4A3E22B1F22A00BB9BF9 /* icon_exercises_answer_d_select@3x.png in Resources */,
 				0491DCEB24B5604300DF40C7 /* icon_barrage_color_07@3x.png in Resources */,
@@ -1999,6 +2008,7 @@
 				0491DCF824B5604300DF40C7 /* icon_barrage_close@3x.png in Resources */,
 				0491DD2424B5604300DF40C7 /* icon_barrage_color_01@2x.png in Resources */,
 				04FFA9EA22647579008C2713 /* icon_play_full@2x.png in Resources */,
+				DD54280C250B55AB0097614C /* icon_ad_mute@2x.png in Resources */,
 				0491DCF224B5604300DF40C7 /* icon_barrage_set_return@3x.png in Resources */,
 				0491DD0F24B5604300DF40C7 /* icon_barrage_color_05@3x.png in Resources */,
 				0491DD1224B5604300DF40C7 /* icon_barrage_color_06_select@2x.png in Resources */,
@@ -2094,6 +2104,7 @@
 				04FFA9F422647C84008C2713 /* icon_play_gif_disable@2x.png in Resources */,
 				04B0CBE524EA66BC004222DC /* icon_setting_inpact_normal@3x.png in Resources */,
 				04AB4A3C22B1F22A00BB9BF9 /* icon_exercises_answer_h_select@3x.png in Resources */,
+				DD54280A250B55AB0097614C /* icon_ad_mute_select@2x.png in Resources */,
 				04DBAC63228A6C8F000EE850 /* icon_placeholder@2x.png in Resources */,
 				04CD12022292AF26000C6F0C /* icon_player_func_top_bg@2x.png in Resources */,
 				0491DD2324B5604300DF40C7 /* icon_barrage_color_01@3x.png in Resources */,
@@ -2171,6 +2182,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DD3C6BC72519D90000AE4039 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nAPP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK  \ndo  \nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)  \nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"  \necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"  \n  \nEXTRACTED_ARCHS=()  \n  \nfor ARCH in $ARCHS  \ndo  \necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"  \nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"  \nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")  \ndone  \n\necho \"Merging extracted architectures: ${ARCHS}\"  \nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"  \nrm \"${EXTRACTED_ARCHS[@]}\"  \n  \necho \"Replacing original executable with thinned version\"  \nrm \"$FRAMEWORK_EXECUTABLE_PATH\"  \nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"  \n  \ndone\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B547EC4218E033FB00BC980C /* Sources */ = {
@@ -2374,7 +2405,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-all_load";
 				SDKROOT = iphoneos;
@@ -2408,7 +2439,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-all_load";
 				SDKROOT = iphoneos;
@@ -2429,6 +2460,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = 39TBB43S2R;
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
@@ -2444,7 +2476,7 @@
 					/usr/include/libxml2,
 				);
 				INFOPLIST_FILE = "Demo/Demo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(SRCROOT)/../",
@@ -2476,6 +2508,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = 39TBB43S2R;
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
@@ -2491,7 +2524,7 @@
 					/usr/include/libxml2,
 				);
 				INFOPLIST_FILE = "Demo/Demo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(SRCROOT)/../",

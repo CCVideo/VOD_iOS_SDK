@@ -30,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)vodPlayerViewVisitorReturnBack:(DWVodPlayerView *)playerView;
 //窗口模式播放
 -(void)vodPlayerViewDidEnterWindowsModel:(DWVodPlayerView *)playerView;
+//片尾广告事件
+-(void)vodPlayerViewEndAd:(DWVodPlayerView *)playerView;
 
 @end
 
@@ -60,6 +62,9 @@ NS_ASSUME_NONNULL_BEGIN
 //当前播放时间
 @property(nonatomic,assign)CGFloat currentPlayDuration;
 
+//记录广告是否开启，防止拖拽完成后，视频会播放的问题。
+@property(nonatomic,assign)BOOL isShowAd;
+
 -(void)reLayoutWithScreenState:(BOOL)isFull;
 
 //播放在线视频
@@ -80,6 +85,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 //退出窗口模式
 -(void)quitWindowsModel;
+
+//播放下一集
+-(void)playNextVideo;
 
 @end
 

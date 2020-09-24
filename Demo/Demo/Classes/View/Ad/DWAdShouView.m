@@ -7,11 +7,12 @@
 //
 
 #import "DWAdShouView.h"
+#import <WebKit/WebKit.h>
 
 typedef enum : NSUInteger {
-    DWAdTypeBeginPicture,
-    DWAdTypeBeginVideo,
-    DWAdTypePausePicture,
+    DWAdTypePicture,
+    DWAdTypeVideo,
+    DWADTypeGIF,
 } DWAdShouViewType;
 
 @interface DWAdShouView ()
@@ -41,23 +42,43 @@ typedef enum : NSUInteger {
 //全屏/非全屏按钮
 @property(nonatomic,strong)UIButton * fullButton;
 
-///片头视频广告
-@property(nonatomic,strong)AVQueuePlayer * adQueuePlayer;
+///视频广告
+@property(nonatomic,strong)UIView * adPlayerBgView;
+@property(nonatomic,strong)AVPlayer * adPlayer;
 @property(nonatomic,strong)AVPlayerLayer * playerLayer;
 //当前播放广告下标
-///片头图片广告
-@property(nonatomic,strong)UIImageView * adBeginImageView;
+///图片广告
+@property(nonatomic,strong)UIImageView * adImageView;
 
-//暂停广告
-@property(nonatomic,strong)UIImageView * adPauseImageView;
+//GIF广告
+@property(nonatomic,strong)UIImageView * gifImageView;
+
 //关闭按钮
 @property(nonatomic,strong)UIButton * pauseCloseButton;
+@property(nonatomic,strong)UIButton * muteButton;
 
 @property(nonatomic,assign)BOOL isFull;
 
 @end
 
 @implementation DWAdShouView
+
+static CGFloat closeButtonWeight = 46.0;
+static CGFloat closeButtonHeight = 20.0;
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+        UITapGestureRecognizer * detailTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(detailTapAction)];
+        [self addGestureRecognizer:detailTap];
+        
+        self.isFull = NO;
+        
+    }
+    return self;
+}
 
 #pragma mark - function
 -(void)playAdVideo:(DWVodAdInfoModel *)adInfoModel
@@ -78,22 +99,18 @@ typedef enum : NSUInteger {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adShouViewWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
     // app退到后台
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adShouViewWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
-
+    
     self.adMaterialModel = [self.adInfoModel.ads firstObject];
-    if (self.adInfoModel.type == 1) {
-        //片头广告
-        if ([[self.adMaterialModel.materialUrl lowercaseString] rangeOfString:@".mp4"].location == NSNotFound) {
-            //图片广告
-            self.adType = DWAdTypeBeginPicture;
-        }else{
-            //视频广告
-            [self loadAdQueuePlayer];
-            self.adType = DWAdTypeBeginVideo;
-        }
-        
-    }else if (self.adInfoModel.type == 2){
-        //暂停广告
-        self.adType = DWAdTypePausePicture;
+    
+    if ([[self.adMaterialModel.materialUrl lowercaseString] containsString:@".mp4"]) {
+        //视频广告
+        self.adType = DWAdTypeVideo;
+    }else if ([[self.adMaterialModel.materialUrl lowercaseString] containsString:@".gif"]) {
+        //GIF广告
+        self.adType = DWADTypeGIF;
+    }else{
+        //图片广告
+        self.adType = DWAdTypePicture;
     }
 
     self.secondsCountTime = self.adInfoModel.time;
@@ -102,14 +119,13 @@ typedef enum : NSUInteger {
     [self loadView];
     
     //加载默认的广告视图
-    if (self.adType == DWAdTypeBeginVideo) {
-        [self loadBeginVideoAd:NO];
-    }
-    if (self.adType == DWAdTypeBeginPicture) {
-        [self loadBeginPictureAd:NO];
-    }
-    if (self.adType == DWAdTypePausePicture) {
-        [self loadPausePictureAd:NO];
+    if (self.adType == DWAdTypeVideo) {
+        [self loadAdPlayer];
+        [self loadVideoAd:self.isFull];
+    }else if (self.adType == DWADTypeGIF){
+        [self loadGIFAd:self.isFull];
+    }else{
+        [self loadPictureAd:self.isFull];
     }
 
 }
@@ -120,124 +136,280 @@ typedef enum : NSUInteger {
     [self layoutIfNeeded];
     
     self.isFull = isFull;
-    if (self.adType == DWAdTypeBeginVideo) {
-        [self loadBeginVideoAd:isFull];
+
+    if (self.adType == DWAdTypeVideo) {
+        [self loadVideoAd:isFull];
     }
-    if (self.adType == DWAdTypeBeginPicture) {
-        [self loadBeginPictureAd:isFull];
+    if (self.adType == DWAdTypePicture) {
+        [self loadPictureAd:isFull];
     }
-    if (self.adType == DWAdTypePausePicture) {
-        [self loadPausePictureAd:isFull];
+    if (self.adType == DWADTypeGIF) {
+        [self loadGIFAd:isFull];
     }
+}
+
+//完成广告
+-(void)adFinish
+{
+    self.hidden = YES;
+    
+    [self clearAllObject];
 }
 
 //加载视频播放相关控件
--(void)loadAdQueuePlayer
+-(void)loadAdPlayer
 {
-    //创建player相关的
-    NSMutableArray * items = [NSMutableArray array];
-    for (DWVodAdMaterialModel * materialModel in self.adInfoModel.ads) {
-        AVPlayerItem * item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:materialModel.materialUrl]];
-        [items addObject:item];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adPlayerDidPlayToEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:item];
+    DWVodAdMaterialModel * materialModel = self.adInfoModel.ads.firstObject;
+    AVPlayerItem * item = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:materialModel.materialUrl]];
+    self.adPlayer = [AVPlayer playerWithPlayerItem:item];
+    //暂停广告有音量控制，其余类型广告不做控制
+    if (self.adInfoModel.type == 2) {
+        self.adPlayer.muted = self.muteButton.selected;
+    }
+    
+    self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.adPlayer];
+    self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+
+    [self.adPlayerBgView.layer addSublayer:self.playerLayer];
+    [self.adPlayer play];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adPlayerDidPlayToEnd) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+    [self.adPlayer.currentItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+//加载视频广告
+-(void)loadVideoAd:(BOOL)isFull
+{
+    if (self.adInfoModel.type == 2) {
+        //暂停广告
+        self.pauseCloseButton.hidden = NO;
+        self.muteButton.hidden = NO;
         
-    }
-    self.adQueuePlayer = [AVQueuePlayer queuePlayerWithItems:items];
-    self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.adQueuePlayer];
-    self.playerLayer.videoGravity = AVLayerVideoGravityResize;
-    [self.layer addSublayer:self.playerLayer];
-    [self.adQueuePlayer play];
-}
+        //处理子控件 frame
+        if (isFull) {
+//            self.adPlayerBgView.frame = CGRectMake(133, 75, (self.bounds.size.width - 133 * 2), (self.bounds.size.height - 75));
+            self.adPlayerBgView.frame = CGRectMake(133, 75, (self.bounds.size.width - 133 * 2), (self.bounds.size.height - 75 * 2));
+//            CGRectMake(133, 75, (ScreenWidth - 133 * 2), (ScreenHeight - 75));
 
-//加载片头视频广告
--(void)loadBeginVideoAd:(BOOL)isFull
-{
-    //处理子控件 显示
-    self.returnButton.hidden = NO;
-    self.timeLabel.hidden = NO;
-    self.beginCloseButton.hidden = !self.adInfoModel.canSkip;
-    self.detailButton.hidden = NO;
-    self.fullButton.hidden = NO;
-    
-    //处理子控件 frame
-    self.returnButton.frame = CGRectMake(self.bounds.origin.x + 10, 20, 35, 35);
-    self.detailButton.frame = CGRectMake(self.bounds.size.width - 120, self.bounds.size.height - 40, 70, 30);
-    self.fullButton.frame = CGRectMake(self.bounds.size.width - 40, self.bounds.size.height - 40, 30, 30);
-    self.playerLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-    
-    //加载定时器
-    //存在的话，是横竖屏切换时走的这个方法
-    if (!self.timer) {
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(beginInfoTimeAction) userInfo:nil repeats:YES];
-    }
-}
-
-//加载片头图片广告
--(void)loadBeginPictureAd:(BOOL)isFull
-{
-    //处理子控件 显示
-    self.returnButton.hidden = NO;
-    self.timeLabel.hidden = NO;
-    self.adBeginImageView.hidden = NO;
-    self.beginCloseButton.hidden = !self.adInfoModel.canSkip;
-    self.detailButton.hidden = NO;
-    self.fullButton.hidden = NO;
-    
-    //处理子控件 frame
-    self.returnButton.frame = CGRectMake(self.bounds.origin.x + 10, 20, 35, 35);
-    self.detailButton.frame = CGRectMake(self.bounds.size.width - 120, self.bounds.size.height - 40, 70, 30);
-    self.fullButton.frame = CGRectMake(self.bounds.size.width - 40, self.bounds.size.height - 40, 30, 30);
-    
-    if (isFull) {
-        self.adBeginImageView.transform = CGAffineTransformMakeScale(0.6, 0.6);
+        }else{
+            self.adPlayerBgView.frame = CGRectMake(87, 45, (self.bounds.size.width - 87 * 2), (self.bounds.size.height - 45 * 2));
+        }
+        
+//        self.adPlayerBgView.center = self.center;
+        
     }else{
-        self.adBeginImageView.transform = CGAffineTransformIdentity;
+        //其他类型广告
+        //处理子控件 显示
+        self.returnButton.hidden = NO;
+//        self.timeLabel.hidden = NO;
+        self.timeLabel.hidden = !self.adInfoModel.canSkip;
+        self.beginCloseButton.hidden = !self.adInfoModel.canSkip;
+        self.detailButton.hidden = NO;
+        self.fullButton.hidden = NO;
+        
+        //处理子控件 frame
+        self.returnButton.frame = CGRectMake(self.bounds.origin.x + 10, 20, 35, 35);
+        self.detailButton.frame = CGRectMake(self.bounds.size.width - 120, self.bounds.size.height - 40, 70, 30);
+        self.fullButton.frame = CGRectMake(self.bounds.size.width - 40, self.bounds.size.height - 40, 30, 30);
+        
+        self.adPlayerBgView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+        
+        //加载定时器
+        //存在的话，是横竖屏切换时走的这个方法
+        if (!self.timer) {
+            self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(beginInfoTimeAction) userInfo:nil repeats:YES];
+        }
     }
     
-    self.adBeginImageView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-//    self.adBeginImageView.center = self.center;
+    self.playerLayer.frame = self.adPlayerBgView.bounds;
     
-    //加载广告信息
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        UIImage * adImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.adMaterialModel.materialUrl]]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.adBeginImageView.image = adImage;
-        });
-    });
-    
-    //加载定时器
-    if (!self.timer) {
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(beginInfoTimeAction) userInfo:nil repeats:YES];
+    if (self.adPlayer.currentItem.status == AVPlayerStatusReadyToPlay) {
+        //计算素材位置
+        [self.pauseCloseButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.adPlayerBgView).offset(CGRectGetMaxX(self.playerLayer.videoRect) - closeButtonWeight - 3);
+            make.top.equalTo(@(self.adPlayerBgView.frame.origin.y + self.playerLayer.videoRect.origin.y + 3));
+            
+            make.width.equalTo(@(closeButtonWeight));
+            make.height.equalTo(@(closeButtonHeight));
+        }];
+        
+        [self.muteButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.adPlayerBgView).offset(CGRectGetMaxY(self.playerLayer.videoRect) - 24 - 10);
+            make.left.equalTo(self.adPlayerBgView).offset(self.playerLayer.videoRect.origin.x + 10);
+            make.width.and.height.equalTo(@24);
+        }];
     }
 }
 
-//加载暂停广告
--(void)loadPausePictureAd:(BOOL)isFull
+//加载图片广告
+-(void)loadPictureAd:(BOOL)isFull
 {
-    //处理子控件 显示
-    self.adPauseImageView.hidden = NO;
-    self.pauseCloseButton.hidden = NO;
-    
-    //处理子控件 frame
-    if (isFull) {
-        self.adPauseImageView.frame = CGRectMake(self.bounds.size.width * 0.2, self.bounds.size.height * 0.2, self.bounds.size.width * 0.6, self.bounds.size.height * 0.6);
+    if (self.adInfoModel.type == 2) {
+        //暂停广告
+        //处理子控件 显示
+        self.adImageView.hidden = NO;
+        self.pauseCloseButton.hidden = NO;
+        
+        //处理子控件 frame
+        if (isFull) {
+            self.adImageView.frame = CGRectMake(133, 75, (self.bounds.size.width - 133 * 2), (self.bounds.size.height - 75 * 2));
+//            CGRectMake(133, 75, (ScreenWidth - 133 * 2), (ScreenHeight - 75));
+        }else{
+            self.adImageView.frame = CGRectMake(87, 45, (self.bounds.size.width - 87 * 2), (self.bounds.size.height - 45 * 2));
+        }
+        
+//        self.adImageView.center = self.center;
+        
+        //计算关闭按钮位置
+        [self.pauseCloseButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.adImageView).offset(-3);
+            make.top.equalTo(self.adImageView).offset(3);
+            make.width.equalTo(@46);
+            make.height.equalTo(@20);
+        }];
+
     }else{
-        self.adPauseImageView.frame = CGRectMake(30, 40, self.bounds.size.width - 60, self.bounds.size.height - 80);
+        //其他类型广告
+        //处理子控件 显示
+        self.returnButton.hidden = NO;
+//        self.timeLabel.hidden = NO;
+        self.timeLabel.hidden = !self.adInfoModel.canSkip;
+        self.adImageView.hidden = NO;
+        self.beginCloseButton.hidden = !self.adInfoModel.canSkip;
+        self.detailButton.hidden = NO;
+        self.fullButton.hidden = NO;
+        
+        //处理子控件 frame
+        self.returnButton.frame = CGRectMake(self.bounds.origin.x + 10, 20, 35, 35);
+        self.detailButton.frame = CGRectMake(self.bounds.size.width - 120, self.bounds.size.height - 40, 70, 30);
+        self.fullButton.frame = CGRectMake(self.bounds.size.width - 40, self.bounds.size.height - 40, 30, 30);
+        
+        if (isFull) {
+            self.adImageView.transform = CGAffineTransformMakeScale(0.6, 0.6);
+        }else{
+            self.adImageView.transform = CGAffineTransformIdentity;
+        }
+        
+        self.adImageView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+
+        //加载定时器
+        if (!self.timer) {
+            self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(beginInfoTimeAction) userInfo:nil repeats:YES];
+        }
     }
-    self.pauseCloseButton.frame = CGRectMake(0, 0, 30, 30);
-    self.pauseCloseButton.center = CGPointMake(CGRectGetMaxX(self.adPauseImageView.frame), self.adPauseImageView.frame.origin.y);
     
-    //加载广告信息
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        UIImage * adImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.adMaterialModel.materialUrl]]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.adPauseImageView.image = adImage;
+    //判断广告是否已经加载
+    if (self.adImageView.image) {
+        if (self.adInfoModel.type == 2) {
+            [self pauseButtonFrameReset:self.adImageView AndImageRect:AVMakeRectWithAspectRatioInsideRect(self.adImageView.image.size, self.adImageView.bounds)];
+        }
+    }else{
+        //加载广告信息
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            UIImage * adImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.adMaterialModel.materialUrl]]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.adImageView.image = adImage;
+                //对于暂停广告，重新计算关闭按钮位置
+                if (self.adInfoModel.type == 2) {
+                    [self pauseButtonFrameReset:self.adImageView AndImageRect:AVMakeRectWithAspectRatioInsideRect(self.adImageView.image.size, self.adImageView.bounds)];
+                }
+            });
         });
-    });
+    }
+    
 }
 
+//加载gif
+-(void)loadGIFAd:(BOOL)isFull
+{
+    if (self.adInfoModel.type == 2) {
+        //暂停广告
+        //处理子控件 显示
+        self.gifImageView.hidden = NO;
+        self.pauseCloseButton.hidden = NO;
+        
+        //处理子控件 frame
+        if (isFull) {
+            self.gifImageView.frame = CGRectMake(133, 75, (self.bounds.size.width - 133 * 2), (self.bounds.size.height - 75 * 2));
+        }else{
+            self.gifImageView.frame = CGRectMake(87, 45, (self.bounds.size.width - 87 * 2), (self.bounds.size.height - 45 * 2));
+        }
+                
+        //计算关闭按钮位置
+        [self.pauseCloseButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.gifImageView).offset(-3);
+            make.top.equalTo(self.gifImageView).offset(3);
+            make.width.equalTo(@46);
+            make.height.equalTo(@20);
+        }];
+        
+    }else{
+        //其他类型广告
+        //处理子控件 显示
+        self.returnButton.hidden = NO;
+//        self.timeLabel.hidden = NO;
+        self.timeLabel.hidden = !self.adInfoModel.canSkip;
+        self.gifImageView.hidden = NO;
+        self.beginCloseButton.hidden = !self.adInfoModel.canSkip;
+        self.detailButton.hidden = NO;
+        self.fullButton.hidden = NO;
+        
+        //处理子控件 frame
+        self.returnButton.frame = CGRectMake(self.bounds.origin.x + 10, 20, 35, 35);
+        self.detailButton.frame = CGRectMake(self.bounds.size.width - 120, self.bounds.size.height - 40, 70, 30);
+        self.fullButton.frame = CGRectMake(self.bounds.size.width - 40, self.bounds.size.height - 40, 30, 30);
+        
+        if (isFull) {
+            self.gifImageView.transform = CGAffineTransformMakeScale(0.6, 0.6);
+        }else{
+            self.gifImageView.transform = CGAffineTransformIdentity;
+        }
+        
+        self.gifImageView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+                
+        //加载定时器
+        if (!self.timer) {
+            self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(beginInfoTimeAction) userInfo:nil repeats:YES];
+        }
+    }
+    
+    if (self.gifImageView.animationImages) {
+        //对于暂停广告，重新计算关闭按钮位置
+        if (self.adInfoModel.type == 2) {
+            UIImageView * imageView = [[UIImageView alloc]init];
+            imageView.frame = self.gifImageView.frame;
+            imageView.image = self.gifImageView.animationImages.firstObject;
+            
+            [self pauseButtonFrameReset:self.gifImageView AndImageRect:AVMakeRectWithAspectRatioInsideRect(imageView.image.size, self.gifImageView.bounds)];
+        }
+    }else{
+        //加载GIF
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSData * gifData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.adMaterialModel.materialUrl]];
+            if (!gifData) {
+                return;
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.gifImageView.animationImages = [DWTools getImageFromGIFData:gifData];
+                self.gifImageView.animationDuration = 3;
+                [self.gifImageView startAnimating];
+                
+                //对于暂停广告，重新计算关闭按钮位置
+                if (self.adInfoModel.type == 2) {
+                    UIImageView * imageView = [[UIImageView alloc]init];
+                    imageView.frame = self.gifImageView.frame;
+                    imageView.image = self.gifImageView.animationImages.firstObject;
+                    
+                    [self pauseButtonFrameReset:self.gifImageView AndImageRect:AVMakeRectWithAspectRatioInsideRect(imageView.image.size, self.gifImageView.bounds)];
+                }
+            });
+        });
+    }
+    
+}
+ 
 -(void)beginInfoChangeFrame
-{
+{    
     if (self.adInfoModel.canSkip) {
         if (self.skipTime <= 0) {
             [self.beginCloseButton setTitle:@"关闭广告" forState:UIControlStateNormal];
@@ -265,18 +437,28 @@ typedef enum : NSUInteger {
     self.beginCloseButton.hidden = YES;
     self.detailButton.hidden = YES;
     self.fullButton.hidden = YES;
-
+    
     //清空通知
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.adPlayer.currentItem removeObserver:self forKeyPath:@"status"];
     
     [self.playerLayer removeFromSuperlayer];
     self.playerLayer = nil;
-    [self.adQueuePlayer pause];
-    self.adQueuePlayer = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+    [self.adPlayer pause];
+    self.adPlayer = nil;
     
-    self.adBeginImageView.hidden = YES;
-    self.adPauseImageView.hidden = YES;
+    self.muteButton.hidden = YES;
+    self.muteButton.selected = YES;
+    
+    [self.gifImageView stopAnimating];
+    self.gifImageView.hidden = YES;
+    self.gifImageView.animationImages = nil;
+    
+    self.adImageView.hidden = YES;
+    self.adImageView.image = nil;
     self.pauseCloseButton.hidden = YES;
+
 }
 
 -(void)loadView
@@ -287,19 +469,36 @@ typedef enum : NSUInteger {
     [self addSubview:self.detailButton];
     [self addSubview:self.fullButton];
     [self addSubview:self.pauseCloseButton];
-    [self insertSubview:self.adBeginImageView atIndex:0];
-    [self insertSubview:self.adPauseImageView atIndex:0];
+
+    [self insertSubview:self.adPlayerBgView atIndex:0];
+    [self addSubview:self.muteButton];
+    
+    [self insertSubview:self.adImageView atIndex:0];
+    [self insertSubview:self.gifImageView atIndex:0];
 }
 
 //广告播放完成
 -(void)adShowToEnd
 {
     self.hidden = YES;
+
+    [self clearAllObject];
     
     if ([self.delegate respondsToSelector:@selector(adShowPlayDidFinish:AndAdType:)]) {
         [self.delegate adShowPlayDidFinish:self AndAdType:self.adInfoModel.type];
     }
-    [self clearAllObject];
+}
+
+//对暂停关闭按钮重新布局
+-(void)pauseButtonFrameReset:(UIView *)fatherView AndImageRect:(CGRect)imageRect
+{
+    [self.pauseCloseButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+         make.left.equalTo(fatherView).offset(CGRectGetMaxX(imageRect) - closeButtonWeight - 3);
+//         make.top.equalTo(@(CGRectGetMidY(imageRect)));
+        make.top.equalTo(@(fatherView.frame.origin.y + imageRect.origin.y + 3));
+         make.width.equalTo(@(closeButtonWeight));
+         make.height.equalTo(@(closeButtonHeight));
+     }];
 }
 
 #pragma mark - action
@@ -313,16 +512,15 @@ typedef enum : NSUInteger {
     [self adShowToEnd];
 }
 
--(void)detailButtonAction
+-(void)detailTapAction
 {
-    //广告跳转详情，要暂停广告，暂停定时器
-    //app回到前台时，重新开始计时呗？？
+    if (!self.adInfoModel.canClick) {
+        return;
+    }
+    
     NSURL * clickUrl = [NSURL URLWithString:self.adMaterialModel.clickUrl];
     if ([[UIApplication sharedApplication] canOpenURL:clickUrl]) {
         [[UIApplication sharedApplication] openURL:clickUrl];
-    
-    }else{
-        NSLog(@"%s %d openURL error",__func__,__LINE__);
     }
 }
 
@@ -332,6 +530,7 @@ typedef enum : NSUInteger {
     if ([self.delegate respondsToSelector:@selector(adShowPlay:DidScreenRotate:)]) {
         [self.delegate adShowPlay:self DidScreenRotate:self.isFull];
     }
+    
 }
 
 -(void)pauseCloseButtonAction
@@ -344,10 +543,11 @@ typedef enum : NSUInteger {
 -(void)beginInfoTimeAction
 {
     _timeLabel.text = [NSString stringWithFormat:@"%lds",self.secondsCountTime];
+    [self beginInfoChangeFrame];
+
     self.secondsCountTime--;
     
     self.skipTime--;
-    [self beginInfoChangeFrame];
     
     if (self.secondsCountTime < 0) {
         if (self.timer) {
@@ -359,30 +559,30 @@ typedef enum : NSUInteger {
     }
 }
 
-
--(void)adPlayerDidPlayToEnd:(NSNotification *)noti
+-(void)muteButtonAction
 {
-    //判断当前item是否是最后一个item ，如果是最后一个item，广告播放完成
-    AVPlayerItem * item = (AVPlayerItem *)noti.object;
-    NSLog(@"%s %ld",__func__,self.adQueuePlayer.items.count);
-    if ([self.adQueuePlayer.items indexOfObject:item] == 1) {
-        [self adShowToEnd];
-    }else{
-        [self.adQueuePlayer advanceToNextItem];
-    }
+    self.muteButton.selected = !self.muteButton.selected;
+    
+    self.adPlayer.muted = self.muteButton.selected;
+}
+
+-(void)adPlayerDidPlayToEnd
+{
+    [self.adPlayer seekToTime:CMTimeMake(0, self.adPlayer.currentItem.duration.timescale)];
+    [self.adPlayer play];
 }
 
 //app回到前台
 -(void)adShouViewWillEnterForeground
 {
-    if (self.adType != DWAdTypePausePicture) {
+    if (self.adInfoModel.type != 2) {
         if (!self.timer) {
             self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(beginInfoTimeAction) userInfo:nil repeats:YES];
         }
-        
-        if (self.adType == DWAdTypeBeginVideo) {
-            [self.adQueuePlayer play];
-        }
+    }
+    
+    if (self.adType == DWAdTypeVideo) {
+        [self.adPlayer play];
     }
 }
 
@@ -393,10 +593,34 @@ typedef enum : NSUInteger {
         [self.timer invalidate];
         self.timer = nil;
     }
-    if (self.adType == DWAdTypeBeginVideo) {
-        [self.adQueuePlayer pause];
-    }else{
-        
+
+    if (self.adType == DWAdTypeVideo) {
+        [self.adPlayer pause];
+    }
+    
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"status"]) {
+        if (self.adPlayer.currentItem.status == AVPlayerItemStatusReadyToPlay) {
+            //计算素材位置
+            [self.pauseCloseButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.adPlayerBgView).offset(CGRectGetMaxX(self.playerLayer.videoRect) - closeButtonWeight - 3);
+                make.top.equalTo(@(self.adPlayerBgView.frame.origin.y + self.playerLayer.videoRect.origin.y + 3));
+
+                make.width.equalTo(@(closeButtonWeight));
+                make.height.equalTo(@(closeButtonHeight));
+            }];
+
+            [self.muteButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(self.adPlayerBgView).offset(CGRectGetMaxY(self.playerLayer.videoRect) - 24 - 10);
+                make.left.equalTo(self.adPlayerBgView).offset(self.playerLayer.videoRect.origin.x + 10);
+                make.width.and.height.equalTo(@24);
+            }];
+            
+            [self.adPlayer play];
+        }
     }
 }
 
@@ -443,7 +667,7 @@ typedef enum : NSUInteger {
         [_detailButton setTitle:@"了解详情" forState:UIControlStateNormal];
         _detailButton.titleLabel.font = [UIFont systemFontOfSize:14.0];
         _detailButton.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.2];
-        [_detailButton addTarget:self action:@selector(detailButtonAction) forControlEvents:UIControlEventTouchUpInside];
+        _detailButton.enabled = NO;
     }
     return _detailButton;
 }
@@ -462,33 +686,63 @@ typedef enum : NSUInteger {
     return _fullButton;
 }
 
--(UIImageView *)adBeginImageView
+-(UIImageView *)adImageView
 {
-    if (!_adBeginImageView) {
-        _adBeginImageView = [[UIImageView alloc]init];
-        _adBeginImageView.backgroundColor = [UIColor clearColor];
-    }
-    return _adBeginImageView;
-}
+    if (!_adImageView) {
+        _adImageView = [[UIImageView alloc]init];
+        _adImageView.backgroundColor = [UIColor clearColor];
+        _adImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _adImageView.userInteractionEnabled = YES;
 
--(UIImageView *)adPauseImageView
-{
-    if (!_adPauseImageView) {
-        _adPauseImageView = [[UIImageView alloc]init];
-        _adPauseImageView.backgroundColor = [UIColor clearColor];
-        _adPauseImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
-    return _adPauseImageView;
+    return _adImageView;
 }
 
 -(UIButton *)pauseCloseButton
 {
     if (!_pauseCloseButton) {
         _pauseCloseButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_pauseCloseButton setBackgroundImage:[UIImage imageNamed:@"icon_ad_close.png"] forState:UIControlStateNormal];
+        [_pauseCloseButton setTitle:@" 关闭 X " forState:UIControlStateNormal];
+        [_pauseCloseButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _pauseCloseButton.titleLabel.font = TitleFont(12);
+        _pauseCloseButton.layer.masksToBounds = YES;
+        _pauseCloseButton.layer.cornerRadius = 2;
+        [_pauseCloseButton setBackgroundImage:[[UIColor colorWithWhite:0 alpha:0.4] createImage] forState:UIControlStateNormal];
         [_pauseCloseButton addTarget:self action:@selector(pauseCloseButtonAction) forControlEvents:UIControlEventTouchUpInside];
     }
     return _pauseCloseButton;
+}
+
+-(UIImageView *)gifImageView
+{
+    if (!_gifImageView) {
+        _gifImageView = [[UIImageView alloc]init];
+        _gifImageView.backgroundColor = [UIColor clearColor];
+        _gifImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _gifImageView.userInteractionEnabled = YES;
+    }
+    return _gifImageView;
+}
+
+-(UIView *)adPlayerBgView
+{
+    if (!_adPlayerBgView) {
+        _adPlayerBgView = [[UIView alloc]init];
+        _adPlayerBgView.backgroundColor = [UIColor clearColor];
+    }
+    return _adPlayerBgView;
+}
+
+-(UIButton *)muteButton
+{
+    if (!_muteButton) {
+        _muteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_muteButton setImage:[UIImage imageNamed:@"icon_ad_mute.png"] forState:UIControlStateNormal];
+        [_muteButton setImage:[UIImage imageNamed:@"icon_ad_mute_select.png"] forState:UIControlStateSelected];
+        [_muteButton addTarget:self action:@selector(muteButtonAction) forControlEvents:UIControlEventTouchUpInside];
+        _muteButton.selected = YES;
+    }
+    return _muteButton;
 }
 
 /*

@@ -32,6 +32,9 @@
 //获取GIF首帧图片
 + (UIImage *)getImageFromGIFFilePath:(NSString *)gifFilePath;
 
+//获取GIF全部图片
++ (NSArray *)getImageFromGIFData:(NSData *)gifData;
+
 //显示网络图片
 + (NSMutableAttributedString *)exchangeString:(NSString *)string withText:(NSString *)text imageName:(NSString *)imageName;
 

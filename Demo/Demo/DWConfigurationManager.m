@@ -25,10 +25,11 @@
 {
     if (self == [super init]) {
         
+        //配置默认值 这里
         self.DWAccount_userId = @"391E6E3340A00767";
         self.DWAccount_apikey = @"T8WdOUuvFEiOsou1xjDr4U73v12M7iNa";
-        
-        self.isOpenAd = NO;
+
+        self.isOpenAd = [[[NSUserDefaults standardUserDefaults] objectForKey:@"isOpenAD"] boolValue];
     }
     return self;
 }

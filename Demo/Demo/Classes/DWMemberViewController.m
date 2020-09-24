@@ -44,38 +44,6 @@
     [self.view endEditing:YES];
 }
 
-/*
--(void)playModelButtonAction:(DWMemberGeneralButton *)button
-{
-    // 100 + i
-    NSInteger frontIndex = [self.configurationManager.mediaType integerValue];
-    if (button.tag - 100 == frontIndex) {
-        return;
-    }
-
-    button.selected = !button.selected;
-
-    DWMemberGeneralButton * frontButton = (DWMemberGeneralButton *)[_bgScrollView viewWithTag:frontIndex + 100];
-    frontButton.selected = NO;
-    self.configurationManager.mediaType = [NSString stringWithFormat:@"%ld",button.tag - 100];
-}
-
--(void)downloadModelButtonAction:(DWMemberGeneralButton *)button
-{
-    // 200 + i
-    NSInteger frontIndex = [self.configurationManager.downloadMediaType integerValue] - 1;
-    if (button.tag - 200 == frontIndex) {
-        return;
-    }
-
-    button.selected = !button.selected;
-    
-    DWMemberGeneralButton * frontButton = (DWMemberGeneralButton *)[_bgScrollView viewWithTag:frontIndex + 200];
-    frontButton.selected = NO;
-    self.configurationManager.downloadMediaType = [NSString stringWithFormat:@"%ld",button.tag - 200 + 1];
-}
- */
-
 -(void)adModelButtonAction:(DWMemberGeneralButton *)button
 {
     // 300 + i
@@ -92,6 +60,7 @@
     DWMemberGeneralButton * frontButton = (DWMemberGeneralButton *)[_bgScrollView viewWithTag:frontIndex];
     frontButton.selected = NO;
     self.configurationManager.isOpenAd = !self.configurationManager.isOpenAd;
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:self.configurationManager.isOpenAd] forKey:@"isOpenAD"];
 }
 
 -(void)textFieldDidChangeAction
@@ -223,89 +192,6 @@
     }];
     
     CGFloat generalButtonWidth = (ScreenWidth - 10 * 3 - 20 * 2) / 3.0;
-    /*
-    //播放模式
-    self.playBgView = [[UIView alloc]init];
-    [self.bgScrollView addSubview:self.playBgView];
-    [_playBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_veriBgView.mas_bottom).offset(35);
-        make.left.and.right.equalTo(self.view);
-        make.height.equalTo(@(14 + 15 + 30));
-    }];
-    
-    UILabel * playTsLabel = [[UILabel alloc]init];
-    playTsLabel.text = @"播放模式";
-    playTsLabel.font = TitleFont(14);
-    playTsLabel.textColor = TitleColor_102;
-    playTsLabel.textAlignment = NSTextAlignmentLeft;
-    [self.playBgView addSubview:playTsLabel];
-    [playTsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(@10);
-        make.right.equalTo(@(-10));
-        make.top.equalTo(@0);
-        make.height.equalTo(@14);
-    }];
-    
-    titles = @[@"视频+音频",@"视频",@"音频"];
-    for (int i = 0; i < titles.count; i++) {
-        DWMemberGeneralButton * button = [[DWMemberGeneralButton alloc]initWithTitle:[titles objectAtIndex:i]];
-        button.tag = 100 + i;
-        [button addTarget:self action:@selector(playModelButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-        [self.playBgView addSubview:button];
-        [button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(@(10 + (generalButtonWidth + 20) * i));
-            make.top.equalTo(playTsLabel.mas_bottom).offset(15);
-            make.height.equalTo(@30);
-            make.width.equalTo(@(generalButtonWidth));
-        }];
-        
-        if ([self.configurationManager.mediaType intValue] == i) {
-            button.selected = YES;
-        }
-    }
-     */
-    
-    //下载模式
-    /*
-    self.downloadBgView = [[UIView alloc]init];
-    [self.bgScrollView addSubview:self.downloadBgView];
-    [_downloadBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_playBgView.mas_bottom).offset(35);
-        make.left.and.right.equalTo(self.view);
-        make.height.equalTo(@(14 + 15 + 30));
-    }];
-    
-    UILabel * downloadTsLabel = [[UILabel alloc]init];
-    downloadTsLabel.text = @"下载模式";
-    downloadTsLabel.font = TitleFont(14);
-    downloadTsLabel.textColor = TitleColor_102;
-    downloadTsLabel.textAlignment = NSTextAlignmentLeft;
-    [self.downloadBgView addSubview:downloadTsLabel];
-    [downloadTsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(@10);
-        make.right.equalTo(@(-10));
-        make.top.equalTo(@0);
-        make.height.equalTo(@14);
-    }];
-    
-    titles = @[@"视频",@"音频"];
-    for (int i = 0; i < titles.count; i++) {
-        DWMemberGeneralButton * button = [[DWMemberGeneralButton alloc]initWithTitle:[titles objectAtIndex:i]];
-        button.tag = 200 + i;
-        [button addTarget:self action:@selector(downloadModelButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-        [self.downloadBgView addSubview:button];
-        [button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(@(10 + (generalButtonWidth + 20) * i));
-            make.top.equalTo(downloadTsLabel.mas_bottom).offset(15);
-            make.height.equalTo(@30);
-            make.width.equalTo(@(generalButtonWidth));
-        }];
-        
-        if ([self.configurationManager.downloadMediaType intValue] == i + 1) {
-            button.selected = YES;
-        }
-    }
-     */
     
     //广告功能
     self.adBgView = [[UIView alloc]init];

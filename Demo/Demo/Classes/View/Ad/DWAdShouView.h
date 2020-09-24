@@ -26,6 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 //横竖屏切换
 -(void)screenRotate:(BOOL)isFull;
 
+//完成广告
+-(void)adFinish;
+
 @property(nonatomic,weak) id <DWAdShouViewDelegate> delegate;
 
 @end

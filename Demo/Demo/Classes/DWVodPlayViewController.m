@@ -58,7 +58,7 @@ typedef enum : NSUInteger {
     DWConfigurationManager * manager = [DWConfigurationManager sharedInstance];
     if (manager.isOpenAd) {
         //广告模式
-        [self startRequestAdInfo:NO];
+        [self startRequestAdInfo:1];
     }else{
         //正常播放
         [self startRequestVideo:self.vodModel.videoId];
@@ -90,30 +90,40 @@ typedef enum : NSUInteger {
     [playInfo start];
 }
 
--(void)startRequestAdInfo:(BOOL)isPauseAd
+//1片头广告，2暂停广告，3片尾广告
+-(void)startRequestAdInfo:(int)type
 {
     __weak typeof(self) weakSelf = self;
-    if (isPauseAd) {
-        //暂停广告
-        DWAdInfo * adInfo = [[DWAdInfo alloc]initWithUserId:[DWConfigurationManager sharedInstance].DWAccount_userId andVideoId:self.vodModel.videoId type:@"2"];
-        [adInfo start];
-        adInfo.finishBlock = ^(DWVodAdInfoModel *adInfo) {
-            [weakSelf.adShowView playAdVideo:adInfo];
-        };
-        adInfo.errorBlock = ^(NSError *error) {
-            [@"暂停广告请求失败" showAlert];
-        };
-    }else{
-        //片头广告
-        DWAdInfo * adInfo = [[DWAdInfo alloc]initWithUserId:[DWConfigurationManager sharedInstance].DWAccount_userId andVideoId:self.vodModel.videoId type:@"1"];
-        [adInfo start];
-        adInfo.finishBlock = ^(DWVodAdInfoModel *adInfo) {
-            [weakSelf.adShowView playAdVideo:adInfo];
-        };
-        adInfo.errorBlock = ^(NSError *error) {
-            [@"片头广告请求失败" showAlert];
-        };
-    }
+    DWAdInfo * adInfo = [[DWAdInfo alloc]initWithUserId:[DWConfigurationManager sharedInstance].DWAccount_userId andVideoId:self.vodModel.videoId type:[NSString stringWithFormat:@"%d",type]];
+    [adInfo start];
+    adInfo.finishBlock = ^(DWVodAdInfoModel *adInfo) {
+        //若获取完广告信息时，没有显示广告视图，不加载广告
+        if (!weakSelf.adShowView.hidden) {
+            weakSelf.playerView.isShowAd = NO;
+            return;
+        }
+        
+        [weakSelf.adShowView playAdVideo:adInfo];
+    };
+    adInfo.errorBlock = ^(NSError *error) {
+        
+        weakSelf.playerView.isShowAd = NO;
+
+        //片尾广告请求失败，继续播放下一集
+        if (type == 3) {
+            [weakSelf.playerView playNextVideo];
+            return;
+        }
+        
+        if (type == 1) {
+            [weakSelf startRequestVideo:weakSelf.vodModel.videoId];
+        }
+        
+//        [@"广告请求失败" showAlert];
+//        [error.localizedDescription showAlert];
+    };
+
+    self.playerView.isShowAd = YES;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -174,7 +184,7 @@ typedef enum : NSUInteger {
         [_adShowView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.and.left.equalTo(@0);
             make.width.equalTo(@(self.playerViewSize.width));
-            make.height.equalTo(@(self.playerViewSize.height));
+            make.height.equalTo(@(self.playerViewSize.height - 40));
         }];
         
         if (self.screenBgView) {
@@ -224,6 +234,8 @@ typedef enum : NSUInteger {
 #pragma mark - DWAdShouViewDelegate
 -(void)adShowPlayDidFinish:(DWAdShouView*)adShowView AndAdType:(NSInteger)type
 {
+    self.playerView.isShowAd = NO;
+
     if (type == 1) {
         //片头广告结束，播放正片
         [self startRequestVideo:self.vodModel.videoId];
@@ -233,11 +245,21 @@ typedef enum : NSUInteger {
         //暂停广告结束，继续播放
         [self.playerView play];
     }
+    
+    if (type == 3) {
+        //片尾广告结束，播放下一集
+        [self.playerView playNextVideo];
+    }
+    
 }
 
 -(void)adShowPlay:(DWAdShouView*)adShowView DidScreenRotate:(BOOL)isFull
 {
-
+    if (isFull) {
+        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationPortrait] forKey:@"orientation"];
+    }else{
+        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationLandscapeLeft] forKey:@"orientation"];
+    }
 }
 
 #pragma mark - DWVodPlayerViewDelegate
@@ -262,9 +284,12 @@ typedef enum : NSUInteger {
     
     if (!isPlaying) {
         //播放暂停广告
-        [self startRequestAdInfo:YES];
+        [self startRequestAdInfo:2];
     }else{
-        self.adShowView.hidden = YES;
+        if (!self.adShowView.hidden) {
+            [self.adShowView adFinish];
+        }
+        self.playerView.isShowAd = NO;
     }
 }
 
@@ -280,9 +305,21 @@ typedef enum : NSUInteger {
 //播放下一集事件
 -(void)vodPlayerView:(DWVodPlayerView *)playerView NextSelection:(NSInteger)nextIndex
 {
+    if (!self.adShowView.hidden) {
+        [self.adShowView adFinish];
+    }
+    self.playerView.isShowAd = NO;
+
     DWVodModel * vodModel = [self.vidoeList objectAtIndex:nextIndex];
     self.vodModel = vodModel;
-    [self startRequestVideo:self.vodModel.videoId];
+    DWConfigurationManager * manager = [DWConfigurationManager sharedInstance];
+    if (manager.isOpenAd) {
+        //广告模式
+        [self startRequestAdInfo:1];
+    }else{
+        //正常播放
+        [self startRequestVideo:self.vodModel.videoId];
+    }
     [self.listTableView reloadData];
 }
 
@@ -326,6 +363,13 @@ typedef enum : NSUInteger {
     DWAPPDELEGATE.vodPlayerView = self.playerView;
     [DWAPPDELEGATE.vodPlayerView enterWindowsModel];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+//片尾广告事件
+-(void)vodPlayerViewEndAd:(DWVodPlayerView *)playerView
+{
+//    NSLog(@"准备请求片尾广告 %@",self.vodModel.videoId);
+    [self startRequestAdInfo:3];
 }
 
 #pragma mark - 投屏相关
@@ -400,8 +444,23 @@ typedef enum : NSUInteger {
         return;
     }
     
+    if (!self.adShowView.hidden) {
+        [self.adShowView adFinish];
+    }
+    self.playerView.isShowAd = NO;
+
     self.vodModel = vodModel;
-    [self startRequestVideo:self.vodModel.videoId];
+    DWConfigurationManager * manager = [DWConfigurationManager sharedInstance];
+    if (manager.isOpenAd) {
+        //广告模式
+        [self startRequestAdInfo:1];
+    }else{
+        //正常播放
+        [self startRequestVideo:self.vodModel.videoId];
+    }
+    
+//    self.vodModel = vodModel;
+//    [self startRequestVideo:self.vodModel.videoId];
     
     [tableView reloadData];
 }
@@ -563,7 +622,7 @@ typedef enum : NSUInteger {
     [_adShowView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.and.left.equalTo(@0);
         make.width.equalTo(@(self.playerViewSize.width));
-        make.height.equalTo(@(self.playerViewSize.height));
+        make.height.equalTo(@(self.playerViewSize.height - 40));
     }];
     
     self.listTableView = [[UITableView alloc]init];

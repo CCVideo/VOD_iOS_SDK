@@ -25,11 +25,30 @@ typedef void(^HDSFailureBlock)(id responseObject,NSError *error);
  
  */
 
+/*!
+ * @method
+ * @abstract GET请求
+ * @discussion get请求
+ * @param URLString url
+ * @param headers 请求头headers
+ * @param success 请求成功回调
+ * @param failure 请求失败回调
+ * @result DWHTTPRequest对象
+ */
 +(DWHTTPRequest *)GET:(NSString *)URLString
               Headers:(NSDictionary <NSString *, NSString *> *)headers
               Success:(HDSSuccessBlock)success
               Failure:(HDSFailureBlock)failure;
 
+/*!
+ * @method
+ * @abstract POST请求
+ * @discussion POST请求
+ * @param headers 请求头headers
+ * @param success 请求成功回调
+ * @param failure 请求失败回调
+ * @result DWHTTPRequest对象
+ */
 +(DWHTTPRequest *)POST:(NSString *)URLString
                Headers:(NSDictionary <NSString *, NSString *> *)headers
                Success:(HDSSuccessBlock)success

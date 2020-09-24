@@ -361,6 +361,30 @@
     return image;
 }
 
+//获取GIF全部图片
++ (NSArray *)getImageFromGIFData:(NSData *)gifData
+{
+    NSMutableArray * frames = [[NSMutableArray alloc] init];
+    if (!gifData) {
+        return frames;
+    }
+     
+    CGImageSourceRef gifSource = CGImageSourceCreateWithData((__bridge CFDataRef)gifData, NULL);
+    //获取其中图片源个数，即由多少帧图片组成
+    size_t frameCount = CGImageSourceGetCount(gifSource);
+    //定义数组存储拆分出来的图片
+    for (size_t i = 0; i < frameCount; i++) {
+        //从GIF图片中取出源图片
+        CGImageRef imageRef = CGImageSourceCreateImageAtIndex(gifSource, i, NULL);
+        //将图片源转换成UIimageView能使用的图片源
+        UIImage *imageName = [UIImage imageWithCGImage:imageRef];
+        //将图片加入数组中
+        [frames addObject:imageName];
+        CGImageRelease(imageRef);
+    }
+    return frames;
+}
+
 + (NSMutableAttributedString *)exchangeString:(NSString *)string withText:(NSString *)text imageName:(NSString *)imageName
 {
     //1、创建一个可变的属性字符串

@@ -11,31 +11,35 @@
  */
 @property (assign, nonatomic, readonly)UInt16 listenPort;
 
-/**
- *  @brief 初始化 DWDrmServer
- *
- *  @param port 指定 drmServer 监听的端口。
- *  若port不为0，则绑定指定端口。若绑定失败，则转由内核分配。
- *
- *  @return 返回一个 DWDrmServer 实例
+/*!
+ * @method
+ * @abstract 初始化DWDrmServer
+ * @discussion 初始化DWDrmServer
+ * @param port 指定drmServer监听的端口
+ * @result 返回一个DWDrmServer实例
  */
-- (id)initWithListenPort:(UInt16)port;
+-(id)initWithListenPort:(UInt16)port;
 
-/**
- *  @brief 启动 server
- *
- *  @return 启动成功返回 YES，否则返回NO。
+/*!
+ * @method
+ * @abstract 启动server
+ * @discussion 启动server
+ * @result 启动成功返回YES，否则返回NO
  */
-- (BOOL)start;
+-(BOOL)start;
 
-/**
- *  @brief 停止 server。
+/*!
+ * @method
+ * @abstract 停止server
+ * @discussion 停止server
  */
-- (void)stop;
+-(void)stop;
 
-/**
-*  @brief 重启，app回到前台时调用。
-*/
+/*!
+ * @method
+ * @abstract 重启server
+ * @discussion 建议在app回到前台时调用，不需要调用stop/start方法了
+ */
 -(void)reStartSocket;
 
 @end

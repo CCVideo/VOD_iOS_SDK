@@ -427,7 +427,7 @@ typedef NS_ENUM(NSUInteger, DWPlayerViewLoadStyle) {
  * @discussion 有此需求的客户调用
  * @param visitorId 访客信息收集器ID，必填
  * @param videoId 视频ID，必填
- * @param userId CC账号ID，必填
+ * @param userId 获得场景视频账号ID，必填
  * @param message 上报信息，必填，具体格式详见demo
  */
 -(void)reportVisitorCollectWithVisitorId:(NSString *)visitorId VideoId:(NSString *)videoId UserId:(NSString *)userId AndMessage:(NSString *)message;
@@ -438,7 +438,7 @@ typedef NS_ENUM(NSUInteger, DWPlayerViewLoadStyle) {
  * @discussion 有此需求的客户调用
  * @param exercisesId 课堂练习ID，必填
  * @param videoId 视频ID，必填
- * @param userId CC账号ID，必填
+ * @param userId 获得场景视频账号ID，必填
  * @param questionMes 上报信息，必填，具体格式详见demo
  * @param completion  完成回调，返回课堂练习结果
 */

@@ -242,6 +242,8 @@ static CGFloat barrageBgHeight = 40;
         //是否开启画中画
         self.allowPictureInPicture = NO;
         
+        self.isShowAd = NO;
+        
         self.allowImpact = [[[NSUserDefaults standardUserDefaults] objectForKey:@"allowImpact"] boolValue];
         
         self.backgroundColor = [UIColor blackColor];
@@ -485,6 +487,12 @@ static CGFloat barrageBgHeight = 40;
         
         [self hideHudWithMessage:nil];
     }
+}
+
+//播放下一集
+-(void)playNextVideo
+{
+    [self nextButtonAction];
 }
 
 #pragma mark - function
@@ -1789,6 +1797,9 @@ static CGFloat barrageBgHeight = 40;
         return;
     }
     
+    [self.settingView disAppear];
+    self.settingView = nil;
+    
     if ([self.delegate respondsToSelector:@selector(vodPlayerViewDidEnterWindowsModel:)]) {
         [self.delegate vodPlayerViewDidEnterWindowsModel:self];
     }
@@ -1801,6 +1812,15 @@ static CGFloat barrageBgHeight = 40;
         [self pause];
     }else{
         [self play];
+    }
+    
+    if (!self.readyToPlay) {
+        return;
+    }
+    
+    //判断当前是否有显示问答，课堂练习等
+    if (self.visitorCollectView || self.exercisesAlertView || self.exercisesView || _feedBackView || _questionView) {
+        return;
     }
     
     if ([_delegate respondsToSelector:@selector(vodPlayerView:PlayStatus:)]) {
@@ -2070,9 +2090,10 @@ static CGFloat barrageBgHeight = 40;
 
 -(void)wirelessRouteActiveNotification:(NSNotification *)noti
 {
+    DWConfigurationManager * manager = [DWConfigurationManager sharedInstance];
     MPVolumeView * volumeView = (MPVolumeView *)noti.object;
     self.airPlayStatusLabel.hidden = !volumeView.wirelessRouteActive;
-    if (!self.airPlayStatusLabel.hidden) {
+    if (!self.airPlayStatusLabel.hidden && !manager.isOpenAd) {
         [self play];
     }
 }
@@ -2086,9 +2107,11 @@ static CGFloat barrageBgHeight = 40;
     MPRemoteCommandCenter * commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
     commandCenter.playCommand.enabled = YES;
     [commandCenter.playCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
-        //        if (!weakSelf.playerView.playing) {
-        [weakSelf play];
-        //        }
+        DWConfigurationManager * manager = [DWConfigurationManager sharedInstance];
+        if (!manager.isOpenAd) {
+            [weakSelf play];
+        }
+        
         return MPRemoteCommandHandlerStatusSuccess;
     }];
     
@@ -3218,17 +3241,22 @@ static CGFloat barrageBgHeight = 40;
 {
     [self pause];
     
-    //播放完成，自动播放下一集
-    [self nextButtonAction];
-    
-    [@"播放完成" showAlert];
-    
     //播放完成时，如果在录制GIF，结束录制
     if (_isGIF && self.gifManager.isRecording) {
         [self endRecordGif];
-        return;
     }
     
+    DWConfigurationManager * manager = [DWConfigurationManager sharedInstance];
+    if (manager.isOpenAd) {
+        if ([self.delegate respondsToSelector:@selector(vodPlayerViewEndAd:)]) {
+            [self.delegate vodPlayerViewEndAd:self];
+        }
+    }else{
+        //播放完成，自动播放下一集
+        [self nextButtonAction];
+        
+        [@"播放完成" showAlert];
+    }
 }
 
 //播放中  time:当前播放时间
@@ -3282,6 +3310,11 @@ static CGFloat barrageBgHeight = 40;
     [self.barrageManager associationWithTimeDidChange:time];
     //弹幕加载
     [self addNewBarrageWithTime:time];
+    
+    //广告显示时，暂停播放
+    if (self.isShowAd) {
+        [self pause];
+    }
 }
 
 //duration 当前缓冲的长度

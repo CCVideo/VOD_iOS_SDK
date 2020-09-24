@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign, readonly)NSInteger result;
 
 /**
- *  @brief 广告类型，1 片头广告 2 暂停广告
+ *  @brief 广告类型，1 片头广告 2 暂停广告 3 片尾广告
  */
 @property(nonatomic, assign, readonly)NSInteger type;
 
@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign, readonly)BOOL canClick;
 
 /**
- *  @brief 是否出现跳过广告按钮
+ *  @brief 是否允许跳过广告
  */
 @property(nonatomic, assign, readonly)BOOL canSkip;
 
