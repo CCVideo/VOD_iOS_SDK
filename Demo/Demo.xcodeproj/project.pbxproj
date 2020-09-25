@@ -401,9 +401,9 @@
 		B57CC7BE18E2E575001A1696 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57CC7BD18E2E575001A1696 /* CoreLocation.framework */; };
 		B57CC7C018E2E581001A1696 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B57CC7BF18E2E581001A1696 /* AVFoundation.framework */; };
 		B88562A41DED1AC8008D1763 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B88562A31DED1AC8008D1763 /* SystemConfiguration.framework */; };
-		DD3C6C74251C378500AE4039 /* CCVodSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD3C6C72251C378500AE4039 /* CCVodSDK.framework */; };
-		DD3C6C76251C382800AE4039 /* HDBaseUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD3C6C73251C378500AE4039 /* HDBaseUtils.framework */; };
-		DD3C6C77251C382800AE4039 /* HDBaseUtils.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DD3C6C73251C378500AE4039 /* HDBaseUtils.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DD11422C251DE391005610EC /* CCVodSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD11422A251DE390005610EC /* CCVodSDK.framework */; };
+		DD11422E251DE399005610EC /* HDBaseUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD11422B251DE390005610EC /* HDBaseUtils.framework */; };
+		DD11422F251DE399005610EC /* HDBaseUtils.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DD11422B251DE390005610EC /* HDBaseUtils.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DD54280A250B55AB0097614C /* icon_ad_mute_select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD542806250B55AA0097614C /* icon_ad_mute_select@2x.png */; };
 		DD54280B250B55AB0097614C /* icon_ad_mute@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD542807250B55AB0097614C /* icon_ad_mute@3x.png */; };
 		DD54280C250B55AB0097614C /* icon_ad_mute@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD542808250B55AB0097614C /* icon_ad_mute@2x.png */; };
@@ -417,7 +417,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				DD3C6C77251C382800AE4039 /* HDBaseUtils.framework in Embed Frameworks */,
+				DD11422F251DE399005610EC /* HDBaseUtils.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -981,8 +981,8 @@
 		B57CC7BD18E2E575001A1696 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		B57CC7BF18E2E581001A1696 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		B88562A31DED1AC8008D1763 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		DD3C6C72251C378500AE4039 /* CCVodSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CCVodSDK.framework; sourceTree = "<group>"; };
-		DD3C6C73251C378500AE4039 /* HDBaseUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HDBaseUtils.framework; sourceTree = "<group>"; };
+		DD11422A251DE390005610EC /* CCVodSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CCVodSDK.framework; sourceTree = "<group>"; };
+		DD11422B251DE390005610EC /* HDBaseUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HDBaseUtils.framework; sourceTree = "<group>"; };
 		DD542806250B55AA0097614C /* icon_ad_mute_select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_ad_mute_select@2x.png"; sourceTree = "<group>"; };
 		DD542807250B55AB0097614C /* icon_ad_mute@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_ad_mute@3x.png"; sourceTree = "<group>"; };
 		DD542808250B55AB0097614C /* icon_ad_mute@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_ad_mute@2x.png"; sourceTree = "<group>"; };
@@ -994,7 +994,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD3C6C76251C382800AE4039 /* HDBaseUtils.framework in Frameworks */,
+				DD11422E251DE399005610EC /* HDBaseUtils.framework in Frameworks */,
 				048AD12822CDCE83008C8911 /* libxml2.tbd in Frameworks */,
 				043441FF225EF2BB003F7EC1 /* CoreServices.framework in Frameworks */,
 				352CBDD91FD6980C00D24715 /* AudioToolbox.framework in Frameworks */,
@@ -1002,7 +1002,7 @@
 				B88562A41DED1AC8008D1763 /* SystemConfiguration.framework in Frameworks */,
 				B57CC7C018E2E581001A1696 /* AVFoundation.framework in Frameworks */,
 				B57CC7BE18E2E575001A1696 /* CoreLocation.framework in Frameworks */,
-				DD3C6C74251C378500AE4039 /* CCVodSDK.framework in Frameworks */,
+				DD11422C251DE391005610EC /* CCVodSDK.framework in Frameworks */,
 				B57CC7BC18E2E569001A1696 /* CoreMedia.framework in Frameworks */,
 				B547EC4C18E033FB00BC980C /* CoreGraphics.framework in Frameworks */,
 				B547EC4E18E033FB00BC980C /* UIKit.framework in Frameworks */,
@@ -1833,7 +1833,7 @@
 			isa = PBXGroup;
 			children = (
 				044C66A122D46DAE0032396F /* Demo.entitlements */,
-				DD3C6C71251C378500AE4039 /* SDK */,
+				DD114229251DE390005610EC /* SDK */,
 				0434420D225F0EDD003F7EC1 /* Classes */,
 				B547EC5818E033FB00BC980C /* DWAppDelegate.h */,
 				B547EC5918E033FB00BC980C /* DWAppDelegate.m */,
@@ -1860,11 +1860,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		DD3C6C71251C378500AE4039 /* SDK */ = {
+		DD114229251DE390005610EC /* SDK */ = {
 			isa = PBXGroup;
 			children = (
-				DD3C6C72251C378500AE4039 /* CCVodSDK.framework */,
-				DD3C6C73251C378500AE4039 /* HDBaseUtils.framework */,
+				DD11422A251DE390005610EC /* CCVodSDK.framework */,
+				DD11422B251DE390005610EC /* HDBaseUtils.framework */,
 			);
 			path = SDK;
 			sourceTree = "<group>";
@@ -1880,7 +1880,6 @@
 				B547EC4318E033FB00BC980C /* Frameworks */,
 				B547EC4418E033FB00BC980C /* Resources */,
 				046FF38A2468F48100AB4A98 /* Embed Frameworks */,
-				DD3C6BC72519D90000AE4039 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2182,26 +2181,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		DD3C6BC72519D90000AE4039 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nAPP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK  \ndo  \nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)  \nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"  \necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"  \n  \nEXTRACTED_ARCHS=()  \n  \nfor ARCH in $ARCHS  \ndo  \necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"  \nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"  \nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")  \ndone  \n\necho \"Merging extracted architectures: ${ARCHS}\"  \nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"  \nrm \"${EXTRACTED_ARCHS[@]}\"  \n  \necho \"Replacing original executable with thinned version\"  \nrm \"$FRAMEWORK_EXECUTABLE_PATH\"  \nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"  \n  \ndone\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B547EC4218E033FB00BC980C /* Sources */ = {
