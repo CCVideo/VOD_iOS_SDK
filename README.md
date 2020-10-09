@@ -10,4 +10,4 @@ CC视频云点播 iOS平台SDK和Demo
 
 ## !!!!!!特别提示!!!!!!
 ### 为提升资源库访问速度，自2020年10月1日起，该项目迁移至自建资源库
-### 请使用 iOS SDK 4.0.0 以上版本** [VOD_iOS_SDK](https://hdgit.bokecc.com/ccvideo/VOD_iOS_SDK/-/releases)
+### 请使用 iOS SDK 4.0.0 以上版本 [VOD_iOS_SDK](https://hdgit.bokecc.com/ccvideo/VOD_iOS_SDK/-/releases)
